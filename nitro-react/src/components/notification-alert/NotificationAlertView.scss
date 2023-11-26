@@ -1,0 +1,81 @@
+.notif-alert {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    z-index: 100;
+  
+    max-width: 480px;
+    width: 100%;
+    height: auto;
+    margin: 0 10px;
+    padding: 2px;
+  
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.5s;
+    animation: blink 0.3s infinite alternate;
+  
+    &:hover {
+      animation: none;
+      background-color: rgb(255, 255, 255);
+    }
+  
+    &__head {
+      width: 100%;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 1.4rem;
+      padding: 7px;
+    }
+  
+    &__close {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+  
+      font-size: 1.4rem;
+      line-height: 40px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #0060b9;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  
+      &:hover {
+        background: #256db1;
+      }
+    }
+  
+    &__body {
+      position: relative;
+      background-size: cover;
+      padding: 5px;
+      z-index: 2;
+    }
+  
+    &__msg {
+      font-size: 1rem;
+      color: #000;
+      border-radius: 7px;
+      white-space: pre-wrap;
+    }
+  
+    &__img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+  
+      width: auto;
+      height: 65%;
+  
+      transform: translateX(-50%) translateY(-50%);
+      opacity: 0.2;
+      z-index: 1;
+    }
+}

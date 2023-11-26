@@ -1,0 +1,47 @@
+.notif-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    overflow: hidden;
+
+    width: auto;
+    max-height: 50px;
+    line-height: 50px;
+
+    padding: 10px;
+
+    border: solid 1px rgba(255, 255, 255, 0.3);
+    border-top: none;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    &__msg {
+        color: #fff;
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: auto;
+        margin: 0 7px;
+    }
+
+    &__close {
+        font-size: 1.1rem;
+        color: #ff0000;
+    }
+
+    &__logo {
+        width: 38px;
+        height: 33px;
+        background: url('@/assets/images/notifications/notif_top.png') no-repeat 0 0;
+    }
+}

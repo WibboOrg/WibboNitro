@@ -1,0 +1,44 @@
+.bot-choose {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 490px;
+
+    &__box {
+        color: #FFF;
+        margin-bottom: 5px;
+        width: 100%;
+        line-height: 31px;
+        padding-left: 6px;
+
+        background-color: rgba(58, 58, 58, 0.8);
+        border-bottom: 2px solid #2e2e2c;
+        border-right: 2px solid #2e2e2c;
+        border-radius: 5px;
+        cursor: pointer;
+        word-wrap: break-word;
+        text-align: center;
+
+        &:hover {
+            background-color: rgba(58, 58, 58, .6);
+        }
+
+        &:active {
+            background-color: rgba(58, 58, 58, 0.4);
+        }
+    }
+
+    &__avatar {
+        width: 27px;
+        height: 31px;
+        position: relative;
+        top: -39px;
+        left: -34px;
+    }
+
+    &__username {
+        font-weight: bold;
+        padding-right: 5px;
+    }
+}
