@@ -1,6 +1,6 @@
 .nitro-chat-input-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     position: relative;
     height: 40px;
@@ -11,12 +11,12 @@
     width: 100%;
     overflow: hidden;
 
-    @include media-breakpoint-down(sm) {
-        display: flex;
+    @include media-breakpoint-down(xxl) {
         position: absolute;
         bottom: 70px;
-        left: calc(100% / 3);
-        width: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
     }
 
     &:before {

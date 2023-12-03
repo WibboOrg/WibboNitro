@@ -2,7 +2,7 @@ import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetRoomSession, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
-import { Text } from '../../../../common';
+import { Flex, Text } from '../../../../common';
 import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../../../hooks';
 import { ChatEmojiSelectorView } from './ChatEmojiSelectorView';
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
@@ -248,8 +248,10 @@ export const ChatInputView: FC<{}> = props =>
                     { floodBlocked &&
                     <Text variant="danger">{ LocalizeText('chat.input.alert.flood', [ 'time' ], [ floodBlockedSeconds.toString() ]) } </Text> }
                 </div>
-                <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
-                <ChatEmojiSelectorView selectChatEmoji={ selectChatEmoji } />
+                <Flex>
+                    <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
+                    <ChatEmojiSelectorView selectChatEmoji={ selectChatEmoji } />
+                </Flex>
             </div>, document.getElementById('toolbar-chat-input-container'))
     );
 }
