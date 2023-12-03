@@ -20,3 +20,4 @@ export * from './Text';
 export * from './transitions';
 export * from './types';
 export * from './utils';
+export * from './Slider';
