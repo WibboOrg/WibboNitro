@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@nitrots/nitro-renderer": "link:../nitro-renderer",
-    "@tanstack/react-virtual": "^3.0.0-alpha.0",
+    "@tanstack/react-virtual": "^3.0.0",
     "@types/emojione": "^2.2.6",
     "emojione": "^4.5.0",
     "react": "^18.2.0",

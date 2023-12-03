@@ -43,9 +43,9 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
             <Base pointer innerRef={ elementRef } className="icon icon-navigator-info" onMouseOver={ event => setIsVisible(true) } onMouseLeave={ event => setIsVisible(false) } />
             <Overlay show={ isVisible } target={ elementRef.current } placement="right">
                 <Popover>
-                    <NitroCardContentView overflow="hidden" className="room-info image-rendering-pixelated bg-transparent">
+                    <NitroCardContentView overflow="hidden" className="bg-transparent room-info image-rendering-pixelated">
                         <Flex gap={ 2 } overflow="hidden">
-                            <LayoutRoomThumbnailView roomId={ roomData.roomId } customUrl={ roomData.officialRoomPicRef } className="d-flex flex-column align-items-center justify-content-end mb-1">
+                            <LayoutRoomThumbnailView roomId={ roomData.roomId } customUrl={ roomData.officialRoomPicRef } className="mb-1 d-flex flex-column align-items-center justify-content-end">
                                 { roomData.habboGroupId > 0 && (
                                     <LayoutBadgeImageView badgeCode={ roomData.groupBadgeCode } isGroup={ true } className={ 'position-absolute top-0 start-0 m-1 ' }/>) }
                                 { roomData.doorMode !== RoomDataParser.OPEN_STATE && (
@@ -67,7 +67,7 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
                                 <Text className="flex-grow-1">
                                     { roomData.description }
                                 </Text>
-                                <Flex className={ 'badge p-1 position-absolute m-1 bottom-0 end-0 m-2 ' + getUserCounterColor() } gap={ 1 }>
+                                <Flex className={ 'badge p-1 position-absolute m-1 bottom-0 end-0 ' + getUserCounterColor() } gap={ 1 }>
                                     <FaUser className="fa-icon" />
                                     { roomData.userCount }
                                 </Flex>
