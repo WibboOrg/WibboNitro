@@ -497,7 +497,6 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
                 const overlay = new NitroSprite(Texture.EMPTY);
 
                 overlay.name = RoomEngine.OVERLAY;
-                overlay.interactive = false;
 
                 displayObject.addChild(overlay);
             }

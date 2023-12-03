@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { attemptItemPlacement, CreateLinkEvent, LocalizeText } from '../../../../api';
+import { attemptItemPlacement, CreateLinkEvent, LocalizeText, ProcessRoomObjectOperation, ProductTypeEnum } from '../../../../api';
 import { Button, Column, Flex, LayoutGiftTagView, LayoutImage, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { useFurniturePresentWidget, useInventoryFurni } from '../../../../hooks';
+import { RoomObjectCategory, RoomObjectOperationType } from '@nitrots/nitro-renderer';
 
 export const FurnitureGiftOpeningView: FC<{}> = props =>
 {
@@ -18,6 +19,8 @@ export const FurnitureGiftOpeningView: FC<{}> = props =>
 
         onClose();
     }
+
+    const pickup = (itemId: number) => ProcessRoomObjectOperation(itemId, itemType === ProductTypeEnum.WALL ? RoomObjectCategory.WALL : RoomObjectCategory.FLOOR, RoomObjectOperationType.OBJECT_PICKUP);
 
     return (
         <NitroCardView className="nitro-gift-opening" theme="primary-slim">
@@ -52,7 +55,7 @@ export const FurnitureGiftOpeningView: FC<{}> = props =>
                             <Column grow gap={ 1 }>
                                 <Flex gap={ 1 }>
                                     { placedInRoom &&
-                                        <Button fullWidth onClick={ null }>
+                                        <Button fullWidth onClick={ event => pickup(placedItemId) }>
                                             { LocalizeText('widget.furni.present.put_in_inventory') }
                                         </Button> }
                                     <Button fullWidth variant="success" onClick={ event => place(placedItemId) }>
