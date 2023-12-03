@@ -29,7 +29,6 @@ export const WiredActionBaseView: FC<PropsWithChildren<WiredActionBaseViewProps>
             <Column>
                 <Text bold>{ LocalizeText('wiredfurni.params.delay', [ 'seconds' ], [ GetWiredTimeLocale(actionDelay) ]) }</Text>
                 <Slider
-                    className={ 'nitro-slider' }
                     min={ 0 }
                     max={ 20 }
                     value={ actionDelay }
