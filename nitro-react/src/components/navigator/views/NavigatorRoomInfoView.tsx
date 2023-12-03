@@ -114,7 +114,7 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                     <>
                         <Flex gap={ 2 } overflow="hidden">
                             <LayoutRoomThumbnailView roomId={ navigatorData.enteredGuestRoom.roomId } customUrl={ navigatorData.enteredGuestRoom.officialRoomPicRef }>
-                                { hasPermission('settings') && <i className="icon icon-camera-small position-absolute b-0 r-0 m-1 cursor-pointer top-0" onClick={ () => processAction('open_room_thumbnail_camera') } /> }
+                                { hasPermission('settings') && <i className="top-0 m-1 cursor-pointer icon icon-camera-small position-absolute b-0 r-0" onClick={ () => processAction('open_room_thumbnail_camera') } /> }
                             </LayoutRoomThumbnailView>
                             <Column grow gap={ 1 } overflow="hidden">
                                 <Flex gap={ 1 }>
@@ -139,18 +139,18 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                             <Flex alignItems="center" gap={ 1 }>
                                                 { navigatorData.enteredGuestRoom.tags.map(tag =>
                                                 {
-                                                    return <Text key={ tag } pointer className="bg-muted rounded p-1" onClick={ event => processAction('navigator_search_tag', tag) }>#{ tag }</Text>
+                                                    return <Text key={ tag } pointer className="p-1 rounded bg-muted" onClick={ event => processAction('navigator_search_tag', tag) }>#{ tag }</Text>
                                                 }) }
                                             </Flex> }
                                     </Column>
                                     <Column alignItems="center" gap={ 1 }>
                                         { hasPermission('settings') &&
-                                            <i className="icon icon-cog cursor-pointer" title={ LocalizeText('navigator.room.popup.info.room.settings') } onClick={ event => processAction('open_room_settings') } /> }
+                                            <i className="cursor-pointer icon icon-cog" title={ LocalizeText('navigator.room.popup.info.room.settings') } onClick={ event => processAction('open_room_settings') } /> }
                                         <FaLink title={ LocalizeText('navigator.embed.caption') } className="cursor-pointer fa-icon" onClick={ event => CreateLinkEvent('navigator/toggle-room-link') } />
                                         { hasPermission('guest') && <FaSignOutAlt title={ LocalizeText('navigator.roominfo.removerights.tooltip') } className="cursor-pointer fa-icon" onClick={ event => processAction('remove_rights') } /> }
                                     </Column>
                                 </Flex>
-                                <Text overflow="auto" style={ { maxWidth: 250, maxHeight: 50 } }>{ navigatorData.enteredGuestRoom.description }</Text>
+                                <Text overflow="auto" textBreak style={ { maxWidth: 250, maxHeight: 50 } }>{ navigatorData.enteredGuestRoom.description }</Text>
                                 { (navigatorData.enteredGuestRoom.habboGroupId > 0) &&
                                     <Flex pointer alignItems="center" gap={ 1 } onClick={ () => processAction('open_group_info') }>
                                         <LayoutBadgeImageView className="flex-none" badgeCode={ navigatorData.enteredGuestRoom.groupBadgeCode } isGroup={ true } />
