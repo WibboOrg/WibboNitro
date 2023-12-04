@@ -3,6 +3,7 @@ import { NitroManager } from '../../core';
 import { NitroSettingsEvent, NitroSoundEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomEngineSamplePlaybackEvent } from '../../events';
 import { Nitro } from '../Nitro';
 import { MusicController } from './music/MusicController';
+import { PlaySoundEvent, StopSoundEvent } from '../communication';
 
 export class SoundManager extends NitroManager implements ISoundManager
 {
@@ -30,6 +31,8 @@ export class SoundManager extends NitroManager implements ISoundManager
         this._musicController = new MusicController();
 
         this.onEvent = this.onEvent.bind(this);
+        this.onPlaySoundEvent = this.onPlaySoundEvent.bind(this);
+        this.onStopSoundEvent = this.onStopSoundEvent.bind(this);
     }
 
     public onInit(): void
@@ -41,6 +44,8 @@ export class SoundManager extends NitroManager implements ISoundManager
         Nitro.instance.roomEngine.events.addEventListener(RoomEngineEvent.DISPOSED, this.onEvent);
         Nitro.instance.events.addEventListener(NitroSettingsEvent.SETTINGS_UPDATED, this.onEvent);
         Nitro.instance.events.addEventListener(NitroSoundEvent.PLAY_SOUND, this.onEvent);
+        Nitro.instance.communication.registerMessageEvent(new PlaySoundEvent(this.onPlaySoundEvent));
+        Nitro.instance.communication.registerMessageEvent(new StopSoundEvent(this.onStopSoundEvent));
     }
 
     public onDispose(): void
@@ -56,6 +61,28 @@ export class SoundManager extends NitroManager implements ISoundManager
         Nitro.instance.roomEngine.events.removeEventListener(RoomEngineEvent.DISPOSED, this.onEvent);
         Nitro.instance.events.removeEventListener(NitroSettingsEvent.SETTINGS_UPDATED, this.onEvent);
         Nitro.instance.events.removeEventListener(NitroSoundEvent.PLAY_SOUND, this.onEvent);
+        Nitro.instance.communication.removeMessageEvent(new PlaySoundEvent(this.onPlaySoundEvent));
+        Nitro.instance.communication.removeMessageEvent(new StopSoundEvent(this.onStopSoundEvent));
+    }
+
+    private onPlaySoundEvent(event: PlaySoundEvent)
+    {
+        if(!(event instanceof PlaySoundEvent)) return;
+
+        const name = event.getParser().name;
+        const type = event.getParser().type;
+        const loop = event.getParser().loop;
+
+        this.playExternalSample(name, type, loop);
+    }
+
+    private onStopSoundEvent(event: StopSoundEvent)
+    {
+        if(!(event instanceof StopSoundEvent)) return;
+
+        const name = event.getParser().name;
+
+        this.stopInternalSample(name);
     }
 
     private onEvent(event: INitroEvent)

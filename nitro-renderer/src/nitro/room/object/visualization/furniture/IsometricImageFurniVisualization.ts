@@ -117,8 +117,6 @@ export class IsometricImageFurniVisualization extends FurnitureAnimatedVisualiza
         const matrix = new Matrix();
         const difference = (asset.width / texture.width);
 
-        console.log('this.direction', this.direction);
-
         switch(this.direction)
         {
             case 2:
