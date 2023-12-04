@@ -14,9 +14,11 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
 {
     const { roomData = null } = props;
     const [ usersWithRights, setUsersWithRights ] = useState<Map<number, string>>(new Map());
-    const { friends = [] } = useFriends();
+    const { onlineFriends = [], offlineFriends = [] } = useFriends();
 
-    const friendWitoutRights = friends.filter(friend => !usersWithRights.has(friend.id));
+    const allFriends = [ ...onlineFriends, ...offlineFriends ];
+
+    const friendWitoutRights = allFriends.filter(friend => !usersWithRights.has(friend.id));
 
     useMessageEvent<FlatControllersEvent>(FlatControllersEvent, event =>
     {
@@ -86,7 +88,7 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
             </Column>
             <Column size={ 6 }>
                 <Text bold>
-                    { LocalizeText('navigator.flatctrls.friends', [ 'displayed', 'total' ], [ friendWitoutRights.length.toString(), friends.length.toString() ]) }
+                    { LocalizeText('navigator.flatctrls.friends', [ 'displayed', 'total' ], [ friendWitoutRights.length.toString(), allFriends.length.toString() ]) }
                 </Text>
                 <Flex overflow="hidden" className="p-2 bg-white rounded list-container">
                     <Column fullWidth overflow="auto" gap={ 1 }>
