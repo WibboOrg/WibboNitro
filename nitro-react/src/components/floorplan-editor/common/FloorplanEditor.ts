@@ -169,7 +169,7 @@ export class FloorplanEditor
 
         if(!newHeight) return;
 
-        if(tile.isBlocked) return;
+        // if(tile.isBlocked) return;
 
         this._tilemap[y][x].height = newHeight;
 
@@ -192,7 +192,8 @@ export class FloorplanEditor
 
                 if(tile.isBlocked) assetName = FloorplanEditor.TILE_BLOCKED;
 
-                //if((tile.height === 'x') || tile.height === 'X') continue;
+                if ((tile.height === 'x' || tile.height === 'X') && tile.isBlocked) assetName = 'x';
+                
                 const [ positionX, positionY ] = getScreenPositionForTile(x, y);
 
                 const asset = spritesheet.frames[assetName];
