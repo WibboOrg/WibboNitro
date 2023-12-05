@@ -1,4 +1,4 @@
-import { BadgeReceivedEvent, BadgesEvent, RequestBadgesComposer, SetActivatedBadgesComposer } from '@nitrots/nitro-renderer';
+import { BadgeReceivedEvent, BadgeRemovedEvent, BadgesEvent, RequestBadgesComposer, SetActivatedBadgesComposer } from '@nitrots/nitro-renderer';
 import { useEffect, useState } from 'react';
 import { useBetween } from 'use-between';
 import { GetConfiguration, SendMessageComposer, UnseenItemCategory } from '../../api';
@@ -106,6 +106,34 @@ const useInventoryBadgesState = () =>
             const newValue = new Map(prevValue);
 
             newValue.set(parser.badgeCode, parser.badgeId);
+
+            return newValue;
+        });
+    });
+
+    useMessageEvent<BadgeRemovedEvent>(BadgeRemovedEvent, event =>
+    {
+        const parser = event.getParser();
+
+        setBadgeCodes(prevValue =>
+        {
+            const newValue = [ ...prevValue ].filter(x => x != parser.badgeCode);
+
+            return newValue;
+        });
+
+        setBadgeIds(prevValue =>
+        {
+            const newValue = new Map(prevValue);
+
+            newValue.delete(parser.badgeCode);
+
+            return newValue;
+        });
+
+        setActiveBadgeCodes(prevValue =>
+        {
+            const newValue = [ ...prevValue ].filter(x => x != parser.badgeCode);
 
             return newValue;
         });
