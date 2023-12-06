@@ -52,13 +52,13 @@ export const NavigatorRoomSettingsModTabView: FC<NavigatorRoomSettingsTabViewPro
         <Grid overflow="auto">
             <Column size={ 6 }>
                 <Text bold>{ LocalizeText('navigator.roomsettings.moderation.banned.users') } ({ bannedUsers.length })</Text>
-                <Flex overflow="hidden" className="bg-white rounded list-container p-2">
+                <Flex overflow="hidden" className="p-2 bg-white rounded list-container">
                     <Column fullWidth overflow="auto" gap={ 1 }>
                         { bannedUsers && (bannedUsers.length > 0) && bannedUsers.map((user, index) =>
                         {
                             return (
                                 <Flex key={ index } shrink alignItems="center" gap={ 1 } overflow="hidden">
-                                    <UserProfileIconView userName={ user.userName } />
+                                    <UserProfileIconView userId={ user.userId } />
                                     <Text pointer grow onClick={ event => setSelectedUserId(user.userId) }> { user.userName }</Text>
                                 </Flex>
                             );

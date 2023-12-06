@@ -78,13 +78,16 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
                         {
                             return (
                                 <Flex key={ index } shrink alignItems="center" gap={ 1 } overflow="hidden">
-                                    <UserProfileIconView userName={ name } />
+                                    <UserProfileIconView userId={ id } />
                                     <Text pointer grow onClick={ event => SendMessageComposer(new RoomTakeRightsComposer(id)) }> { name }</Text>
                                 </Flex>
                             );
                         }) }
                     </Column>
                 </Flex>
+                <Button variant="danger" disabled={ !usersWithRights.size } onClick={ event => SendMessageComposer(new RemoveAllRightsMessageComposer(roomData.roomId)) } >
+                    { LocalizeText('navigator.flatctrls.clear') }
+                </Button>
             </Column>
             <Column size={ 6 }>
                 <Text bold>
@@ -96,16 +99,13 @@ export const NavigatorRoomSettingsRightsTabView: FC<NavigatorRoomSettingsTabView
                         {
                             return (
                                 <Flex key={ index } shrink alignItems="center" gap={ 1 } overflow="hidden">
-                                    <UserProfileIconView userName={ friend.name } />
+                                    <UserProfileIconView userId={ friend.id } />
                                     <Text pointer grow onClick={ event => SendMessageComposer(new RoomGiveRightsComposer(friend.id)) }> { friend.name }</Text>
                                 </Flex>
                             );
                         }) }
                     </Column>
                 </Flex>
-                <Button variant="danger" disabled={ !usersWithRights.size } onClick={ event => SendMessageComposer(new RemoveAllRightsMessageComposer(roomData.roomId)) } >
-                    { LocalizeText('navigator.flatctrls.clear') }
-                </Button>
             </Column>
         </Grid>
     );
