@@ -79,17 +79,17 @@ export const ChooserWidgetView: FC<ChooserWidgetViewProps> = props =>
     return (
         <NitroCardView className="nitro-chooser-widget" theme="primary-slim">
             <NitroCardHeaderView headerText={ title + ' (' + filteredItems.length + ')' } onCloseClick={ onClose } />
-            <NitroCardContentView overflow="hidden" gap={ 2 }>
+            <NitroCardContentView overflow="hidden" gap={ 1 }>
                 <input type="text" className="form-control form-control-sm" placeholder={ LocalizeText('generic.search') } value={ searchValue } onChange={ event => setSearchValue(event.target.value) } />
-                { props.pickallFurni && <Base className="text-black form-check">
+                { props.pickallFurni && <Flex gap={ 2 } className="text-black">
                     <input className="form-check-input" type="checkbox" checked={ checkAll } onChange={ (e) => checkedId() } />
                     <label className="form-check-label">{ LocalizeText('widget.chooser.checkall') }</label>
-                </Base> }
+                </Flex> }
                 <InfiniteScroll rows={ filteredItems } rowRender={ row =>
                 {
                     return (
                         <Flex alignItems="center" className={ classNames('rounded p-1', (selectedItem === row) && 'bg-muted') } pointer onClick={ event => setSelectedItem(row) }>
-                            { props.pickallFurni && <input className="flex-shrink-0 mx-2 form-check-input" type="checkbox" name="showMyFace" checked={ isChecked(row.id) } onChange={ (e) => checkedId(row.id) } /> }
+                            { props.pickallFurni && <input className="flex-shrink-0 mx-1 form-check-input" type="checkbox" name="showMyFace" checked={ isChecked(row.id) } onChange={ (e) => checkedId(row.id) } /> }
                             <Text truncate>{ row.name } { canSeeId && (' - ' + row.id) }</Text>
                         </Flex>
                     );
