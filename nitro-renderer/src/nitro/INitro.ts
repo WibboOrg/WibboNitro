@@ -25,7 +25,7 @@ export interface INitro
     roomManager: IRoomManager;
     cameraManager: IRoomCameraWidgetManager;
     soundManager: ISoundManager;
-    keyboadManager: KeyboardManager;
+    keyboardManager: KeyboardManager;
     width: number;
     height: number;
     isReady: boolean;
