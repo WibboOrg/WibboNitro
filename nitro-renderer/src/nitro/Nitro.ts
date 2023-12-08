@@ -18,6 +18,7 @@ import { LandscapeRasterizer, RoomEngine } from './room';
 import { RoomSessionManager, SessionDataManager } from './session';
 import { SoundManager } from './sound';
 import { HabboWebTools } from './utils/HabboWebTools';
+import { KeyboardManager } from './keyboard/KeyboardManager';
 
 LegacyExternalInterface.available;
 
@@ -45,6 +46,7 @@ export class Nitro implements INitro
     private _roomManager: IRoomManager;
     private _cameraManager: IRoomCameraWidgetManager;
     private _soundManager: ISoundManager;
+    private _keyboardManager: KeyboardManager;
     private _linkTrackers: ILinkEventTracker[];
 
     private _isReady: boolean;
@@ -66,6 +68,7 @@ export class Nitro implements INitro
         this._roomManager = new RoomManager(this._roomEngine, this._roomEngine.visualizationFactory, this._roomEngine.logicFactory);
         this._cameraManager = new RoomCameraWidgetManager();
         this._soundManager = new SoundManager();
+        this._keyboardManager = new KeyboardManager();
         this._linkTrackers = [];
 
         this._isReady = false;
@@ -104,6 +107,8 @@ export class Nitro implements INitro
         if(this._avatar) this._avatar.init();
 
         if(this._soundManager) this._soundManager.init();
+
+        if(this._keyboardManager) this._keyboardManager.init();
 
         if(this._roomEngine)
         {
@@ -171,6 +176,11 @@ export class Nitro implements INitro
             this._soundManager.dispose();
 
             this._soundManager = null;
+        }
+
+        if(this._keyboardManager)
+        {
+            this._keyboardManager = null;
         }
 
         if(this._communication)
@@ -336,6 +346,11 @@ export class Nitro implements INitro
     public get soundManager(): ISoundManager
     {
         return this._soundManager;
+    }
+
+    public get keyboardManager(): KeyboardManager
+    {
+        return this._keyboardManager;
     }
 
     public get width(): number

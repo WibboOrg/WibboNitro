@@ -1,5 +1,6 @@
 import { Application } from '@pixi/app';
 import { IAvatarRenderManager, IEventDispatcher, ILinkEventTracker, INitroCommunicationManager, INitroCore, INitroLocalizationManager, IRoomCameraWidgetManager, IRoomEngine, IRoomManager, IRoomSessionManager, ISessionDataManager, ISoundManager } from '../api';
+import { KeyboardManager } from './keyboard/KeyboardManager';
 
 export interface INitro
 {
@@ -24,6 +25,7 @@ export interface INitro
     roomManager: IRoomManager;
     cameraManager: IRoomCameraWidgetManager;
     soundManager: ISoundManager;
+    keyboadManager: KeyboardManager;
     width: number;
     height: number;
     isReady: boolean;
