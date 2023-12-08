@@ -867,6 +867,18 @@
             }
         }
 
+        &.bubble-53 {
+            border-image-source: url("@/assets/images/chat/chatbubbles/bubble_53.png");
+
+            border-image-slice: 16 7 6 33 fill;
+            border-image-width: 16px 6px 6px 32px;
+            border-image-outset: 7px 0px 0px 5px;
+
+            .pointer {
+                background: url("@/assets/images/chat/chatbubbles/bubble_53_pointer.png");
+            }
+        }
+
         .user-container {
             z-index: 3;
             display: flex;
@@ -1152,5 +1164,9 @@
     
     &.bubble-52 {
         background-image: url("@/assets/images/chat/chatbubbles/bubble_52.png");
+    }
+    
+    &.bubble-53 {
+        background-image: url("@/assets/images/chat/chatbubbles/bubble_53.png");
     }
 }
