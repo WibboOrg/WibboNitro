@@ -82,7 +82,17 @@ export class SoundManager extends NitroManager implements ISoundManager
 
         const name = event.getParser().name;
 
-        this.stopInternalSample(name);
+        if(name === '')
+        {
+            this._internalSamples.getKeys().forEach((objectId: string) =>
+            {
+                this.stopInternalSample(objectId);
+            });
+        }
+        else
+        {
+            this.stopInternalSample(name);
+        }
     }
 
     private onEvent(event: INitroEvent)
