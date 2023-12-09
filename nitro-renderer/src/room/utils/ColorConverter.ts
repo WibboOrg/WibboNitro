@@ -56,279 +56,145 @@ export class ColorConverter
         return 'rgba(' + [r, g, b, 1].join(',') + ')';
     }
 
-    public static rgbToHSL(k: number): number
+    public static rgbToHSL(rgb: number): number
     {
-        const _local_2: number = (((k >> 16) & 0xFF) / 0xFF);
-        const _local_3: number = (((k >> 8) & 0xFF) / 0xFF);
-        const _local_4: number = ((k & 0xFF) / 0xFF);
-        const _local_5: number = Math.max(_local_2, _local_3, _local_4);
-        const _local_6: number = Math.min(_local_2, _local_3, _local_4);
-        const _local_7: number = (_local_5 - _local_6);
-        let _local_8 = 0;
-        let _local_9 = 0;
-        let _local_10 = 0;
-        if(_local_7 == 0)
+        const red = ((rgb >> 16) & 0xFF) / 0xFF;
+        const green = ((rgb >> 8) & 0xFF) / 0xFF;
+        const blue = (rgb & 0xFF) / 0xFF;
+
+        const maxColor = Math.max(red, green, blue);
+        const minColor = Math.min(red, green, blue);
+        const colorDiff = maxColor - minColor;
+
+        let hue = 0;
+        let saturation = 0;
+        const lightness = 0.5 * (maxColor + minColor);
+
+        if(colorDiff !== 0)
         {
-            _local_8 = 0;
-        }
-        else
-        {
-            if(_local_5 == _local_2)
+            if(maxColor === red)
             {
-                if(_local_3 > _local_4)
+                hue = 60 * (((green - blue) / colorDiff) % 6);
+                if(green < blue)
                 {
-                    _local_8 = ((60 * (_local_3 - _local_4)) / _local_7);
-                }
-                else
-                {
-                    _local_8 = (((60 * (_local_3 - _local_4)) / _local_7) + 360);
+                    hue += 360;
                 }
             }
-            else
+            else if(maxColor === green)
             {
-                if(_local_5 == _local_3)
-                {
-                    _local_8 = (((60 * (_local_4 - _local_2)) / _local_7) + 120);
-                }
-                else
-                {
-                    if(_local_5 == _local_4)
-                    {
-                        _local_8 = (((60 * (_local_2 - _local_3)) / _local_7) + 240);
-                    }
-                }
+                hue = 60 * ((blue - red) / colorDiff + 2);
             }
-        }
-        _local_9 = (0.5 * (_local_5 + _local_6));
-        if(_local_7 == 0)
-        {
-            _local_10 = 0;
-        }
-        else
-        {
-            if(_local_9 <= 0.5)
+            else if(maxColor === blue)
             {
-                _local_10 = ((_local_7 / _local_9) * 0.5);
+                hue = 60 * ((red - green) / colorDiff + 4);
             }
-            else
-            {
-                _local_10 = ((_local_7 / (1 - _local_9)) * 0.5);
-            }
+
+            saturation = lightness <= 0.5 ? colorDiff / (2 * lightness) : colorDiff / (2 - 2 * lightness);
         }
-        const _local_11: number = Math.round(((_local_8 / 360) * 0xFF));
-        const _local_12: number = Math.round((_local_10 * 0xFF));
-        const _local_13: number = Math.round((_local_9 * 0xFF));
-        const _local_14: number = (((_local_11 << 16) + (_local_12 << 8)) + _local_13);
-        return _local_14;
+
+        const roundedHue = Math.round((hue / 360) * 0xFF);
+        const roundedSaturation = Math.round(saturation * 0xFF);
+        const roundedLightness = Math.round(lightness * 0xFF);
+
+        return ((roundedHue << 16) + (roundedSaturation << 8) + roundedLightness);
     }
 
-    public static hslToRGB(k: number): number
+    public static hslToRGB(hue: number): number
     {
-        let _local_12: number;
-        let _local_13: number;
-        let _local_14: number;
-        let _local_15: number;
-        let _local_16: number;
-        const _local_2: number = (((k >> 16) & 0xFF) / 0xFF);
-        const _local_3: number = (((k >> 8) & 0xFF) / 0xFF);
-        const _local_4: number = ((k & 0xFF) / 0xFF);
-        let _local_5 = 0;
-        let _local_6 = 0;
-        let _local_7 = 0;
-        if(_local_3 > 0)
+        const saturation = ((hue >> 16) & 0xFF) / 0xFF;
+        const lightness = ((hue >> 8) & 0xFF) / 0xFF;
+        const intensity = (hue & 0xFF) / 0xFF;
+
+        let red = 0;
+        let green = 0;
+        let blue = 0;
+
+        if(lightness > 0)
         {
-            _local_12 = 0;
-            _local_13 = 0;
-            if(_local_4 < 0.5)
+            let temp1 = 0;
+            let temp2 = 0;
+
+            if(intensity < 0.5)
             {
-                _local_12 = (_local_4 * (1 + _local_3));
+                temp1 = intensity * (1 + lightness);
             }
             else
             {
-                _local_12 = ((_local_4 + _local_3) - (_local_4 * _local_3));
+                temp1 = intensity + lightness - intensity * lightness;
             }
-            _local_13 = ((2 * _local_4) - _local_12);
-            _local_14 = (_local_2 + (1 / 3));
-            _local_15 = _local_2;
-            _local_16 = (_local_2 - (1 / 3));
-            if(_local_14 < 0)
+
+            temp2 = 2 * intensity - temp1;
+
+            const hueToRGB = (t: number) =>
             {
-                _local_14 = (_local_14 + 1);
-            }
-            else
-            {
-                if(_local_14 > 1)
-                {
-                    _local_14--;
-                }
-            }
-            if(_local_15 < 0)
-            {
-                _local_15 = (_local_15 + 1);
-            }
-            else
-            {
-                if(_local_15 > 1)
-                {
-                    _local_15--;
-                }
-            }
-            if(_local_16 < 0)
-            {
-                _local_16 = (_local_16 + 1);
-            }
-            else
-            {
-                if(_local_16 > 1)
-                {
-                    _local_16--;
-                }
-            }
-            if((_local_14 * 6) < 1)
-            {
-                _local_5 = (_local_13 + (((_local_12 - _local_13) * 6) * _local_14));
-            }
-            else
-            {
-                if((_local_14 * 2) < 1)
-                {
-                    _local_5 = _local_12;
-                }
-                else
-                {
-                    if((_local_14 * 3) < 2)
-                    {
-                        _local_5 = (_local_13 + (((_local_12 - _local_13) * 6) * ((2 / 3) - _local_14)));
-                    }
-                    else
-                    {
-                        _local_5 = _local_13;
-                    }
-                }
-            }
-            if((_local_15 * 6) < 1)
-            {
-                _local_6 = (_local_13 + (((_local_12 - _local_13) * 6) * _local_15));
-            }
-            else
-            {
-                if((_local_15 * 2) < 1)
-                {
-                    _local_6 = _local_12;
-                }
-                else
-                {
-                    if((_local_15 * 3) < 2)
-                    {
-                        _local_6 = (_local_13 + (((_local_12 - _local_13) * 6) * ((2 / 3) - _local_15)));
-                    }
-                    else
-                    {
-                        _local_6 = _local_13;
-                    }
-                }
-            }
-            if((_local_16 * 6) < 1)
-            {
-                _local_7 = (_local_13 + (((_local_12 - _local_13) * 6) * _local_16));
-            }
-            else
-            {
-                if((_local_16 * 2) < 1)
-                {
-                    _local_7 = _local_12;
-                }
-                else
-                {
-                    if((_local_16 * 3) < 2)
-                    {
-                        _local_7 = (_local_13 + (((_local_12 - _local_13) * 6) * ((2 / 3) - _local_16)));
-                    }
-                    else
-                    {
-                        _local_7 = _local_13;
-                    }
-                }
-            }
+                if(t < 0) t += 1;
+                if(t > 1) t--;
+                if(6 * t < 1) return temp2 + (temp1 - temp2) * 6 * t;
+                if(2 * t < 1) return temp1;
+                if(3 * t < 2) return temp2 + (temp1 - temp2) * (2 / 3 - t) * 6;
+                return temp2;
+            };
+
+            red = hueToRGB(saturation + 1 / 3);
+            green = hueToRGB(saturation);
+            blue = hueToRGB(saturation - 1 / 3);
         }
         else
         {
-            _local_5 = _local_4;
-            _local_6 = _local_4;
-            _local_7 = _local_4;
+            red = intensity;
+            green = intensity;
+            blue = intensity;
         }
-        const _local_8: number = Math.round((_local_5 * 0xFF));
-        const _local_9: number = Math.round((_local_6 * 0xFF));
-        const _local_10: number = Math.round((_local_7 * 0xFF));
-        const _local_11: number = (((_local_8 << 16) + (_local_9 << 8)) + _local_10);
-        return _local_11;
+
+        const resultRed = Math.round(red * 0xFF);
+        const resultGreen = Math.round(green * 0xFF);
+        const resultBlue = Math.round(blue * 0xFF);
+
+        return ((resultRed << 16) + (resultGreen << 8) + resultBlue);
     }
 
     public static rgb2xyz(k: number): IVector3D
     {
-        let _local_2: number = (((k >> 16) & 0xFF) / 0xFF);
-        let _local_3: number = (((k >> 8) & 0xFF) / 0xFF);
-        let _local_4: number = (((k >> 0) & 0xFF) / 0xFF);
-        if(_local_2 > 0.04045)
+        const red = (k >> 16) & 0xFF / 0xFF;
+        const green = (k >> 8) & 0xFF / 0xFF;
+        const blue = (k >> 0) & 0xFF / 0xFF;
+
+        const calculateComponent = (component: number) =>
         {
-            _local_2 = Math.pow(((_local_2 + 0.055) / 1.055), 2.4);
-        }
-        else
-        {
-            _local_2 = (_local_2 / 12.92);
-        }
-        if(_local_3 > 0.04045)
-        {
-            _local_3 = Math.pow(((_local_3 + 0.055) / 1.055), 2.4);
-        }
-        else
-        {
-            _local_3 = (_local_3 / 12.92);
-        }
-        if(_local_4 > 0.04045)
-        {
-            _local_4 = Math.pow(((_local_4 + 0.055) / 1.055), 2.4);
-        }
-        else
-        {
-            _local_4 = (_local_4 / 12.92);
-        }
-        _local_2 = (_local_2 * 100);
-        _local_3 = (_local_3 * 100);
-        _local_4 = (_local_4 * 100);
-        return new Vector3d((((_local_2 * 0.4124) + (_local_3 * 0.3576)) + (_local_4 * 0.1805)), (((_local_2 * 0.2126) + (_local_3 * 0.7152)) + (_local_4 * 0.0722)), (((_local_2 * 0.0193) + (_local_3 * 0.1192)) + (_local_4 * 0.9505)));
+            if(component > 0.04045)
+            {
+                return Math.pow((component + 0.055) / 1.055, 2.4);
+            }
+            else
+            {
+                return component / 12.92;
+            }
+        };
+
+        const normalizedRed = calculateComponent(red);
+        const normalizedGreen = calculateComponent(green);
+        const normalizedBlue = calculateComponent(blue);
+
+        const x = (normalizedRed * 100 * 0.4124) + (normalizedGreen * 100 * 0.3576) + (normalizedBlue * 100 * 0.1805);
+        const y = (normalizedRed * 100 * 0.2126) + (normalizedGreen * 100 * 0.7152) + (normalizedBlue * 100 * 0.0722);
+        const z = (normalizedRed * 100 * 0.0193) + (normalizedGreen * 100 * 0.1192) + (normalizedBlue * 100 * 0.9505);
+
+        return new Vector3d(x, y, z);
     }
 
     public static xyz2CieLab(k: IVector3D): IVector3D
     {
-        let _local_2: number = (k.x / 95.047);
-        let _local_3: number = (k.y / 100);
-        let _local_4: number = (k.z / 108.883);
-        if(_local_2 > 0.008856)
-        {
-            _local_2 = Math.pow(_local_2, (1 / 3));
-        }
-        else
-        {
-            _local_2 = ((7.787 * _local_2) + (16 / 116));
-        }
-        if(_local_3 > 0.008856)
-        {
-            _local_3 = Math.pow(_local_3, (1 / 3));
-        }
-        else
-        {
-            _local_3 = ((7.787 * _local_3) + (16 / 116));
-        }
-        if(_local_4 > 0.008856)
-        {
-            _local_4 = Math.pow(_local_4, (1 / 3));
-        }
-        else
-        {
-            _local_4 = ((7.787 * _local_4) + (16 / 116));
-        }
-        return new Vector3d(((116 * _local_3) - 16), (500 * (_local_2 - _local_3)), (200 * (_local_3 - _local_4)));
+        const x = k.x / 95.047;
+        const y = k.y / 100;
+        const z = k.z / 108.883;
+
+        const cubeRoot = (value: number) => value > 0.008856 ? Math.pow(value, (1 / 3)) : (7.787 * value) + (16 / 116);
+
+        const L = (116 * cubeRoot(y)) - 16;
+        const a = 500 * (cubeRoot(x) - cubeRoot(y));
+        const b = 200 * (cubeRoot(y) - cubeRoot(z));
+
+        return new Vector3d(L, a, b);
     }
 
     public static rgb2CieLab(k: number): IVector3D
