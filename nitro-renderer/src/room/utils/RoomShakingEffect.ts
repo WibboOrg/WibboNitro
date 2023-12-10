@@ -7,69 +7,69 @@ export class RoomShakingEffect
     public static STATE_RUNNING: number = 2;
     public static STATE_OVER: number = 3;
 
-    private static _SafeStr_448: number = 0;
-    private static _SafeStr_4512: boolean = false;
-    private static _SafeStr_4513: number;
-    private static _SafeStr_4514: number = 0;
-    private static _SafeStr_4515: number = 20000;
-    private static _SafeStr_4516: number = 5000;
-    private static _SafeStr_4524: ReturnType<typeof setTimeout>;
+    private static _currentState: number = 0;
+    private static _isVisualizationOn: boolean = false;
+    private static _visualizationTimeout: number | null = null;
+    private static _visualizationStartTime: number = 0;
+    private static _visualizationDuration: number = 20000;
+    private static _visualizationDelay: number = 5000;
 
-    public static init(_arg_1: number, _arg_2: number): void
+    public static init(duration: number, delay: number): void
     {
-        this._SafeStr_4513 = 0;
-        this._SafeStr_4515 = _arg_1;
-        this._SafeStr_4516 = _arg_2;
-        this._SafeStr_4514 = GetTickerTime();
-        this._SafeStr_448 = 1;
+        this._visualizationStartTime = GetTickerTime();
+        this._visualizationDuration = duration;
+        this._visualizationDelay = delay;
+        this._currentState = 1;
     }
 
     public static turnVisualizationOn(): void
     {
-        if((this._SafeStr_448 === 0) || (this._SafeStr_448 === 3)) return;
+        if(this._currentState === 0 || this._currentState === 3) return;
 
-        if(!this._SafeStr_4524) this._SafeStr_4524 = setTimeout(() => this.turnVisualizationOff(), this._SafeStr_4516);
-
-        const _local_1 = (GetTickerTime() - this._SafeStr_4514);
-
-        if(_local_1 > (this._SafeStr_4515 + this._SafeStr_4516))
+        if(!this._visualizationTimeout)
         {
-            this._SafeStr_448 = 3;
+            this._visualizationTimeout = setTimeout(() => this.turnVisualizationOff(), this._visualizationDelay);
+        }
 
+        const elapsedTime = GetTickerTime() - this._visualizationStartTime;
+
+        if(elapsedTime > this._visualizationDuration + this._visualizationDelay)
+        {
+            this._currentState = 3;
             return;
         }
 
-        this._SafeStr_4512 = true;
+        this._isVisualizationOn = true;
 
-        if(_local_1 < this._SafeStr_4515)
+        if(elapsedTime < this._visualizationDuration)
         {
-            this._SafeStr_448 = 1;
-
+            this._currentState = 1;
             return;
         }
 
-        this._SafeStr_448 = 2;
-        this._SafeStr_4513 = ((_local_1 - this._SafeStr_4515) / this._SafeStr_4516);
+        this._currentState = 2;
+        const progress = (elapsedTime - this._visualizationDuration) / this._visualizationDelay;
+        this._visualizationStartTime = progress;
     }
 
     public static turnVisualizationOff(): void
     {
-        this._SafeStr_4512 = false;
+        this._isVisualizationOn = false;
 
-        clearTimeout(this._SafeStr_4524);
-
-        this._SafeStr_4524 = null;
+        if(this._visualizationTimeout)
+        {
+            clearTimeout(this._visualizationTimeout);
+            this._visualizationTimeout = null;
+        }
     }
 
     public static isVisualizationOn(): boolean
     {
-        return (this._SafeStr_4512 && this.isRunning());
+        return this._isVisualizationOn && this.isRunning();
     }
 
     private static isRunning(): boolean
     {
-        if((this._SafeStr_448 === 1) || (this._SafeStr_448 === 2)) return true;
-
-        return false;
+        return this._currentState === 1 || this._currentState === 2;
     }
 }

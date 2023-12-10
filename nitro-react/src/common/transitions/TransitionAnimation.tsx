@@ -19,7 +19,7 @@ export const TransitionAnimation: FC<TransitionAnimationProps> = props =>
 
     useEffect(() =>
     {
-        let timeoutData: ReturnType<typeof setTimeout> = null;
+        let timeoutData: number = null;
 
         if(inProp)
         {

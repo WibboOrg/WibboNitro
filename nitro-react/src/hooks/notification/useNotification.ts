@@ -13,7 +13,7 @@ const getTimeZeroPadded = (time: number) =>
     return text.substr((text.length - 2), text.length);
 }
 
-let modDisclaimerTimeout: ReturnType<typeof setTimeout> = null;
+let modDisclaimerTimeout: number = null;
 
 const useNotificationState = () =>
 {

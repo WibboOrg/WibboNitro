@@ -13,7 +13,7 @@ const useWordQuizWidgetState = () =>
     const [ pollId, setPollId ] = useState(-1);
     const [ question, setQuestion ] = useState<IQuestion>(null);
     const [ answerSent, setAnswerSent ] = useState(false);
-    const [ questionClearTimeout, setQuestionClearTimeout ] = useState<ReturnType<typeof setTimeout>>(null);
+    const [ questionClearTimeout, setQuestionClearTimeout ] = useState<number>(null);
     const [ answerCounts, setAnswerCounts ] = useState<Map<string, number>>(new Map());
     const [ userAnswers, setUserAnswers ] = useState<Map<number, VoteValue>>(new Map());
     const { answerPoll = null } = usePollWidget();
