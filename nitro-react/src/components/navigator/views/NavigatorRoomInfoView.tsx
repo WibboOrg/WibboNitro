@@ -154,7 +154,7 @@ export const NavigatorRoomInfoView: FC<NavigatorRoomInfoViewProps> = props =>
                                         </Flex>
                                     </Column>
                                 </Flex>
-                                <Text overflow="auto" style={ { maxWidth: '100%', maxHeight: '80px', whiteSpace: 'pre-line' } }>{ navigatorData.enteredGuestRoom.description }</Text>
+                                <Text overflow="y-scroll" textBreak style={ { maxWidth: '100%', maxHeight: '80px', whiteSpace: 'pre-line' } }>{ navigatorData.enteredGuestRoom.description }</Text>
                                 { (navigatorData.enteredGuestRoom.habboGroupId > 0) &&
                                     <Flex pointer alignItems="center" gap={ 1 } onClick={ () => processAction('open_group_info') }>
                                         <LayoutBadgeImageView className="flex-none" badgeCode={ navigatorData.enteredGuestRoom.groupBadgeCode } isGroup={ true } />
