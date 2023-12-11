@@ -505,6 +505,24 @@
         height: 11px;
     }
 
+    &.icon-navigator-heart-on {
+        background: url('@/assets/images/navigator/icons/heart_on.png');
+        width: 14px;
+        height: 13px;
+    }
+
+    &.icon-navigator-heart-off {
+        background: url('@/assets/images/navigator/icons/heart_off.png');
+        width: 14px;
+        height: 13px;
+    }
+
+    &.icon-navigator-link {
+        background: url('@/assets/images/navigator/icons/link.png');
+        width: 17px;
+        height: 15px;
+    }
+
     &.icon-youtube-next {
         background: url('@/assets/images/room-widgets/youtube-widget/next.png');
         width: 21px;

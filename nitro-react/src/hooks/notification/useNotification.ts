@@ -404,7 +404,7 @@ const useNotificationState = () =>
         {
             if(modDisclaimerTimeout) return;
 
-            modDisclaimerTimeout = setTimeout(() =>
+            modDisclaimerTimeout = window.setTimeout(() =>
             {
                 onRoomEnterEvent();
             }, (RoomEnterEffect.totalRunningTime + 5000));

@@ -4,6 +4,7 @@ import { Overlay, Popover } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa';
 import { LocalizeText } from '../../../../api';
 import { Base, Column, Flex, LayoutBadgeImageView, LayoutRoomThumbnailView, NitroCardContentView, Text, UserProfileIconView } from '../../../../common';
+import { NavigatorFavouriteView } from '../NavigatorFavouriteView';
 
 interface NavigatorSearchResultItemInfoViewProps
 {
@@ -14,7 +15,22 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
 {
     const { roomData = null } = props;
     const [ isVisible, setIsVisible ] = useState(false);
+    const [ isMouseOverOverlay, setIsMouseOverOverlay ] = useState(false); // nouvel état
     const elementRef = useRef<HTMLDivElement>();
+
+    const handleMouseEnter = () => 
+    {
+        setIsVisible(true);
+        setIsMouseOverOverlay(true);
+    };
+
+    const handleMouseLeave = () => 
+    {
+        setIsVisible(false);
+        setIsMouseOverOverlay(false);
+    };
+
+    const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => event.stopPropagation();
 
     const getUserCounterColor = () =>
     {
@@ -40,9 +56,9 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
 
     return (
         <>
-            <Base pointer innerRef={ elementRef } className="icon icon-navigator-info" onMouseOver={ event => setIsVisible(true) } onMouseLeave={ event => setIsVisible(false) } />
-            <Overlay show={ isVisible } target={ elementRef.current } placement="right">
-                <Popover>
+            <Base pointer innerRef={ elementRef } className="icon icon-navigator-info" onMouseOver={ handleMouseEnter } onMouseLeave={ handleMouseLeave } />
+            <Overlay show={ isVisible || isMouseOverOverlay } target={ elementRef.current } placement="right">
+                <Popover onMouseEnter={ () => setIsMouseOverOverlay(true) } onMouseLeave={ () => setIsMouseOverOverlay(false) } onClick={ handleOverlayClick }>
                     <NitroCardContentView overflow="hidden" className="bg-transparent room-info image-rendering-pixelated">
                         <Flex gap={ 2 } overflow="hidden">
                             <LayoutRoomThumbnailView roomId={ roomData.roomId } customUrl={ roomData.officialRoomPicRef } className="mb-1 d-flex flex-column align-items-center justify-content-end">
@@ -67,6 +83,7 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
                                 <Text className="flex-grow-1">
                                     { roomData.description }
                                 </Text>
+                                <NavigatorFavouriteView roomId={ roomData.roomId } />
                                 <Flex className={ 'badge p-1 position-absolute m-1 bottom-0 end-0 ' + getUserCounterColor() } gap={ 1 }>
                                     <FaUser className="fa-icon" />
                                     { roomData.userCount }
