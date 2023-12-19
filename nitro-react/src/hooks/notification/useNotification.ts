@@ -104,7 +104,7 @@ const useNotificationState = () =>
         if(options.get('sound')) PlaySound(options.get('sound'));
     }
 
-    const showConfirm = useCallback((message: string, onConfirm: () => void, onCancel: () => void, confirmText: string = null, cancelText: string = null, title: string = null, type: string = null) =>
+    const showConfirm = useCallback((message: string, onConfirm: () => void, onCancel: () => void, confirmText: string = null, cancelText: string = null, title: string = null, type: string = null, imageUrl: string = null) =>
     {
         if(!confirmText || !confirmText.length) confirmText = LocalizeText('generic.confirm');
 
@@ -112,7 +112,7 @@ const useNotificationState = () =>
 
         if(!title || !title.length) title = LocalizeText('notifications.broadcast.title');
 
-        const confirmItem = new NotificationConfirmItem(type, message, onConfirm, onCancel, confirmText, cancelText, title);
+        const confirmItem = new NotificationConfirmItem(type, message, onConfirm, onCancel, confirmText, cancelText, title, imageUrl);
 
         setConfirms(prevValue => [ confirmItem, ...prevValue ]);
     }, []);
