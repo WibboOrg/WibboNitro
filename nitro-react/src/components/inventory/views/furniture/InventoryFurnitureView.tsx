@@ -116,7 +116,7 @@ export const InventoryFurnitureView: FC<InventoryFurnitureViewProps> = props =>
         {
             if(item && item.items.length) SendMessageComposer(new DeleteFurniTypeInventoryComposer(item.items[0].id));
         },
-        null, null, null, LocalizeText('generic.alert.title'));
+        null, null, null, LocalizeText('generic.alert.title'), null, item.iconUrl);
     }
 
     if(!groupItems || !groupItems.length) return <InventoryCategoryEmptyView title={ LocalizeText('inventory.empty.title') } desc={ LocalizeText('inventory.empty.desc') } />;

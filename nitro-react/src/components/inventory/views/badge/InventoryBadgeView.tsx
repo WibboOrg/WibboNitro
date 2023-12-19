@@ -1,7 +1,7 @@
 import { DeleteBadgeInventoryComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
-import { LocalizeBadgeName, LocalizeText, SendMessageComposer, UnseenItemCategory } from '../../../../api';
+import { GetSessionDataManager, LocalizeBadgeName, LocalizeText, SendMessageComposer, UnseenItemCategory } from '../../../../api';
 import { AutoGrid, Button, Column, Flex, Grid, LayoutBadgeImageView, Text } from '../../../../common';
 import { useInventoryBadges, useInventoryUnseenTracker, useNotification } from '../../../../hooks';
 import { InventoryBadgeItemView } from './InventoryBadgeItemView';
@@ -44,7 +44,7 @@ export const InventoryBadgeView: FC<{}> = props =>
         {
             SendMessageComposer(new DeleteBadgeInventoryComposer(badgeCode));
         },
-        null, null, null, LocalizeText('generic.alert.title'));
+        null, null, null, LocalizeText('generic.alert.title'), null, GetSessionDataManager().getBadgeUrl(badgeCode));
     }
 
     return (

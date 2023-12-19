@@ -10,7 +10,7 @@ export interface NotificationDefaultConfirmViewProps extends LayoutNotificationA
 export const NotificationDefaultConfirmView: FC<NotificationDefaultConfirmViewProps> = props =>
 {
     const { item = null, onClose = null, ...rest } = props;
-    const { message = null, onConfirm = null, onCancel = null, confirmText = null, cancelText = null, title = null } = item;
+    const { message = null, onConfirm = null, onCancel = null, confirmText = null, cancelText = null, title = null, imageUrl = null } = item;
 
     const confirm = () =>
     {
@@ -28,7 +28,8 @@ export const NotificationDefaultConfirmView: FC<NotificationDefaultConfirmViewPr
 
     return (
         <LayoutNotificationAlertView title={ title } onClose={ onClose } { ...rest } type={ NotificationAlertType.ALERT }>
-            <Flex grow center>
+            <Flex grow center gap={ 2 }>
+                { imageUrl && <img src={ imageUrl } /> }
                 <Text>{ message }</Text>
             </Flex>
             <Flex gap={ 1 }>

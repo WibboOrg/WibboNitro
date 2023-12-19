@@ -10,8 +10,9 @@ export class NotificationConfirmItem
     private _confirmText: string;
     private _cancelText: string;
     private _title: string;
+    private _imageUrl: string;
 
-    constructor(confirmType: string, message: string, onConfirm: Function, onCancel: Function, confirmText: string, cancelText: string, title: string)
+    constructor(confirmType: string, message: string, onConfirm: Function, onCancel: Function, confirmText: string, cancelText: string, title: string, imageUrl: string)
     {
         NotificationConfirmItem.ITEM_ID += 1;
 
@@ -23,6 +24,7 @@ export class NotificationConfirmItem
         this._confirmText = confirmText;
         this._cancelText = cancelText;
         this._title = title;
+        this._imageUrl = imageUrl;
     }
 
     public get id(): number
@@ -63,5 +65,10 @@ export class NotificationConfirmItem
     public get title(): string
     {
         return this._title;
+    }
+
+    public get imageUrl(): string
+    {
+        return this._imageUrl;
     }
 }
