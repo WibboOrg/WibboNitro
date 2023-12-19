@@ -1,14 +1,14 @@
 {
-    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "typescript.tsdk": "nitro-react\\node_modules\\typescript\\lib",
     "typescript.preferences.importModuleSpecifier": "relative",
     "typescript.preferences.quoteStyle": "single",
     "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
     "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
     "editor.wordWrap": "on",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true,
-        "source.fixAll.sortJSON": false,
-        "source.organizeImports": true
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.sortJSON": "never",
+        "source.organizeImports": "explicit"
     },
     "editor.formatOnSave": false,
     "git.ignoreLimitWarning": true,
@@ -27,6 +27,4 @@
         }
     ],
     "javascript.format.enable": false,
-    "thunder-client.saveToWorkspace": false,
-    "thunder-client.workspaceRelativePath": "."
 }
