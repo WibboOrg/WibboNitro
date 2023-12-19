@@ -5,12 +5,12 @@ import { Rectangle } from '@pixi/math';
 import { Sprite } from '@pixi/sprite';
 import { AdvancedMap, AvatarAction, AvatarDirectionAngle, AvatarScaleType, AvatarSetType, IActionDefinition, IActiveActionData, IAdvancedMap, IAnimationLayerData, IAvatarDataContainer, IAvatarEffectListener, IAvatarFigureContainer, IAvatarImage, IGraphicAsset, IPartColor, ISpriteDataContainer } from '../../api';
 import { GetTickerTime, NitroContainer, NitroSprite, PaletteMapFilter, PixiApplicationProxy, TextureUtils } from '../../pixi-proxy';
-import { ActiveActionData } from './actions';
-import { AssetAliasCollection } from './alias';
 import { AvatarFigureContainer } from './AvatarFigureContainer';
 import { AvatarStructure } from './AvatarStructure';
-import { AvatarImageCache } from './cache';
 import { EffectAssetDownloadManager } from './EffectAssetDownloadManager';
+import { ActiveActionData } from './actions';
+import { AssetAliasCollection } from './alias';
+import { AvatarImageCache } from './cache';
 
 export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 {
@@ -273,25 +273,21 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
         return this._cachedBodyParts;
     }
 
-    public getAvatarPartsForCamera(k: string): void
-    {
-        let _local_4: string;
-        if(this._mainAction == null)
-        {
+    public getAvatarPartsForCamera(partsAvatarSet: string): void {
+        if (this._mainAction === null) {
             return;
         }
-        const _local_2 = this._structure.getCanvas(this._scale, this._mainAction.definition.geometryType);
-        if(_local_2 == null)
-        {
+        
+        const canvas = this._structure.getCanvas(this._scale, this._mainAction.definition.geometryType);
+        if (canvas === null) {
             return;
         }
-        const _local_3 = this.getBodyParts(k, this._mainAction.definition.geometryType, this._mainDirection);
-        let _local_6 = (_local_3.length - 1);
-        while(_local_6 >= 0)
-        {
-            _local_4 = _local_3[_local_6];
-            const _local_5 = this._cache.getImageContainer(_local_4, this._frameCounter, true);
-            _local_6--;
+        
+        const bodyParts = this.getBodyParts(partsAvatarSet, this._mainAction.definition.geometryType, this._mainDirection);
+        
+        for (let i = bodyParts.length - 1; i >= 0; i--) {
+            const bodyPart = bodyParts[i];
+            const imageContainer = this._cache.getImageContainer(bodyPart, this._frameCounter, true);
         }
     }
 
