@@ -3,7 +3,7 @@ import { ColorMatrix, ColorMatrixFilter } from '@pixi/filter-color-matrix';
 import { IEventDispatcher, IRoomCameraWidgetEffect, IRoomCameraWidgetManager, IRoomCameraWidgetSelectedEffect, NitroConfiguration } from '../../api';
 import { EventDispatcher } from '../../core';
 import { RoomCameraWidgetManagerEvent } from '../../events';
-import { NitroContainer, NitroSprite, TextureUtils } from '../../pixi-proxy';
+import { NitroContainer, NitroRectangle, NitroSprite, TextureUtils } from '../../pixi-proxy';
 import { RoomCameraWidgetEffect } from './RoomCameraWidgetEffect';
 
 export class RoomCameraWidgetManager implements IRoomCameraWidgetManager
@@ -53,9 +53,20 @@ export class RoomCameraWidgetManager implements IRoomCameraWidgetManager
     public applyEffects(texture: Texture, selectedEffects: IRoomCameraWidgetSelectedEffect[], isZoomed: boolean): HTMLImageElement
     {
         const container = new NitroContainer();
-        const sprite = new NitroSprite(texture);
+        const sprite = new NitroSprite(isZoomed ? texture.clone() : texture);
 
-        if(isZoomed) sprite.scale.set(2, 2);
+        if(isZoomed)
+        {
+            const cropWidth = sprite.width / 2;
+            const cropHeight = sprite.height / 2;
+
+            const cropX = (sprite.width - cropWidth) / 2;
+            const cropY = (sprite.height - cropHeight) / 2;
+
+            const cropRectangle = new NitroRectangle(cropX, cropY, cropWidth, cropHeight);
+            sprite.texture.frame = cropRectangle;
+            sprite.scale.set(2, 2);
+        }
 
         container.addChild(sprite);
 
