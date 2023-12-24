@@ -486,4 +486,5 @@ export class OutgoingHeader
     public static DELETE_BADGE_INVENTORY = 10019;
     public static USER_BANNER = 10020;
     public static USER_BANNER_SELECT = 10021;
+    public static UNIT_CHAT_AUDIO = 10022;
 }

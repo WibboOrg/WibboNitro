@@ -17,6 +17,7 @@ export class RoomSessionChatEvent extends RoomSessionEvent
     public static CHAT_TYPE_PET_REBREED_FERTILIZE: number = 8;
     public static CHAT_TYPE_PET_SPEED_FERTILIZE: number = 9;
     public static CHAT_TYPE_MUTE_REMAINING: number = 10;
+    public static CHAT_TYPE_AUDIO: number = 11;
 
     private _objectId: number;
     private _message: string;

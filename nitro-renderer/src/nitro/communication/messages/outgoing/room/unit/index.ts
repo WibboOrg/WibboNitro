@@ -1,4 +1,3 @@
-export * from './chat';
 export * from './RoomUnitActionComposer';
 export * from './RoomUnitDanceComposer';
 export * from './RoomUnitDropHandItemComposer';
@@ -8,3 +7,4 @@ export * from './RoomUnitLookComposer';
 export * from './RoomUnitPostureComposer';
 export * from './RoomUnitSignComposer';
 export * from './RoomUnitWalkComposer';
+export * from './chat';

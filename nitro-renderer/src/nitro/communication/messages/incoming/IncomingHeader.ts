@@ -491,4 +491,5 @@ export class IncomingHeader
     public static USER_BANNER = 10025;
     public static USER_BANNER_LIST = 10026;
     public static USER_BADGE_REMOVE = 10027;
+    public static UNIT_CHAT_AUDIO = 10028;
 }

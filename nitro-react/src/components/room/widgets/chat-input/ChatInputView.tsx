@@ -1,16 +1,18 @@
 import { HabboClubLevelEnum, RoomControllerLevel } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetRoomSession, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
+import { ChatMessageTypeEnum, GetClubMemberLevel, GetConfiguration, GetSessionDataManager, LocalizeText, RoomWidgetUpdateChatInputContentEvent } from '../../../../api';
 import { Flex, Text } from '../../../../common';
 import { useChatInputWidget, useRoom, useSessionInfo, useUiEvent } from '../../../../hooks';
 import { ChatEmojiSelectorView } from './ChatEmojiSelectorView';
+import { ChatInputColorSelectorView } from './ChatInputColorSelectorView';
 import { ChatInputStyleSelectorView } from './ChatInputStyleSelectorView';
+import { ChatRecorderSelectorView } from './ChatRecorderSelectorView';
 
 export const ChatInputView: FC<{}> = props =>
 {
     const [ chatValue, setChatValue ] = useState<string>('');
-    const { chatStyleId = 0, updateChatStyleId = null } = useSessionInfo();
+    const { chatStyleId = 0, updateChatStyleId = null, chatColour = '', updateChatColour = null } = useSessionInfo();
     const { selectedUsername = '', floodBlocked = false, floodBlockedSeconds = 0, setIsTyping = null, setIsIdle = null, sendChat = null } = useChatInputWidget();
     const { roomSession = null } = useRoom();
     const inputRef = useRef<HTMLInputElement>();
@@ -86,6 +88,11 @@ export const ChatInputView: FC<{}> = props =>
 
         text = parts.join(' ');
 
+        if (text.charAt(0) !== ':' && chatColour != '')
+        {
+            text = `@${ chatColour }@ ${ text } `;
+        }
+
         setIsTyping(false);
         setIsIdle(false);
 
@@ -103,7 +110,7 @@ export const ChatInputView: FC<{}> = props =>
         }
 
         setChatValue(append);
-    }, [ chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat ]);
+    }, [ chatModeIdWhisper, chatModeIdShout, chatModeIdSpeak, maxChatLength, chatStyleId, setIsTyping, setIsIdle, sendChat, chatColour ]);
 
     const updateChatInput = useCallback((value: string) =>
     {
@@ -237,20 +244,22 @@ export const ChatInputView: FC<{}> = props =>
         setChatValue(prevValue => prevValue + emojiId);
     }, [ setChatValue ]);
 
-    if(GetRoomSession().isSpectator) return null;
+    if(roomSession.isSpectator) return null;
 
     return (
         createPortal(
             <div className="nitro-chat-input-container">
                 <div className="input-sizer align-items-center">
                     { !floodBlocked &&
-                    <input ref={ inputRef } type="text" className="chat-input" placeholder={ LocalizeText('widgets.chatinput.default') } value={ chatValue } maxLength={ maxChatLength } onChange={ event => updateChatInput(event.target.value) } onMouseDown={ event => setInputFocus() } /> }
+                    <input ref={ inputRef } type="text" className="chat-input" autoComplete="off" placeholder={ LocalizeText('widgets.chatinput.default') } value={ chatValue } maxLength={ maxChatLength } onChange={ event => updateChatInput(event.target.value) } onMouseDown={ event => setInputFocus() } /> }
                     { floodBlocked &&
                     <Text variant="danger">{ LocalizeText('chat.input.alert.flood', [ 'time' ], [ floodBlockedSeconds.toString() ]) } </Text> }
                 </div>
-                <Flex>
+                <Flex gap={ 1 } alignItems="center">
                     <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
+                    <ChatInputColorSelectorView chatColour={ chatColour } selectColour={ updateChatColour } />
                     <ChatEmojiSelectorView selectChatEmoji={ selectChatEmoji } />
+                    { GetClubMemberLevel() >= HabboClubLevelEnum.VIP && <ChatRecorderSelectorView floodBlocked={ floodBlocked } /> }
                 </Flex>
             </div>, document.getElementById('toolbar-chat-input-container'))
     );

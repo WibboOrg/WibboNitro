@@ -1,3 +1,4 @@
+export * from './RoomUnitChatAudioComposer';
 export * from './RoomUnitChatComposer';
 export * from './RoomUnitChatShoutComposer';
 export * from './RoomUnitChatStyleComposer';

@@ -1,6 +1,6 @@
 import { IConnection, IRoomHandlerListener, SystemChatStyleEnum } from '../../../api';
 import { RoomSessionChatEvent } from '../../../events';
-import { FloodControlEvent, PetRespectNoficationEvent, PetSupplementedNotificationEvent, PetSupplementTypeEnum, RemainingMuteEvent, RespectReceivedEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitHandItemReceivedEvent } from '../../communication';
+import { FloodControlEvent, PetRespectNoficationEvent, PetSupplementTypeEnum, PetSupplementedNotificationEvent, RemainingMuteEvent, RespectReceivedEvent, RoomUnitChatAudioEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitHandItemReceivedEvent } from '../../communication';
 import { BaseHandler } from './BaseHandler';
 
 export class RoomChatHandler extends BaseHandler
@@ -12,6 +12,7 @@ export class RoomChatHandler extends BaseHandler
         connection.addMessageEvent(new RoomUnitChatEvent(this.onRoomUnitChatEvent.bind(this)));
         connection.addMessageEvent(new RoomUnitChatShoutEvent(this.onRoomUnitChatEvent.bind(this)));
         connection.addMessageEvent(new RoomUnitChatWhisperEvent(this.onRoomUnitChatEvent.bind(this)));
+        connection.addMessageEvent(new RoomUnitChatAudioEvent(this.onRoomUnitChatEvent.bind(this)));
         connection.addMessageEvent(new RoomUnitHandItemReceivedEvent(this.onRoomUnitHandItemReceivedEvent.bind(this)));
         connection.addMessageEvent(new RespectReceivedEvent(this.onRespectReceivedEvent.bind(this)));
         connection.addMessageEvent(new PetRespectNoficationEvent(this.onPetRespectNoficationEvent.bind(this)));
@@ -36,6 +37,7 @@ export class RoomChatHandler extends BaseHandler
 
         if(event instanceof RoomUnitChatShoutEvent) chatType = RoomSessionChatEvent.CHAT_TYPE_SHOUT;
         else if(event instanceof RoomUnitChatWhisperEvent) chatType = RoomSessionChatEvent.CHAT_TYPE_WHISPER;
+        else if(event instanceof RoomUnitChatAudioEvent) chatType = RoomSessionChatEvent.CHAT_TYPE_AUDIO;
 
         const chatEvent = new RoomSessionChatEvent(RoomSessionChatEvent.CHAT_EVENT, session, parser.roomIndex, parser.message, chatType, parser.bubble);
 

@@ -10,3 +10,4 @@ export * from './usePetPackageWidget';
 export * from './usePollWidget';
 export * from './useUserChooserWidget';
 export * from './useWordQuizWidget';
+export * from './useAudioRecorder';

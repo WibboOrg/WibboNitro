@@ -1,7 +1,7 @@
 import { ILinkEventTracker } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { AddEventLinkTracker, ChatEntryType, LocalizeText, RemoveLinkEventTracker } from '../../api';
-import { Flex, InfiniteScroll, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../common';
+import { AddEventLinkTracker, ChatEntryType, GetConfiguration, LocalizeText, RemoveLinkEventTracker } from '../../api';
+import { Flex, InfiniteScroll, NitroCardContentView, NitroCardHeaderView, NitroCardView, PlayerAudio, Text } from '../../common';
 import { useChatHistory } from '../../hooks';
 
 export const ChatHistoryView: FC<{}> = props =>
@@ -76,10 +76,14 @@ export const ChatHistoryView: FC<{}> = props =>
                                             { row.imageUrl && (row.imageUrl.length > 0) &&
                                 <div className="user-image" style={ { backgroundImage: `url(${ row.imageUrl })` } } /> }
                                         </div>
-                                        <div className="chat-content">
+                                        { row.chatType !== 11 ? <div className="chat-content">
                                             <b className="username mr-1" dangerouslySetInnerHTML={ { __html: `${ row.name }: ` } } />
                                             <span className="message" dangerouslySetInnerHTML={ { __html: `${ row.message }` } } />
-                                        </div>
+                                        </div> : <div className="chat-content">
+                                            <b className="username" dangerouslySetInnerHTML={ { __html: `${ row.name } ` } } />
+                                            <span className="message">a envoyé un message audio:</span>
+                                            <PlayerAudio audioUrl={ GetConfiguration<string>('cdn.url') + row.message } />
+                                        </div> }
                                     </div>
                                 </div> }
                             { (row.type === ChatEntryType.TYPE_ROOM_INFO) &&

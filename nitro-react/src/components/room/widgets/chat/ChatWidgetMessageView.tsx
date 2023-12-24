@@ -1,6 +1,7 @@
 import { RoomChatSettings, RoomObjectCategory } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { ChatBubbleMessage, GetRoomEngine } from '../../../../api';
+import { ChatBubbleMessage, GetConfiguration, GetRoomEngine } from '../../../../api';
+import { PlayerAudio } from '../../../../common';
 
 interface ChatWidgetMessageViewProps
 {
@@ -80,7 +81,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
     }, [ chat, isReady, isVisible, makeRoom ]);
 
     return (
-        <div ref={ elementRef } className={ `bubble-container ${ isVisible ? 'visible' : 'invisible' }` } onClick={ event => GetRoomEngine().selectRoomObject(chat.roomId, chat.senderId, RoomObjectCategory.UNIT) }>
+        <div ref={ elementRef } className={ `bubble-container ${ isVisible ? 'visible' : 'invisible' } cursor-pointer` } onClick={ event => GetRoomEngine().selectRoomObject(chat.roomId, chat.senderId, RoomObjectCategory.UNIT) }>
             { (chat.styleId === 0) &&
                 <div className="user-container-bg" style={ { backgroundColor: chat.color } } /> }
             <div className={ `chat-bubble bubble-${ chat.styleId } type-${ chat.type }` } style={ { maxWidth: getBubbleWidth } }>
@@ -88,10 +89,16 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
                     { chat.imageUrl && (chat.imageUrl.length > 0) &&
                         <div className="user-image" style={ { backgroundImage: `url(${ chat.imageUrl })` } } /> }
                 </div>
-                <div className="chat-content">
+                { chat.type !== 11 ? <div className="chat-content">
                     <b className="username mr-1" dangerouslySetInnerHTML={ { __html: `${ chat.username }: ` } } />
                     <span className="message" dangerouslySetInnerHTML={ { __html: `${ chat.formattedText }` } } />
                 </div>
+                    : <div className="chat-content">
+                        <b className="username" dangerouslySetInnerHTML={ { __html: `${ chat.username } ` } } />
+                        <span className="message">a envoyé un message audio:</span>
+                        <PlayerAudio audioUrl={ GetConfiguration<string>('cdn.url') + chat.text } />
+                    </div>
+                }
                 <div className="pointer" />
             </div>
         </div>
