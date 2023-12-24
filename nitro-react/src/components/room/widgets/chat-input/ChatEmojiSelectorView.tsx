@@ -1,4 +1,4 @@
-import { FC, MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useRef, useState } from 'react';
 import { Overlay, Popover } from 'react-bootstrap';
 import { Base, Flex, Grid, NitroCardContentView } from '../../../../common';
 import { emojiList } from './EmojiList';
@@ -11,8 +11,8 @@ interface ChatEmojiSelectorViewProps
 export const ChatEmojiSelectorView: FC<ChatEmojiSelectorViewProps> = props =>
 {
     const { selectChatEmoji = null } = props;
-    const [ target, setTarget ] = useState<(EventTarget & HTMLElement)>(null);
     const [ selectorVisible, setSelectorVisible ] = useState(false);
+    const iconRef = useRef<HTMLDivElement>(null);
 
     const selectEmoji = (emojiId: string) =>
     {
@@ -21,29 +21,13 @@ export const ChatEmojiSelectorView: FC<ChatEmojiSelectorViewProps> = props =>
 
     const toggleSelector = (event: MouseEvent<HTMLElement>) =>
     {
-        let visible = false;
-
-        setSelectorVisible(prevValue =>
-        {
-            visible = !prevValue;
-
-            return visible;
-        });
-
-        if(visible) setTarget((event.target as (EventTarget & HTMLElement)));
+        setSelectorVisible(prevValue => !prevValue);
     }
-
-    useEffect(() =>
-    {
-        if(selectorVisible) return;
-
-        setTarget(null);
-    }, [ selectorVisible ]);
 
     return (
         <>
-            <Base pointer style={ { marginLeft: '4px' } } onClick={ toggleSelector }>😎</Base>
-            <Overlay show={ selectorVisible } target={ target } placement="top">
+            <Base pointer onClick={ toggleSelector } innerRef={ iconRef }>😎</Base>
+            <Overlay show={ selectorVisible } target={ iconRef } placement="top">
                 <Popover className="nitro-chat-style-selector-container">
                     <NitroCardContentView overflow="hidden" className="bg-transparent">
                         <Grid columnCount={ 6 } overflow="auto">
