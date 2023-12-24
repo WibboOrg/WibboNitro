@@ -4,15 +4,15 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import { PlaySound, SendMessageComposer } from '../../api';
 import { DraggableWindow, DraggableWindowPosition, LayoutAvatarImageView } from '../../common';
-import { useMessageEvent } from '../../hooks';
+import { useLocalStorage, useMessageEvent } from '../../hooks';
 
 export const MentionBubbleView: FC<{}> = props =>
 {
-    const [ mentionList, setMentionList ] = useState<IMention[]>([]);
+    const [ mentionList, setMentionList ] = useLocalStorage<IMention[]>('mentionList', []);
     const [ lastSoundTime, setLastSoundTime ] = useState<number>(0);
     const [ timeNow, setTimeNow ] = useState<number>(0);
     
-    const mention = useMemo(() => (mentionList && mentionList.length) ? mentionList[mentionList.length - 1] : null, [ mentionList ]);
+    const mention = useMemo(() => (mentionList && mentionList.length > 0) ? mentionList[mentionList.length - 1] : null, [ mentionList ]);
     const mentionCount = useMemo(() => mentionList && mentionList.length, [ mentionList ]);
     
     useEffect(() =>
@@ -24,10 +24,10 @@ export const MentionBubbleView: FC<{}> = props =>
 
     const getTime = useCallback(() =>
     {
-        const value = timeNow - mention.time;
+        const value = (Date.now() / 1000) - mention.time;
 
         return FriendlyTime.format(value, '.ago', 1);
-    }, [ mention, timeNow ]);
+    }, [ mention ]);
     
     useMessageEvent<MentionEvent>(MentionEvent, event =>
     {

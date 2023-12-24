@@ -13,7 +13,7 @@ export interface InventoryFurnitureSearchViewProps
 export const InventoryFurnitureSearchView: FC<InventoryFurnitureSearchViewProps> = props =>
 {
     const { groupItems = [], setGroupItems = null } = props;
-    const [ searchValue, setSearchValue ] = useLocalStorage('inventory-furniture-search-value', '');
+    const [ searchValue, setSearchValue ] = useLocalStorage('inventoryFurnitureSearchValue', '');
 
     useEffect(() =>
     {
