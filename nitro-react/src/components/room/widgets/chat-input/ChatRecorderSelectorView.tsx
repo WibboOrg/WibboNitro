@@ -16,7 +16,7 @@ interface ChatRecorderSelectorViewProps
 export const ChatRecorderSelectorView: FC<ChatRecorderSelectorViewProps> = (props) => 
 {
     const { floodBlocked } = props;
-    const { startRecording, stopRecording, recordingBlob, isRecording, mediaRecorder } = useAudioRecorder();
+    const { startRecording, stopRecording, recordingBlob, isRecording, mediaRecorder } = useAudioRecorder({ autoGainControl: false, noiseSuppression: false, echoCancellation: false }, null, { mimeType: 'audio/webm' });
     const [ selectorVisible, setSelectorVisible ] = useState(false);
     const [ newRecordingBlob, setNewRecordingBlob ] = useState<Blob | null>(null);
     const [ newRecordingUrl, setNewRecordingUrl ] = useState<string | null>(null);

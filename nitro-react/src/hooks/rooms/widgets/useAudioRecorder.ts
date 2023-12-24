@@ -84,7 +84,7 @@ const useAudioRecorderState: (
         if (timerInterval != null || timerTimeout != null) return;
 
         navigator.mediaDevices
-            .getUserMedia({ audio: true, video: false })
+            .getUserMedia({ audio: audioTrackConstraints ?? true, video: false })
             .then((stream) => 
             {
                 setIsRecording(true);
@@ -99,7 +99,7 @@ const useAudioRecorderState: (
 
                 recorder.addEventListener('dataavailable', (event) => 
                 {
-                    setRecordingBlob(preview => preview || event.data);
+                    setRecordingBlob(preview => preview || new Blob([ event.data ], { type: 'audio/webm' }));
                     recorder.stream.getTracks().forEach((t) => t.stop());
                     setMediaRecorder(undefined);
                 });

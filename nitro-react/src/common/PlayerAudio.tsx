@@ -2,8 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { AudioVisualizer } from 'react-audio-visualize';
 import { FaPlay, FaStop } from 'react-icons/fa';
 import { LocalizeText } from '../api';
-import { Flex, Text } from './';
-import { Button } from './Button';
+import { Button, Flex, Text } from './';
 
 export interface PlayerAudioProps {
     audioUrl: string;
@@ -17,32 +16,9 @@ export const PlayerAudio: FC<PlayerAudioProps> = (props) =>
     const [ audioCurrentTime, setAudioCurrentTime ] = useState(0);
     const [ audioBlob, setAudioBlob ] = useState<Blob | null>(null);
     const [ audioBlobUrl, setAudioBlobUrl ] = useState<string | null>('');
+    const [ loading, setLoading ] = useState(false);
     const [ error, setError ] = useState(false);
 
-    useEffect(() => 
-    {
-        const fetchAudioBlob = () => 
-        {
-            fetch(audioUrl)
-                .then(response => response.blob())
-                .then(blob => setAudioBlob(blob))
-                .catch(() => setError(true));
-        };
-
-        if (audioUrl && !audioBlob) 
-        {
-            fetchAudioBlob();
-        }
-
-        return () => 
-        {
-            if (audioBlob) 
-            {
-                setAudioBlob(null);
-            }
-        };
-    }, [ audioUrl, audioBlob ]);
-  
     useEffect(() => 
     {
         if (audioBlob && !audioBlobUrl) setAudioBlobUrl(URL.createObjectURL(audioBlob));
@@ -52,35 +28,52 @@ export const PlayerAudio: FC<PlayerAudioProps> = (props) =>
             if(audioBlobUrl) URL.revokeObjectURL(audioBlobUrl);
         }
     }, [ audioBlob, setAudioBlobUrl, audioBlobUrl ]);
-
-    const playPauseHandler = () => 
+    
+    useEffect(() =>
     {
-        if (isPlaying) 
+        if (audioBlobUrl) audioRef.current?.play();
+    }, [ audioBlobUrl ]);
+    
+    const fetchAudioBlob = async () => 
+    {
+        setLoading(true);
+        
+        await fetch(audioUrl)
+            .then(response => response.blob())
+            .then(blob => setAudioBlob(blob))
+            .catch(() => setError(true));
+        
+        setLoading(false);
+    };
+
+    const playPauseHandler = async () => 
+    {
+        if (loading) return;
+
+        if (audioUrl && !audioBlob)
+            await fetchAudioBlob();
+        else
         {
-            audioRef.current?.pause();
-            audioRef.current?.load();
-        }
-        else 
-        {
-            audioRef.current?.play();
+            if (isPlaying) 
+            {
+                audioRef.current?.pause();
+                audioRef.current?.load();
+            }
+            else 
+            {
+                audioRef.current?.play();
+            }
         }
         setIsPlaying(!isPlaying);
     };
 
-    const endedHandler = () => 
-    {
-        setIsPlaying(false);
-    };
-  
-    if (error) return <Text>{ LocalizeText('generic.error') }</Text>;
-  
-    if (!audioBlobUrl) return <Text>{ LocalizeText('generic.loading') }</Text>;
+    const endedHandler = () => setIsPlaying(false);
     
     return (
-        <Flex onClick={ event => event.stopPropagation() }>
-            <audio ref={ audioRef } src={ audioBlobUrl } onEnded={ endedHandler } onTimeUpdate={ () => setAudioCurrentTime(audioRef.current?.currentTime || 0) } hidden></audio>
-            <Button onClick={ playPauseHandler }>{ isPlaying ? <FaStop /> : <FaPlay /> }</Button>
-            <AudioVisualizer
+        <Flex alignItems="center" gap={ 2 } onClick={ event => event.stopPropagation() }>
+            { audioBlobUrl && <audio ref={ audioRef } src={ audioBlobUrl } onEnded={ endedHandler } onTimeUpdate={ () => setAudioCurrentTime(audioRef.current?.currentTime || 0) } hidden></audio> }
+            <Button onClick={ playPauseHandler } disabled={ error }>{ isPlaying ? <FaStop /> : <FaPlay /> }</Button>
+            { !error && audioBlobUrl && <AudioVisualizer
                 currentTime={ audioCurrentTime }
                 blob={ audioBlob }
                 width={ 160 }
@@ -89,7 +82,8 @@ export const PlayerAudio: FC<PlayerAudioProps> = (props) =>
                 gap={ 0 }
                 barPlayedColor={ '#16537e' }
                 barColor={ '#2986cc' }
-            />
+            /> }
+            { error ? <Text>{ LocalizeText('generic.error') }</Text> : loading ? <Text>{ LocalizeText('generic.loading') }</Text> : !audioBlobUrl && <Text>En attente de lecture</Text> }
         </Flex>
     );
 };
