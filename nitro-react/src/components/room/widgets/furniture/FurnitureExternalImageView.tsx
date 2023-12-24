@@ -13,7 +13,7 @@ export const FurnitureExternalImageView: FC<{}> = props =>
 
     return (
         <NitroCardView className="nitro-external-image-widget" theme="primary-slim">
-            <NitroCardHeaderView headerText="" isGalleryPhoto={ true } onReportPhoto={ () => report(ReportType.PHOTO, { extraData: currentPhotos[currentPhotoIndex].w, roomId: currentPhotos[currentPhotoIndex].s, reportedUserId: GetSessionDataManager().userId, roomObjectId: Number(currentPhotos[currentPhotoIndex].u) }) } onCloseClick={ onClose } />
+            <NitroCardHeaderView headerText="Photo" isGalleryPhoto={ true } onReportPhoto={ () => report(ReportType.PHOTO, { extraData: currentPhotos[currentPhotoIndex].w, roomId: currentPhotos[currentPhotoIndex].s, reportedUserId: GetSessionDataManager().userId, roomObjectId: Number(currentPhotos[currentPhotoIndex].u) }) } onCloseClick={ onClose } />
             <NitroCardContentView>
                 <CameraWidgetShowPhotoView currentIndex={ currentPhotoIndex } currentPhotos={ currentPhotos } />
             </NitroCardContentView>

@@ -35,12 +35,12 @@ export const NitroCardHeaderView: FC<NitroCardHeaderViewProps> = props =>
         <Column center position="relative" classNames={ getClassNames } { ...rest }>
             <Flex fullWidth center>
                 <span className="nitro-card-header-text">{ headerText }</span>
-                { isGalleryPhoto &&
-                    <Base position="absolute" className="end-4 nitro-card-header-report-camera" onClick={ onReportPhoto }>
+                <Base position="absolute" className="end-2 d-flex">
+                    { isGalleryPhoto &&
+                    <Base className="nitro-card-header-report-camera mx-2" onClick={ onReportPhoto }>
                         <FaFlag className="fa-icon" />
                     </Base>
-                }
-                <Base position="absolute" className="end-2 d-flex">
+                    }
                     { onEditClick && <Base className="nitro-card-header-close mx-2" onMouseDownCapture={ onMouseDown } onClick={ onEditClick }>
                         <FaWrench className="fa-icon w-12 h-12" />
                     </Base> }

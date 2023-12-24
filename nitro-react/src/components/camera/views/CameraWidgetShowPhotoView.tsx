@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { GetConfiguration, GetUserProfile, IPhotoData, LocalizeText } from '../../../api';
-import { Flex, Grid, Text } from '../../../common';
+import { Base, Flex, Grid, Text } from '../../../common';
 
 export interface CameraWidgetShowPhotoViewProps
 {
@@ -61,9 +61,9 @@ export const CameraWidgetShowPhotoView: FC<CameraWidgetShowPhotoViewProps> = pro
             </Flex>
             { (currentPhotos.length > 1) &&
                 <Flex className="picture-preview-buttons">
-                    <FaArrowLeft className="cursor-pointer picture-preview-buttons-previous fa-icon" onClick={ previous } />
+                    <Base className="cursor-pointer picture-preview-buttons-previous" onClick={ previous }><FaArrowLeft /></Base>
                     <Text underline className="cursor-pointer" onClick={ event => GetUserProfile(currentImage.oi) }>{ currentImage.o }</Text>
-                    <FaArrowRight className="cursor-pointer picture-preview-buttons-next fa-icon" onClick={ next } />
+                    <Base className="cursor-pointer picture-preview-buttons-next" onClick={ next }><FaArrowRight /></Base>
                 </Flex>
             }
         </Grid>
