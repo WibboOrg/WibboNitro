@@ -174,15 +174,13 @@ const useChatInputWidgetState = () =>
             }
         }
 
-        if(chatColour !== '') text = `@${ chatColour }@ ${ text } `;
-
         switch(chatType)
         {
             case ChatMessageTypeEnum.CHAT_DEFAULT:
-                roomSession.sendChatMessage(text, styleId);
+                roomSession.sendChatMessage(text, styleId, chatColour);
                 break;
             case ChatMessageTypeEnum.CHAT_SHOUT:
-                roomSession.sendShoutMessage(text, styleId);
+                roomSession.sendShoutMessage(text, styleId, chatColour);
                 break;
             case ChatMessageTypeEnum.CHAT_WHISPER:
                 roomSession.sendWhisperMessage(recipientName, text, styleId);

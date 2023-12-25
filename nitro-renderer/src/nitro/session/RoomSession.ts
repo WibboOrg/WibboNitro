@@ -114,14 +114,14 @@ export class RoomSession extends Disposable implements IRoomSession
         this._roomId = roomId;
     }
 
-    public sendChatMessage(text: string, styleId: number): void
+    public sendChatMessage(text: string, styleId: number, chatColour: string): void
     {
-        this._connection.send(new RoomUnitChatComposer(text, styleId));
+        this._connection.send(new RoomUnitChatComposer(text, styleId, chatColour));
     }
 
-    public sendShoutMessage(text: string, styleId: number): void
+    public sendShoutMessage(text: string, styleId: number, chatColour: string): void
     {
-        this._connection.send(new RoomUnitChatShoutComposer(text, styleId));
+        this._connection.send(new RoomUnitChatShoutComposer(text, styleId, chatColour));
     }
 
     public sendWhisperMessage(recipientName: string, text: string, styleId: number): void
