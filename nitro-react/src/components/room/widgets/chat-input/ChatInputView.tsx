@@ -88,11 +88,6 @@ export const ChatInputView: FC<{}> = props =>
 
         text = parts.join(' ');
 
-        if (text.charAt(0) !== ':' && chatColour != '')
-        {
-            text = `@${ chatColour }@ ${ text } `;
-        }
-
         setIsTyping(false);
         setIsIdle(false);
 
@@ -105,7 +100,7 @@ export const ChatInputView: FC<{}> = props =>
             else
             {
                 setChatValue('');
-                sendChat(text, chatType, recipientName, chatStyleId);
+                sendChat(text, chatType, recipientName, chatStyleId, chatColour);
             }
         }
 

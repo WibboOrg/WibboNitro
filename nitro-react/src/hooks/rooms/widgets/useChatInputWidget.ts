@@ -17,7 +17,7 @@ const useChatInputWidgetState = () =>
     const { showNitroAlert = null, showConfirm = null } = useNotification();
     const { roomSession = null } = useRoom();
 
-    const sendChat = (text: string, chatType: number, recipientName: string = '', styleId: number = 0) =>
+    const sendChat = (text: string, chatType: number, recipientName: string = '', styleId: number = 0, chatColour: string = '') =>
     {
         if(text === '') return null;
 
@@ -173,6 +173,8 @@ const useChatInputWidgetState = () =>
                     return null;
             }
         }
+
+        if(chatColour !== '') text = `@${ chatColour }@ ${ text } `;
 
         switch(chatType)
         {
