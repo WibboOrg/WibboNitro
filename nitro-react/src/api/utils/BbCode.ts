@@ -1,7 +1,8 @@
+const htmlEntities = (str: string) => String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 export const BbCode = (text: string) =>
 {
-    text = text.replace(new RegExp('\\<', 'igm'), '&lt;');
-    text = text.replace(new RegExp('\\>', 'igm'), '&gt;');
+    text = htmlEntities(text);
     return bbcodeList.reduce((text, code) => text.replace(code.regexp, code.replacement), text);
 };
 
