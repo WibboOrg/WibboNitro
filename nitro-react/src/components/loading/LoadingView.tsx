@@ -26,7 +26,6 @@ export const LoadingView: FC<LoadingViewProps> = props =>
                                 <LayoutProgressBar progress={ percent } className="mt-2 large" />
                             </>
                         }
-                        
                     </Column>
                 </Column>
             </Base>
