@@ -1,4 +1,5 @@
 import { WiredConditionlayout } from '../../../../api';
+import { WiredConditionActorCompareHightScore } from './WiredConditionActorCompareHightScore';
 import { WiredConditionActorHasHandItemView } from './WiredConditionActorHasHandItem';
 import { WiredConditionActorIsGroupMemberView } from './WiredConditionActorIsGroupMemberView';
 import { WiredConditionActorIsOnFurniView } from './WiredConditionActorIsOnFurniView';
@@ -60,6 +61,8 @@ export const WiredConditionLayoutView = (code: number) =>
         case WiredConditionlayout.USER_COUNT_IN:
         case WiredConditionlayout.NOT_USER_COUNT_IN:
             return <WiredConditionUserCountInRoomView />;
+        case WiredConditionlayout.ACTOR_COMPARE_HIGHSCORE:
+            return <WiredConditionActorCompareHightScore />;
     }
 
     return null;

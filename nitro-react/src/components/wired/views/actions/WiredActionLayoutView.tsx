@@ -11,6 +11,7 @@ import { WiredActionChaseView } from './WiredActionChaseView';
 import { WiredActionChatView } from './WiredActionChatView';
 import { WiredActionCollsionCaseView } from './WiredActionCollisionCaseView';
 import { WiredActionFleeView } from './WiredActionFleeView';
+import { WiredActionGivePointsHighScore } from './WiredActionGivePointsHighScore';
 import { WiredActionGiveRewardView } from './WiredActionGiveRewardView';
 import { WiredActionGiveScoreToPredefinedTeamView } from './WiredActionGiveScoreToPredefinedTeamView';
 import { WiredActionGiveScoreView } from './WiredActionGiveScoreView';
@@ -85,6 +86,8 @@ export const WiredActionLayoutView = (code: number) =>
             return <WiredActionTridimensionView />;
         case WiredActionLayoutCode.COLLISION_CASE:
             return <WiredActionCollsionCaseView />;
+        case WiredActionLayoutCode.GIVE_POINTS_HIGHSCORE:
+            return <WiredActionGivePointsHighScore />;
     }
 
     return null;
