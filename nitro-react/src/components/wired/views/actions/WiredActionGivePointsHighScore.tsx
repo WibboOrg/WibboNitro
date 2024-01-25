@@ -28,7 +28,7 @@ export const WiredActionGivePointsHighScore: FC<{}> = props =>
                 <Text bold>Choisir une option</Text>
                 <select className="form-select form-select-sm" value={ operatorId } onChange={ event => setOperatorId(parseInt(event.target.value)) }>
                     <option value={ 0 }>Addition</option>
-                    <option value={ 1 }>Subtraction</option>
+                    <option value={ 1 }>Soustraction </option>
                     <option value={ 2 }>Multiplication</option>
                     <option value={ 3 }>Division</option>
                     <option value={ 4 }>Modulo</option>
