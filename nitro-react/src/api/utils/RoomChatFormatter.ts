@@ -177,6 +177,8 @@ export const RoomChatFormatter = (content: string) =>
     content = (joypixels.shortnameToUnicode(content) as string)
     content = content.replace(/\[tag\](.*?)\[\/tag\]/g, '<span class="chat-tag"><b>$1</b></span>');
     content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?.*v=|shorts\/)?([\w-]+)/g, '<a href="https://youtu.be/$1" target="_blank">$&</a>');
+    content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:twitter\.com)\/(\w+\/status\/\d+)/g, '<a href="https://twitter.com/$1" target="_blank">$&</a>');
+    content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:tiktok\.com)\/(@\w+\/video\/\d+)/g, '<a href="https://www.tiktok.com/$1" target="_blank">$&</a>');
 
     if(content.startsWith('@') && content.indexOf('@', 1) > -1)
     {
