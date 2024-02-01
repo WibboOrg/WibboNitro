@@ -5,7 +5,12 @@ export class MannequinUtilities
 {
     public static MANNEQUIN_FIGURE = [ 'hd', 99999, [ 99998 ] ];
     public static MANNEQUIN_CLOTHING_PART_TYPES = [
+        AvatarFigurePartType.HEAD_ACCESSORY,
+        AvatarFigurePartType.HEAD_ACCESSORY_EXTRA,
+        AvatarFigurePartType.EYE_ACCESSORY,
+        AvatarFigurePartType.FACE_ACCESSORY,
         AvatarFigurePartType.CHEST_ACCESSORY,
+        AvatarFigurePartType.CHEST_PRINT,
         AvatarFigurePartType.COAT_CHEST,
         AvatarFigurePartType.CHEST,
         AvatarFigurePartType.LEGS,
