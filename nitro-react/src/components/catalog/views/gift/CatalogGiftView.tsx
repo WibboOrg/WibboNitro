@@ -22,7 +22,7 @@ export const CatalogGiftView: FC<{}> = props =>
     const [ maxBoxIndex, setMaxBoxIndex ] = useState<number>(0);
     const [ maxRibbonIndex, setMaxRibbonIndex ] = useState<number>(0);
     const [ receiverNotFound, setReceiverNotFound ] = useState<boolean>(false);
-    const { catalogOptions = null } = useCatalog();
+    const { catalogOptions = null, getNodesByOfferId = null } = useCatalog();
     const { friends } = useFriends();
     const { giftConfiguration = null } = catalogOptions;
     const [ boxTypes, setBoxTypes ] = useState<number[]>([]);
@@ -121,10 +121,19 @@ export const CatalogGiftView: FC<{}> = props =>
                     return;
                 }
 
-                SendMessageComposer(new PurchaseFromCatalogAsGiftComposer(pageId, offerId, extraData, receiverName, message, colourId , selectedBoxIndex, selectedRibbonIndex, showMyFace));
+                let buyPageId = pageId
+
+                if(buyPageId === -1)
+                {
+                    const nodes = getNodesByOfferId(offerId);
+
+                    if(nodes) buyPageId = nodes[0].pageId;
+                }
+
+                SendMessageComposer(new PurchaseFromCatalogAsGiftComposer(buyPageId, offerId, extraData, receiverName, message, colourId, selectedBoxIndex, selectedRibbonIndex, showMyFace));
                 return;
         }
-    }, [ colourId, extraData, maxBoxIndex, maxRibbonIndex, message, offerId, pageId, receiverName, selectedBoxIndex, selectedRibbonIndex, showMyFace ]);
+    }, [ colourId, extraData, maxBoxIndex, maxRibbonIndex, message, offerId, pageId, receiverName, selectedBoxIndex, selectedRibbonIndex, showMyFace, getNodesByOfferId ]);
 
     useMessageEvent<GiftReceiverNotFoundEvent>(GiftReceiverNotFoundEvent, event => setReceiverNotFound(true));
 
