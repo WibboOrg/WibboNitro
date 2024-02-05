@@ -449,6 +449,13 @@ export class GroupItem
         return (item ? item.sellable : false);
     }
 
+    public get isTradable(): boolean
+    {
+        const item = this.getItemByIndex(0);
+
+        return (item ? item.isTradable : false);
+    }
+
     public get items(): FurnitureItem[]
     {
         return this._items;

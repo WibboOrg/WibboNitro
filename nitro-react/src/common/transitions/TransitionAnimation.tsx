@@ -27,7 +27,7 @@ export const TransitionAnimation: FC<TransitionAnimationProps> = props =>
         }
         else
         {
-            timeoutData = setTimeout(() =>
+            timeoutData = window.setTimeout(() =>
             {
                 setChildrenVisible(false);
                 clearTimeout(timeout);

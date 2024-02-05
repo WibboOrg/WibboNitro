@@ -5,6 +5,7 @@ import { FurniCategory, GroupItem, IFurnitureItem, LocalizeText, NotificationAle
 import { AutoGrid, Base, Button, Column, Flex, Grid, LayoutGridItem, Text } from '../../../../common';
 import { useInventoryTrade, useNotification } from '../../../../hooks';
 import { InventoryFurnitureSearchView } from './InventoryFurnitureSearchView';
+import { InventoryTradeFurniInfoView } from './InventoryTradeFurniInfoView';
 
 interface InventoryTradeViewProps
 {
@@ -25,7 +26,7 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
     const { ownUser = null, otherUser = null, groupItems = [], tradeState = TradeState.TRADING_STATE_READY, progressTrade = null, removeItem = null, setTradeState = null } = useInventoryTrade();
     const { simpleAlert = null } = useNotification();
 
-    const groupItemsSellable = groupItems.filter(item => item && item.isSellable);
+    const filteredGroupItemsSellable = filteredGroupItems?.filter(item => item && item.isTradable);
 
     const canTradeItem = (isWallItem: boolean, spriteId: number, category: number, groupable: boolean, stuffData: IObjectData) =>
     {
@@ -181,21 +182,23 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
     return (
         <Grid>
             <Column size={ 4 } overflow="hidden">
-                <InventoryFurnitureSearchView groupItems={ groupItemsSellable } setGroupItems={ setFilteredGroupItems } />
+                <InventoryFurnitureSearchView groupItems={ groupItems } setGroupItems={ setFilteredGroupItems } />
                 <Flex column fullHeight justifyContent="between" overflow="hidden" gap={ 2 }>
                     <AutoGrid columnCount={ 3 }>
-                        { filteredGroupItems && (filteredGroupItems.length > 0) && filteredGroupItems.map((item, index) =>
+                        { filteredGroupItemsSellable && (filteredGroupItemsSellable.length > 0) && filteredGroupItemsSellable.map((item, index) =>
                         {
                             const count = item.getUnlockedCount();
 
                             return (
-                                <LayoutGridItem key={ index } className={ !count ? 'opacity-0-5 ' : '' } itemImage={ item.iconUrl } itemCount={ count } itemActive={ (groupItem === item) } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => (count && setGroupItem(item)) } onDoubleClick={ event => attemptItemOffer(1) }>
-                                    { ((count > 0) && (groupItem === item)) &&
-                                        <Button position="absolute" variant="success" className="trade-button bottom-1 end-1" onClick={ event => attemptItemOffer(1) }>
-                                            <FaChevronRight className="fa-icon" />
-                                        </Button>
-                                    }
-                                </LayoutGridItem>
+                                <InventoryTradeFurniInfoView item={ item } key={ index }>
+                                    <LayoutGridItem className={ !count ? 'opacity-0-5 ' : '' } itemImage={ item.iconUrl } itemCount={ count } itemActive={ (groupItem === item) } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => (count && setGroupItem(item)) } onDoubleClick={ event => attemptItemOffer(1) }>
+                                        { ((count > 0) && (groupItem === item)) &&
+                                            <Button position="absolute" variant="success" className="trade-button bottom-1 end-1" onClick={ event => attemptItemOffer(1) }>
+                                                <FaChevronRight className="fa-icon" />
+                                            </Button>
+                                        }
+                                    </LayoutGridItem>
+                                </InventoryTradeFurniInfoView>
                             );
                         }) }
                     </AutoGrid>
@@ -229,12 +232,14 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
                                 if(!item) return <LayoutGridItem key={ i } />;
 
                                 return (
-                                    <LayoutGridItem key={ i } itemActive={ (ownGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOwnGroupItem(item) } onDoubleClick={ event => removeItem(item) }>
-                                        { (ownGroupItem === item) &&
-                                            <Button position="absolute" variant="danger" className="trade-button bottom-1 start-1" onClick={ event => removeItem(item) }>
-                                                <FaChevronLeft className="fa-icon" />
-                                            </Button> }
-                                    </LayoutGridItem>
+                                    <InventoryTradeFurniInfoView item={ item } key={ i }>
+                                        <LayoutGridItem itemActive={ (ownGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOwnGroupItem(item) } onDoubleClick={ event => removeItem(item) }>
+                                            { (ownGroupItem === item) &&
+                                                <Button position="absolute" variant="danger" className="trade-button bottom-1 start-1" onClick={ event => removeItem(item) }>
+                                                    <FaChevronLeft className="fa-icon" />
+                                                </Button> }
+                                        </LayoutGridItem>
+                                    </InventoryTradeFurniInfoView>
                                 );
                             }) }
                         </AutoGrid>
@@ -254,7 +259,9 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
 
                                 if(!item) return <LayoutGridItem key={ i } />;
 
-                                return <LayoutGridItem key={ i } itemActive={ (otherGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOtherGroupItem(item) } />;
+                                return <InventoryTradeFurniInfoView item={ item } key={ i }>
+                                    <LayoutGridItem itemActive={ (otherGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOtherGroupItem(item) } />
+                                </InventoryTradeFurniInfoView>;
                             }) }
                         </AutoGrid>
                         <Base fullWidth className="badge bg-muted w-100">
