@@ -24,8 +24,8 @@ export const CatalogNavigationItemView: FC<CatalogNavigationItemViewProps> = pro
                 <Text grow truncate>{ node.localization }</Text>
                 { node.isBranch &&
                     <>
-                        { node.isOpen && <FaCaretUp className="fa-icon" /> }
-                        { !node.isOpen && <FaCaretDown className="fa-icon" /> }
+                        { node.isOpen && <FaCaretUp className="fa-icon text-muted" /> }
+                        { !node.isOpen && <FaCaretDown className="fa-icon text-muted" /> }
                     </> }
             </LayoutGridItem>
             { node.isOpen && node.isBranch &&

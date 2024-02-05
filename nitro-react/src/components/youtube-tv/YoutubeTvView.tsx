@@ -1,6 +1,5 @@
 import { EditTvComposer, YoutubeTvEvent } from '@nitrots/nitro-renderer';
 import { FC, useCallback, useMemo, useState } from 'react';
-//import ReactPlayer from 'react-player/youtube';
 import { GetConfiguration, SendMessageComposer } from '../../api';
 import { Button, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView } from '../../common';
 import { useMessageEvent } from '../../hooks';
@@ -45,19 +44,6 @@ export const YoutubeTvView: FC<{}> = props =>
 
         close();
     }, [ videoLink, itemId, close ]);
-  
-    const getYoutubeOpts = useMemo(() =>
-    {
-        return {
-            playerVars: {
-                autoplay: 1,
-                disablekb: 1,
-                controls: 1,
-                modestbranding: 1,
-                origin: GetConfiguration<string>('url.prefix')
-            }
-        }
-    }, [ ]);
 
     const origineUrl = useMemo(() => GetConfiguration<string>('url.prefix'), [ ]);
 
@@ -70,7 +56,6 @@ export const YoutubeTvView: FC<{}> = props =>
             <NitroCardContentView grow gap={ 0 }>
                 <div className="youtube-video-container d-flex w-100 h-100">
                     { (videoId && videoId.length > 0 && !isEdit) &&
-                        /*<ReactPlayer config={ getYoutubeOpts } playing={ true } width="100%" height="100%" url={ `https://www.youtube.com/watch?v=${ videoId }` }></ReactPlayer>*/
                         <iframe allowFullScreen={ true } allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" width="100%" height="100%" src={ `https://www.youtube.com/embed/${ videoId }` + '?autoplay=1&mute=0&controls=1&origin=' + origineUrl + '&playsinline=1&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&enablejsapi=1&widgetid=3' }></iframe>
                     }
                     { ((!videoId || videoId.length === 0) || isEdit) &&

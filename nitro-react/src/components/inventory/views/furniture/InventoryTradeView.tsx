@@ -1,7 +1,7 @@
 import { IObjectData, TradingListAddItemComposer, TradingListAddItemsComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaLock, FaUnlock } from 'react-icons/fa';
-import { FurniCategory, getGuildFurniType, GroupItem, IFurnitureItem, LocalizeText, NotificationAlertType, SendMessageComposer, TradeState } from '../../../../api';
+import { FurniCategory, GroupItem, IFurnitureItem, LocalizeText, NotificationAlertType, SendMessageComposer, TradeState, getGuildFurniType } from '../../../../api';
 import { AutoGrid, Base, Button, Column, Flex, Grid, LayoutGridItem, Text } from '../../../../common';
 import { useInventoryTrade, useNotification } from '../../../../hooks';
 import { InventoryFurnitureSearchView } from './InventoryFurnitureSearchView';
@@ -24,6 +24,8 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
     const [ quantity, setQuantity ] = useState<number>(1);
     const { ownUser = null, otherUser = null, groupItems = [], tradeState = TradeState.TRADING_STATE_READY, progressTrade = null, removeItem = null, setTradeState = null } = useInventoryTrade();
     const { simpleAlert = null } = useNotification();
+
+    const groupItemsSellable = groupItems.filter(item => item && item.isSellable);
 
     const canTradeItem = (isWallItem: boolean, spriteId: number, category: number, groupable: boolean, stuffData: IObjectData) =>
     {
@@ -179,7 +181,7 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
     return (
         <Grid>
             <Column size={ 4 } overflow="hidden">
-                <InventoryFurnitureSearchView groupItems={ groupItems } setGroupItems={ setFilteredGroupItems } />
+                <InventoryFurnitureSearchView groupItems={ groupItemsSellable } setGroupItems={ setFilteredGroupItems } />
                 <Flex column fullHeight justifyContent="between" overflow="hidden" gap={ 2 }>
                     <AutoGrid columnCount={ 3 }>
                         { filteredGroupItems && (filteredGroupItems.length > 0) && filteredGroupItems.map((item, index) =>
