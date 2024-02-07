@@ -6,7 +6,7 @@ import { useCatalog } from '../../hooks';
 import { CatalogIconView } from './views/catalog-icon/CatalogIconView';
 import { CatalogGiftView } from './views/gift/CatalogGiftView';
 import { CatalogNavigationView } from './views/navigation/CatalogNavigationView';
-import { CatalogLayoutView } from './views/page/layout/GetCatalogLayout';
+import { CatalogLayoutView } from './views/page/layout/CatalogLayoutView';
 import { MarketplacePostOfferView } from './views/page/layout/marketplace/MarketplacePostOfferView';
 
 export const CatalogView: FC<{}> = props =>
