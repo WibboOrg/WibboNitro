@@ -13,6 +13,7 @@
     "@nitrots/nitro-renderer": "link:../nitro-renderer",
     "@tanstack/react-virtual": "^3.0.0",
     "@types/emojione": "^2.2.6",
+    "animate.css": "^4.1.1",
     "emojione": "^4.5.0",
     "react": "^18.2.0",
     "react-audio-visualize": "^1.1.3",
