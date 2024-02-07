@@ -120,6 +120,8 @@
         text-align: left;
 
         &.friend-bar-item-active {
+            max-height: 80px;
+            overflow: hidden;
             margin-bottom:21px;
         }
 
