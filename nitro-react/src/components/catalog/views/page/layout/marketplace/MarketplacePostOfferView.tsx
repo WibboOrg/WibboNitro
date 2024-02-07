@@ -83,7 +83,7 @@ export const MarketplacePostOfferView : FC<{}> = props =>
             <NitroCardContentView overflow="hidden">
                 <Grid fullHeight>
                     <Column center className="bg-muted rounded p-2" size={ 4 } overflow="hidden">
-                        <LayoutFurniImageView productType={ item.isWallItem ? ProductTypeEnum.WALL : ProductTypeEnum.FLOOR } productClassId={ item.type } extraData={ item.extra.toString() } />
+                        <LayoutFurniImageView productType={ item.isWallItem ? ProductTypeEnum.WALL : ProductTypeEnum.FLOOR } productClassId={ item.type } extraData={ item.stuffData.getLegacyString() } objectData={ item.stuffData } />
                     </Column>
                     <Column size={ 8 } justifyContent="between" overflow="hidden">
                         <Column grow gap={ 1 }>

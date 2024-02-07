@@ -1,4 +1,4 @@
-import { ICatalogPage } from '../../../../../api';
+import { FC } from 'react';
 import { CatalogLayoutProps } from './CatalogLayout.types';
 import { CatalogLayoutBadgeDisplayView } from './CatalogLayoutBadgeDisplayView';
 import { CatalogLayoutColorGroupingView } from './CatalogLayoutColorGroupingView';
@@ -23,61 +23,61 @@ import { CatalogLayoutMarketplacePublicItemsView } from './marketplace/CatalogLa
 import { CatalogLayoutPetView } from './pets/CatalogLayoutPetView';
 import { CatalogLayoutVipGiftsView } from './vip-gifts/CatalogLayoutVipGiftsView';
 
-export const GetCatalogLayout = (page: ICatalogPage, hideNavigation: () => void) =>
+export const CatalogLayoutView: FC<CatalogLayoutProps> = props =>
 {
-    if(!page) return null;
+    const { page = null } = props;
 
-    const layoutProps: CatalogLayoutProps = { page, hideNavigation };
+    if(!page) return null;
 
     switch(page.layoutCode)
     {
         case 'frontpage_featured':
             return null
         case 'frontpage4':
-            return <CatalogLayoutFrontpage4View { ...layoutProps } />;
+            return <CatalogLayoutFrontpage4View { ...props } />;
         case 'pets':
-            return <CatalogLayoutPetView { ...layoutProps } />;
+            return <CatalogLayoutPetView { ...props } />;
         case 'pets2':
-            return <CatalogLayoutPets2View { ...layoutProps } />;
+            return <CatalogLayoutPets2View { ...props } />;
         case 'pets3':
-            return <CatalogLayoutPets3View { ...layoutProps } />;
+            return <CatalogLayoutPets3View { ...props } />;
         case 'vip_buy':
-            return <CatalogLayoutVipBuyView { ...layoutProps } />;
+            return <CatalogLayoutVipBuyView { ...props } />;
         case 'guild_frontpage':
-            return <CatalogLayouGuildFrontpageView { ...layoutProps } />;
+            return <CatalogLayouGuildFrontpageView { ...props } />;
         case 'guild_forum':
-            return <CatalogLayouGuildForumView { ...layoutProps } />;
+            return <CatalogLayouGuildForumView { ...props } />;
         case 'guild_custom_furni':
-            return <CatalogLayouGuildCustomFurniView { ...layoutProps } />;
+            return <CatalogLayouGuildCustomFurniView { ...props } />;
         case 'club_gifts':
-            return <CatalogLayoutVipGiftsView { ...layoutProps } />;
+            return <CatalogLayoutVipGiftsView { ...props } />;
         case 'marketplace_own_items':
-            return <CatalogLayoutMarketplaceOwnItemsView { ...layoutProps } />;
+            return <CatalogLayoutMarketplaceOwnItemsView { ...props } />;
         case 'marketplace':
-            return <CatalogLayoutMarketplacePublicItemsView { ...layoutProps } />;
+            return <CatalogLayoutMarketplacePublicItemsView { ...props } />;
         case 'single_bundle':
-            return <CatalogLayoutSingleBundleView { ...layoutProps } />;
+            return <CatalogLayoutSingleBundleView { ...props } />;
         case 'room_bundle':
-            return <CatalogLayoutRoomBundleView { ...layoutProps } />;
+            return <CatalogLayoutRoomBundleView { ...props } />;
         case 'spaces_new':
-            return <CatalogLayoutSpacesView { ...layoutProps } />;
+            return <CatalogLayoutSpacesView { ...props } />;
         case 'trophies':
-            return <CatalogLayoutTrophiesView { ...layoutProps } />;
+            return <CatalogLayoutTrophiesView { ...props } />;
         case 'info_loyalty':
-            return <CatalogLayoutInfoLoyaltyView { ...layoutProps } />;
+            return <CatalogLayoutInfoLoyaltyView { ...props } />;
         case 'badge_display':
-            return <CatalogLayoutBadgeDisplayView { ...layoutProps } />;
+            return <CatalogLayoutBadgeDisplayView { ...props } />;
         case 'roomads':
-            return <CatalogLayoutRoomAdsView { ...layoutProps } />;
+            return <CatalogLayoutRoomAdsView { ...props } />;
         case 'default_3x3_color_grouping':
-            return <CatalogLayoutColorGroupingView { ...layoutProps } />;
+            return <CatalogLayoutColorGroupingView { ...props } />;
         case 'soundmachine':
-            return <CatalogLayoutSoundMachineView { ...layoutProps } />;
+            return <CatalogLayoutSoundMachineView { ...props } />;
         case 'limited_flash':
-            return <CatalogLayoutLimitedFlashView { ...layoutProps } />;
+            return <CatalogLayoutLimitedFlashView { ...props } />;
         case 'bots':
         case 'default_3x3':
         default:
-            return <CatalogLayoutDefaultView { ...layoutProps } />;
+            return <CatalogLayoutDefaultView { ...props } />;
     }
 }

@@ -6,7 +6,7 @@ import { useCatalog } from '../../hooks';
 import { CatalogIconView } from './views/catalog-icon/CatalogIconView';
 import { CatalogGiftView } from './views/gift/CatalogGiftView';
 import { CatalogNavigationView } from './views/navigation/CatalogNavigationView';
-import { GetCatalogLayout } from './views/page/layout/GetCatalogLayout';
+import { CatalogLayoutView } from './views/page/layout/GetCatalogLayout';
 import { MarketplacePostOfferView } from './views/page/layout/marketplace/MarketplacePostOfferView';
 
 export const CatalogView: FC<{}> = props =>
@@ -99,7 +99,7 @@ export const CatalogView: FC<{}> = props =>
                                         <CatalogNavigationView node={ activeNodes[0] } /> }
                                 </Column> }
                             <Column size={ !navigationHidden ? 9 : 12 } overflow="hidden">
-                                { GetCatalogLayout(currentPage, () => setNavigationHidden(true)) }
+                                <CatalogLayoutView page={ currentPage } hideNavigation={ () => setNavigationHidden(true) } />
                             </Column>
                         </Grid>
                     </NitroCardContentView>
