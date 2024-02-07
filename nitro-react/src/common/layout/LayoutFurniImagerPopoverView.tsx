@@ -1,14 +1,14 @@
 import { FC, useRef, useState } from 'react';
 import { Overlay, Popover } from 'react-bootstrap';
-import { GroupItem } from '../../../../api';
-import { Base, BaseProps, Flex, LayoutFurniImageView, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, NitroCardContentView, Text } from '../../../../common';
+import { Base, BaseProps, Flex, LayoutFurniImageView, LayoutLimitedEditionCompactPlateView, LayoutRarityLevelView, NitroCardContentView, Text } from '..';
+import { FurnitureItem, LocalizeText, ProductTypeEnum } from '../../api';
 
-interface InventoryTradeFurniInfoViewProps extends BaseProps<HTMLDivElement>
+interface LayoutFurniImagePopoverViewProps extends BaseProps<HTMLDivElement>
 {
-    item: GroupItem;
+    item: FurnitureItem;
 }
 
-export const InventoryTradeFurniInfoView: FC<InventoryTradeFurniInfoViewProps> = props =>
+export const LayoutFurniImagePopoverView: FC<LayoutFurniImagePopoverViewProps> = props =>
 {
     const { item = null, children = null } = props;
     const [ isVisible, setIsVisible ] = useState(false);
@@ -41,6 +41,8 @@ export const InventoryTradeFurniInfoView: FC<InventoryTradeFurniInfoViewProps> =
 
     const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => event.stopPropagation();
 
+    const getFurniTitle = (item ? LocalizeText(item.isWallItem ? 'wallItem.name.' + item.type : 'roomItem.name.' + item.type) : '');
+
     return (
         <>
             <Base innerRef={ elementRef } onMouseOver={ handleMouseEnter } onMouseLeave={ handleMouseLeave }>
@@ -50,12 +52,12 @@ export const InventoryTradeFurniInfoView: FC<InventoryTradeFurniInfoViewProps> =
                 <Popover onClick={ handleOverlayClick }>
                     <NitroCardContentView overflow="hidden" className="bg-transparent image-rendering-pixelated">
                         <Flex position="relative" gap={ 1 } alignItems="center" column>
-                            <Text bold>{ item.name }</Text>
+                            <Text bold>{ getFurniTitle }</Text>
                             { item.stuffData.isUnique &&
                                 <div className="position-absolute end-0 bottom-0">
                                     <LayoutLimitedEditionCompactPlateView uniqueNumber={ item.stuffData.uniqueNumber } uniqueSeries={ item.stuffData.uniqueSeries } />
                                 </div> }
-                            { <LayoutFurniImageView productType={ item.isWallItem ? 'i' : 's' } productClassId={ item.getLastItem().type } /> }
+                            { <LayoutFurniImageView productType={ item.isWallItem ? ProductTypeEnum.WALL : ProductTypeEnum.FLOOR } productClassId={ item.type } extraData={ item.stuffData.getLegacyString() } objectData={ item.stuffData } /> }
                             { (!item.stuffData.isUnique && item.stuffData.rarityLevel > -1) &&
                                 <div className="position-absolute end-0 bottom-0">
                                     <LayoutRarityLevelView level={ item.stuffData.rarityLevel } />

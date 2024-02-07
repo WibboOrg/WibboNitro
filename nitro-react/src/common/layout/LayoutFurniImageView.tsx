@@ -1,4 +1,4 @@
-import { IGetImageListener, ImageResult, TextureUtils, Vector3d } from '@nitrots/nitro-renderer';
+import { IGetImageListener, IObjectData, ImageResult, TextureUtils, Vector3d } from '@nitrots/nitro-renderer';
 import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
 import { BaseProps } from '..';
 import { GetRoomEngine, ProductTypeEnum } from '../../api';
@@ -11,11 +11,12 @@ interface LayoutFurniImageViewProps extends BaseProps<HTMLDivElement>
     direction?: number;
     extraData?: string;
     scale?: number;
+    objectData?: IObjectData;
 }
 
 export const LayoutFurniImageView: FC<LayoutFurniImageViewProps> = props =>
 {
-    const { productType = 's', productClassId = -1, direction = 2, extraData = '', scale = 1, style = {}, ...rest } = props;
+    const { productType = 's', productClassId = -1, direction = 2, extraData = '', scale = 1, objectData = null, style = {}, ...rest } = props;
     const [ imageElement, setImageElement ] = useState<HTMLImageElement>(null);
 
     const getStyle = useMemo(() =>
@@ -61,7 +62,7 @@ export const LayoutFurniImageView: FC<LayoutFurniImageViewProps> = props =>
         switch(productType.toLocaleLowerCase())
         {
             case ProductTypeEnum.FLOOR:
-                imageResult = GetRoomEngine().getFurnitureFloorImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData);
+                imageResult = GetRoomEngine().getFurnitureFloorImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData, 0, 0, objectData);
                 break;
             case ProductTypeEnum.WALL:
                 imageResult = GetRoomEngine().getFurnitureWallImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData);
@@ -74,7 +75,7 @@ export const LayoutFurniImageView: FC<LayoutFurniImageViewProps> = props =>
 
             image.onload = () => setImageElement(image);
         }
-    }, [ productType, productClassId, direction, extraData ]);
+    }, [ productType, productClassId, direction, extraData, objectData ]);
 
     if(!imageElement) return null;
 

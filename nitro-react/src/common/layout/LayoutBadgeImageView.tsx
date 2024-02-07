@@ -56,7 +56,7 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
         if(Object.keys(style).length) newStyle = { ...newStyle, ...style };
 
         return newStyle;
-    }, [ imageElement, scale, style ]);
+    }, [ imageElement, scale, style, isGroup, badgeCode ]);
 
     useEffect(() =>
     {
