@@ -63,9 +63,9 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
     }, []);
 
     return (
-        <Column overflow="hidden">
+        <Column fullHeight>
             <Grid overflow="hidden">
-                <Column size={ 6 } gap={ 1 } overflow="auto">
+                <Column size={ 6 } gap={ 1 }>
                     <Column gap={ 1 }>
                         <Text>{ LocalizeText('navigator.createroom.roomnameinfo') }</Text>
                         <input type="text" className="form-control form-control-sm" maxLength={ 60 } onChange={ event => setName(event.target.value) } placeholder={ LocalizeText('navigator.createroom.roomnameinfo') } />
@@ -116,7 +116,9 @@ export const NavigatorRoomCreatorView: FC<{}> = props =>
                     }
                 </Column>
             </Grid>
-            <Button fullWidth variant={ (!name || (name.length < 3)) ? 'danger' : 'success' } onClick={ createRoom } disabled={ (!name || (name.length < 3)) }>{ LocalizeText('navigator.createroom.create') }</Button>
+            <Flex>
+                <Button fullWidth variant={ (!name || (name.length < 3)) ? 'danger' : 'success' } onClick={ createRoom } disabled={ (!name || (name.length < 3)) }>{ LocalizeText('navigator.createroom.create') }</Button>
+            </Flex>
         </Column>
     );
 }
