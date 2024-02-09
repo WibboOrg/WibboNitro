@@ -62,7 +62,7 @@ export class FurnitureEditableRoomLinkLogic extends FurnitureLogic
             this._timer = null;
         }
 
-        this._timer = setTimeout(() =>
+        this._timer = window.setTimeout(() =>
         {
             this.setAutomaticStateIndex(0);
 

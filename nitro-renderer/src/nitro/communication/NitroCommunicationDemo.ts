@@ -12,7 +12,7 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
     private _handShaking: boolean;
     private _didConnect: boolean;
 
-    private _pongInterval: any;
+    private _pongInterval: number;
 
     constructor(communication: INitroCommunicationManager)
     {
@@ -107,9 +107,10 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
 
     private tryAuthentication(connection: IConnection): void
     {
-        if(!connection || !this.getSSO())
+        const sso = this.getSSO();
+        if(!connection || !sso)
         {
-            if(!this.getSSO())
+            if(!sso)
             {
                 NitroLogger.error('Login without an SSO ticket is not supported');
             }
@@ -119,7 +120,7 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
             return;
         }
 
-        connection.send(new SSOTicketMessageComposer(this.getSSO(), GetTickerTime()));
+        connection.send(new SSOTicketMessageComposer(sso, GetTickerTime()));
     }
 
     private onClientPingEvent(event: ClientPingEvent): void

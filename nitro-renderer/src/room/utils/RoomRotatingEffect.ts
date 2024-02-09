@@ -28,7 +28,7 @@ export class RoomRotatingEffect
 
         if(!this._visualizationTimeout)
         {
-            this._visualizationTimeout = setTimeout(() => this.turnVisualizationOff(), this._visualizationDelay);
+            this._visualizationTimeout = window.setTimeout(() => this.turnVisualizationOff(), this._visualizationDelay);
         }
 
         const elapsedTime = GetTickerTime() - this._visualizationStartTime;

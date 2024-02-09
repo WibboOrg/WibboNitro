@@ -68,7 +68,7 @@ const useFurnitureStackHeightWidgetState = () =>
     {
         if((objectId === -1) || (pendingHeight === -1)) return;
 
-        const timeout = setTimeout(() => SendMessageComposer(new FurnitureStackHeightComposer(objectId, ~~(pendingHeight))), 10);
+        const timeout = window.setTimeout(() => SendMessageComposer(new FurnitureStackHeightComposer(objectId, ~~(pendingHeight))), 10);
 
         return () => clearTimeout(timeout);
     }, [ objectId, pendingHeight ]);

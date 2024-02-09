@@ -482,7 +482,7 @@ export class RoomMessageHandler extends Disposable
 
         if(parser.delay > 0)
         {
-            setTimeout(() =>
+            window.setTimeout(() =>
             {
                 this._roomCreator.removeRoomObjectFloor(this._currentRoomId, parser.itemId, (parser.isExpired) ? -1 : parser.userId, true);
             }, parser.delay);

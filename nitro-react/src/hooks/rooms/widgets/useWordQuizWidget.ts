@@ -70,7 +70,7 @@ const useWordQuizWidgetState = () =>
             {
                 if(prevValue) clearTimeout(prevValue);
 
-                return setTimeout(() => clearQuestion(), DEFAULT_DISPLAY_DELAY);
+                return window.setTimeout(() => clearQuestion(), DEFAULT_DISPLAY_DELAY);
             });
         }
 
@@ -93,7 +93,7 @@ const useWordQuizWidgetState = () =>
             {
                 const delay = event.duration < 1000 ? DEFAULT_DISPLAY_DELAY : event.duration;
 
-                return setTimeout(() => clearQuestion(), delay);
+                return window.setTimeout(() => clearQuestion(), delay);
             }
 
             return null;

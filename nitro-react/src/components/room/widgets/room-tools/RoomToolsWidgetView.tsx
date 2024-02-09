@@ -1,7 +1,7 @@
 import { GetGuestRoomResultEvent, NavigatorSearchComposer, RateFlatMessageComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { CreateLinkEvent, GetRoomEngine, LocalizeText, SendMessageComposer } from '../../../../api';
-import { Base, classNames, Column, Flex, Text, TransitionAnimation, TransitionAnimationTypes } from '../../../../common';
+import { Base, Column, Flex, Text, TransitionAnimation, TransitionAnimationTypes, classNames } from '../../../../common';
 import { useMessageEvent, useNavigator, useRoom } from '../../../../hooks';
 
 export const RoomToolsWidgetView: FC<{}> = props =>
@@ -65,7 +65,7 @@ export const RoomToolsWidgetView: FC<{}> = props =>
     {
         setIsOpen(true);
 
-        const timeout = setTimeout(() => setIsOpen(false), 5000);
+        const timeout = window.setTimeout(() => setIsOpen(false), 5000);
 
         return () => clearTimeout(timeout);
     }, [ roomName, roomOwner, roomTags ]);

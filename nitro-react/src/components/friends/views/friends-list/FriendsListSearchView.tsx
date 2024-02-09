@@ -29,7 +29,7 @@ export const FriendsSearchView: FC<FriendsSearchViewProps> = props =>
     {
         if(!searchValue || !searchValue.length) return;
 
-        const timeout = setTimeout(() =>
+        const timeout = window.setTimeout(() =>
         {
             if(!searchValue || !searchValue.length) return;
 

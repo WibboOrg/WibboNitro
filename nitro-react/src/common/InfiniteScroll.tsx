@@ -1,7 +1,7 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { FC, Fragment, ReactElement, useEffect, useRef, useState } from 'react';
-import { Base } from './Base';
+import { FC, Fragment, ReactElement, useEffect, useRef } from 'react';
 import { UseMountEffect } from '../hooks';
+import { Base } from './Base';
 
 interface InfiniteScrollProps<T = any>
 {
@@ -50,7 +50,7 @@ export const InfiniteScroll: FC<InfiniteScrollProps> = props =>
 
     UseMountEffect(() =>
     {
-        setTimeout(() => scrollToIndex(scrollIndex), 0)
+        window.setTimeout(() => scrollToIndex(scrollIndex), 0)
     });
 
     useEffect(() =>
