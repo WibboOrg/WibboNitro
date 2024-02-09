@@ -23,9 +23,9 @@ export const AvatarEditorModelView: FC<AvatarEditorModelViewProps> = props =>
 
         if(!category) return;
 
-        category.init();
-
         setActiveCategory(category);
+
+        if(name === FigureData.FACE) category.init();
 
         for(const part of category.parts)
         {

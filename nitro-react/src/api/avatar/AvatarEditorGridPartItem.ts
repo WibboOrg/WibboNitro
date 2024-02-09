@@ -82,7 +82,7 @@ export class AvatarEditorGridPartItem implements IAvatarImageListener
         if(this._isInitalized) return;
 
         this._isInitalized = true;
-
+        
         this.update();
     }
 
@@ -105,7 +105,7 @@ export class AvatarEditorGridPartItem implements IAvatarImageListener
         }
     }
 
-    public update(): void
+    private update(): void
     {
         this.updateThumbVisualization();
     }

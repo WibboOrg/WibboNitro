@@ -56,7 +56,7 @@ export class BodyModel extends CategoryBaseModel
     
                     part.thumbContainer = sprite;
     
-                    setTimeout(() => avatarImage.dispose(), 0);
+                    window.setTimeout(() => avatarImage.dispose(), 0);
                 }
             }
 
