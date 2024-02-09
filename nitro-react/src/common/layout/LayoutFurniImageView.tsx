@@ -62,7 +62,7 @@ export const LayoutFurniImageView: FC<LayoutFurniImageViewProps> = props =>
         switch(productType.toLocaleLowerCase())
         {
             case ProductTypeEnum.FLOOR:
-                imageResult = GetRoomEngine().getFurnitureFloorImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData, 0, 0, objectData);
+                imageResult = GetRoomEngine().getFurnitureFloorImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData, -1, -1, objectData);
                 break;
             case ProductTypeEnum.WALL:
                 imageResult = GetRoomEngine().getFurnitureWallImage(productClassId, new Vector3d(direction), 64, listener, 0, extraData);
