@@ -1,4 +1,4 @@
-import { AvatarScaleType, AvatarSetType } from '@nitrots/nitro-renderer';
+import { AvatarAction, AvatarScaleType, AvatarSetType } from '@nitrots/nitro-renderer';
 import { CSSProperties, FC, useEffect, useMemo, useRef, useState } from 'react';
 import { GetAvatarRenderManager } from '../../api';
 import { Base, BaseProps } from '../Base';
@@ -67,6 +67,10 @@ export const LayoutAvatarImageView: FC<LayoutAvatarImageViewProps> = props =>
         if(headOnly) setType = AvatarSetType.HEAD;
 
         avatarImage.setDirection(setType, direction);
+
+        var gestureId = AvatarAction.getGestureId(AvatarAction.GESTURE_SMILE);
+
+        avatarImage.appendAction(AvatarAction.GESTURE, AvatarAction.getGesture(gestureId));
 
         const image = avatarImage.getCroppedImage(setType);
 
