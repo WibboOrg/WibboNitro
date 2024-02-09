@@ -15,7 +15,7 @@ export const NitroCardView: FC<NitroCardViewProps> = props =>
 
     const getClassNames = useMemo(() =>
     {
-        const newClassNames: string[] = [ 'nitro-card', 'rounded', ];
+        const newClassNames: string[] = [ 'nitro-card', 'rounded', 'animate__animated animate__fadeIn' ];
 
         newClassNames.push(`theme-${ theme || 'primary' }`);
 

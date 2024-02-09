@@ -19,6 +19,7 @@ export class GroupItem
     private _selected: boolean;
     private _hasUnseenItems: boolean;
     private _items: FurnitureItem[];
+    private _notifier: () => void;
 
     constructor(type: number = -1, category: number = -1, roomEngine: IRoomEngine = null, stuffData: IObjectData = null, extra: number = -1)
     {
@@ -28,9 +29,9 @@ export class GroupItem
         this._stuffData = stuffData;
         this._extra = extra;
         this._isWallItem = false;
-        this._iconUrl = null;
-        this._name = null;
-        this._description = null;
+        this._iconUrl = '';
+        this._name = '';
+        this._description = '';
         this._locked = false;
         this._selected = false;
         this._hasUnseenItems = false;
@@ -60,9 +61,13 @@ export class GroupItem
 
     public prepareGroup(): void
     {
-        this.setIcon();
         this.setName();
         this.setDescription();
+    }
+
+    public loadIcon(): void
+    {
+        this.setIcon();
     }
 
     public dispose(): void
@@ -361,6 +366,8 @@ export class GroupItem
         if(!url) return;
 
         this._iconUrl = url;
+        
+        if (this.notify) this.notify();
     }
 
     public get type(): number
@@ -464,5 +471,15 @@ export class GroupItem
     public set items(items: FurnitureItem[])
     {
         this._items = items;
+    }
+
+    public get notify(): () => void
+    {
+        return this._notifier;
+    }
+
+    public set notify(notifier: () => void)
+    {
+        this._notifier = notifier;
     }
 }

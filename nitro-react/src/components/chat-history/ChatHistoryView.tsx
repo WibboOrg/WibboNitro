@@ -22,11 +22,6 @@ export const ChatHistoryView: FC<{}> = props =>
 
     useEffect(() =>
     {
-        if(elementRef && elementRef.current && isVisible) elementRef.current.scrollTop = elementRef.current.scrollHeight;
-    }, [ isVisible ]);
-
-    useEffect(() =>
-    {
         const linkTracker: ILinkEventTracker = {
             linkReceived: (url: string) =>
             {

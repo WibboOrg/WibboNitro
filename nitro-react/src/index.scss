@@ -23,4 +23,8 @@ img {
     object-fit: none;
 }
 
+:root {
+    --animate-duration: 300ms;
+}
+
 @import './App';

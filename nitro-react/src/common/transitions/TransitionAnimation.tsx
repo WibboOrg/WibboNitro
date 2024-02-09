@@ -1,11 +1,13 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
 import { Transition } from 'react-transition-group';
 import { getTransitionAnimationStyle } from './TransitionAnimationStyles';
+import { TransitionAnimationTypeStrings } from './TransitionAnimationTypes';
 
 interface TransitionAnimationProps
 {
-    type: string;
+    type: TransitionAnimationTypeStrings;
     inProp: boolean;
+    innerKey?: string | number;
     timeout?: number;
     className?: string;
     children?: ReactNode;
@@ -13,7 +15,7 @@ interface TransitionAnimationProps
 
 export const TransitionAnimation: FC<TransitionAnimationProps> = props =>
 {
-    const { type = null, inProp = false, timeout = 300, className = null, children = null } = props;
+    const { innerKey = null, type = null, inProp = false, timeout = 300, className = null, children = null } = props;
 
     const [ isChildrenVisible, setChildrenVisible ] = useState(false);
 
@@ -41,7 +43,7 @@ export const TransitionAnimation: FC<TransitionAnimationProps> = props =>
     }, [ inProp, timeout ]);
 
     return (
-        <Transition in={ inProp } timeout={ timeout }>
+        <Transition in={ inProp } timeout={ timeout } key={ innerKey }>
             { state => (
                 <div className={ (className ?? '') + ' animate__animated' } style={ { ...getTransitionAnimationStyle(type, state, timeout) } }>
                     { isChildrenVisible && children }

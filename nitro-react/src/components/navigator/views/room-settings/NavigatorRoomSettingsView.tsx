@@ -1,7 +1,7 @@
 import { RoomBannedUsersComposer, RoomDataParser, RoomSettingsDataEvent, SaveRoomSettingsComposer } from '@nitrots/nitro-renderer';
 import { FC, useState } from 'react';
 import { IRoomData, LocalizeText, SendMessageComposer } from '../../../../api';
-import { NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView } from '../../../../common';
+import { Column, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, TransitionSwitch } from '../../../../common';
 import { useMessageEvent } from '../../../../hooks';
 import { NavigatorRoomSettingsAccessTabView } from './NavigatorRoomSettingsAccessTabView';
 import { NavigatorRoomSettingsBasicTabView } from './NavigatorRoomSettingsBasicTabView';
@@ -21,6 +21,7 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
 {
     const [ roomData, setRoomData ] = useState<IRoomData>(null);
     const [ currentTab, setCurrentTab ] = useState(TABS[0]);
+    const [ prevDirection, setPrevDirection ] = useState<'left' | 'right' | 'up' | 'down'>('left');
 
     useMessageEvent<RoomSettingsDataEvent>(RoomSettingsDataEvent, event =>
     {
@@ -178,6 +179,32 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
         });
     }
 
+    const getCurrentComponent = () => 
+    {
+        switch (currentTab) 
+        {
+            case TABS[0]:
+                return <NavigatorRoomSettingsBasicTabView roomData={ roomData } handleChange={ handleChange } onClose={ onClose } key={ TABS[0] } />;
+            case TABS[1]:
+                return <NavigatorRoomSettingsAccessTabView roomData={ roomData } handleChange={ handleChange } key={ TABS[1] } />;
+            case TABS[2]:
+                return <NavigatorRoomSettingsRightsTabView roomData={ roomData } handleChange={ handleChange } key={ TABS[2] } />;
+            case TABS[3]:
+                return <NavigatorRoomSettingsVipChatTabView roomData={ roomData } handleChange={ handleChange } key={ TABS[3] } />;
+            case TABS[4]:
+                return <NavigatorRoomSettingsModTabView roomData={ roomData } handleChange={ handleChange } key={ TABS[4] } />;
+            default:
+                throw Error(`Unknown tab value: ${ currentTab }`);
+        }
+    };
+
+    const updateTab = (nextTab: string) => 
+    {
+        const nextDirection = TABS.indexOf(nextTab) > TABS.indexOf(currentTab) ? 'right' : 'left';
+        setPrevDirection(nextDirection);
+        window.setTimeout(() => setCurrentTab(nextTab));
+    };
+
     if(!roomData) return null;
 
     return (
@@ -186,20 +213,15 @@ export const NavigatorRoomSettingsView: FC<{}> = props =>
             <NitroCardTabsView>
                 { TABS.map(tab =>
                 {
-                    return <NitroCardTabsItemView key={ tab } isActive={ (currentTab === tab) } onClick={ event => setCurrentTab(tab) }>{ LocalizeText(tab) }</NitroCardTabsItemView>
+                    return <NitroCardTabsItemView key={ tab } isActive={ (currentTab === tab) } onClick={ event => updateTab(tab) }>{ LocalizeText(tab) }</NitroCardTabsItemView>
                 }) }
             </NitroCardTabsView>
-            <NitroCardContentView>
-                { (currentTab === TABS[0]) &&
-                    <NavigatorRoomSettingsBasicTabView roomData={ roomData } handleChange={ handleChange } onClose={ onClose } /> }
-                { (currentTab === TABS[1]) &&
-                    <NavigatorRoomSettingsAccessTabView roomData={ roomData } handleChange={ handleChange } /> }
-                { (currentTab === TABS[2]) &&
-                    <NavigatorRoomSettingsRightsTabView roomData={ roomData } handleChange={ handleChange } /> }
-                { (currentTab === TABS[3]) &&
-                    <NavigatorRoomSettingsVipChatTabView roomData={ roomData } handleChange={ handleChange } /> }
-                { (currentTab === TABS[4]) &&
-                    <NavigatorRoomSettingsModTabView roomData={ roomData } handleChange={ handleChange } /> }
+            <NitroCardContentView overflow="hidden">
+                <TransitionSwitch innerKey={ currentTab } direction={ prevDirection }>
+                    <Column key={ currentTab }>
+                        { getCurrentComponent() }
+                    </Column>
+                </TransitionSwitch>
             </NitroCardContentView>
         </NitroCardView>
     );

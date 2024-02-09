@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { LocalizeText } from '../../../../../api';
 import { Column, Flex, Grid, Text } from '../../../../../common';
 import { useCatalog } from '../../../../../hooks';
 import { CatalogItemGridWidgetView } from '../widgets/CatalogItemGridWidgetView';
@@ -31,7 +32,7 @@ export const CatalogLayoutTrophiesView: FC<CatalogLayoutProps> = props =>
         <Grid>
             <Column size={ 7 } overflow="hidden">
                 <CatalogItemGridWidgetView />
-                <textarea className="flex-grow-1 form-control w-100" defaultValue={ trophyText || '' } onChange={ event => setTrophyText(event.target.value) } />
+                <textarea className="flex-grow-1 form-control w-100 h-100" maxLength={ 512 } defaultValue={ trophyText || '' } placeholder={ LocalizeText('trophy.engraving.placeholder') } onChange={ event => setTrophyText(event.target.value) } />
             </Column>
             <Column center={ !currentOffer } size={ 5 } overflow="hidden">
                 { !currentOffer &&

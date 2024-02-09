@@ -2,7 +2,7 @@ import { ConvertGlobalRoomIdMessageComposer, HabboWebTools, ILinkEventTracker, L
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { AddEventLinkTracker, LocalizeText, RemoveLinkEventTracker, SendMessageComposer, TryVisitRoom } from '../../api';
-import { Base, Column, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView } from '../../common';
+import { Base, Column, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, TransitionSwitch } from '../../common';
 import { useNavigator, useRoomSessionManagerEvent } from '../../hooks';
 import { NavigatorDoorStateView } from './views/NavigatorDoorStateView';
 import { NavigatorRoomCreatorView } from './views/NavigatorRoomCreatorView';
@@ -24,6 +24,7 @@ export const NavigatorView: FC<{}> = props =>
     const [ needsSearch, setNeedsSearch ] = useState(false);
     const { searchResult = null, topLevelContext = null, topLevelContexts = null, navigatorData = null } = useNavigator();
     const pendingSearch = useRef<{ value: string, code: string }>(null);
+    const [ prevDirection, setPrevDirection ] = useState<'left' | 'right' | 'up' | 'down'>('left');
     const elementRef = useRef<HTMLDivElement>();
 
     useRoomSessionManagerEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event =>
@@ -202,26 +203,39 @@ export const NavigatorView: FC<{}> = props =>
                         { topLevelContexts && (topLevelContexts.length > 0) && topLevelContexts.map((context, index) =>
                         {
                             return (
-                                <NitroCardTabsItemView key={ index } isActive={ ((topLevelContext === context) && !isCreatorOpen) } onClick={ event => sendSearch('', context.code) }>
+                                <NitroCardTabsItemView key={ index } isActive={ ((topLevelContext === context) && !isCreatorOpen) } onClick={ event => 
+                                {
+                                    const nextDirection = topLevelContexts.indexOf(context) > topLevelContexts.indexOf(topLevelContext) && !isCreatorOpen ? 'right' : 'left';
+                                    setPrevDirection(nextDirection);
+                                    window.setTimeout(() => sendSearch('', context.code));
+                                } }>
                                     { LocalizeText(('navigator.toplevelview.' + context.code)) }
                                 </NitroCardTabsItemView>
                             );
                         }) }
-                        <NitroCardTabsItemView isActive={ isCreatorOpen } onClick={ event => setCreatorOpen(true) }>
+                        <NitroCardTabsItemView isActive={ isCreatorOpen } onClick={ event => 
+                        {
+                            setPrevDirection('right');
+                            window.setTimeout(() => setCreatorOpen(true)); 
+                        } }>
                             <FaPlus className="fa-icon" />
                         </NitroCardTabsItemView>
                     </NitroCardTabsView>
-                    <NitroCardContentView position="relative">
-                        { isLoading &&
-                            <Base fit position="absolute" className="top-0 start-0 z-index-1 bg-muted opacity-0-5" /> }
-                        { !isCreatorOpen &&
-                            <>
-                                <NavigatorSearchView sendSearch={ sendSearch } />
-                                <Column innerRef={ elementRef } overflow="auto">
-                                    { (searchResult && searchResult.results.map((result, index) => <NavigatorSearchResultView key={ index } searchResult={ result } />)) }
-                                </Column>
-                            </> }
-                        { isCreatorOpen && <NavigatorRoomCreatorView /> }
+                    <NitroCardContentView position="relative" overflow="hidden">
+                        { /* { isLoading &&
+                            <Base fit position="absolute" className="top-0 start-0 z-index-1 bg-muted opacity-0-5" /> } */ }
+                        <NavigatorSearchView sendSearch={ sendSearch } />
+                        <TransitionSwitch innerKey={ topLevelContext?.code + (isCreatorOpen ? 'creator' : 'search') } direction={ prevDirection }>
+                            <Base className="overflow-x-hidden">
+                                { !isCreatorOpen &&
+                                    <TransitionSwitch innerKey={ searchResult?.code + searchResult?.data + 'searchResult' }>
+                                        <Column innerRef={ elementRef } overflow="auto" key="search">
+                                            { (searchResult && searchResult.results.map((result, index) => <NavigatorSearchResultView key={ index } searchResult={ result } />)) }
+                                        </Column>
+                                    </TransitionSwitch> }
+                                { isCreatorOpen && <NavigatorRoomCreatorView key="creator" /> }
+                            </Base>
+                        </TransitionSwitch>
                     </NitroCardContentView>
                 </NitroCardView> }
             <NavigatorDoorStateView />

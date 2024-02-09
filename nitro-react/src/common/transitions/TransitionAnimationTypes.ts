@@ -1,11 +1,22 @@
-export class TransitionAnimationTypes
-{
-    public static BOUNCE: string = 'bounce';
-    public static SLIDE_LEFT: string = 'slideLeft';
-    public static SLIDE_RIGHT: string = 'slideRight';
-    public static FLIP_X: string = 'flipX';
-    public static FADE_IN: string = 'fadeIn';
-    public static FADE_DOWN: string = 'fadeDown';
-    public static FADE_UP: string = 'fadeUp';
-    public static HEAD_SHAKE: string = 'headShake';
-}
+export type TransitionAnimationTypeStrings =
+  | 'bounce'
+  | 'slideDown'
+  | 'slideLeft'
+  | 'slideRight'
+  | 'flipX'
+  | 'fadeIn'
+  | 'fadeDown'
+  | 'fadeUp'
+  | 'headShake';
+
+export const TransitionAnimationTypes: Record<string, TransitionAnimationTypeStrings> = {
+    BOUNCE: 'bounce',
+    SLIDE_DOWN: 'slideDown',
+    SLIDE_LEFT: 'slideLeft',
+    SLIDE_RIGHT: 'slideRight',
+    FLIP_X: 'flipX',
+    FADE_IN: 'fadeIn',
+    FADE_DOWN: 'fadeDown',
+    FADE_UP: 'fadeUp',
+    HEAD_SHAKE: 'headShake',
+};

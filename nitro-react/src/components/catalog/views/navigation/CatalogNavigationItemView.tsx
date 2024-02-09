@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { ICatalogNode } from '../../../../api';
-import { Base, LayoutGridItem, Text } from '../../../../common';
+import { Base, LayoutGridItem, Text, TransitionAnimation } from '../../../../common';
 import { useCatalog } from '../../../../hooks';
 import { CatalogIconView } from '../catalog-icon/CatalogIconView';
 import { CatalogNavigationSetView } from './CatalogNavigationSetView';
@@ -28,8 +28,7 @@ export const CatalogNavigationItemView: FC<CatalogNavigationItemViewProps> = pro
                         { !node.isOpen && <FaCaretDown className="fa-icon text-muted" /> }
                     </> }
             </LayoutGridItem>
-            { node.isOpen && node.isBranch &&
-                <CatalogNavigationSetView node={ node } child={ true } /> }
+            <TransitionAnimation inProp={ node.isOpen && node.isBranch } type="fadeIn" innerKey={ node.pageId }><CatalogNavigationSetView node={ node } child={ true } /></TransitionAnimation>
         </Base>
     );
 }

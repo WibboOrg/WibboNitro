@@ -1,9 +1,9 @@
 import { CSSProperties } from 'react';
 import { TransitionStatus } from 'react-transition-group';
 import { ENTERING, EXITING } from 'react-transition-group/Transition';
-import { TransitionAnimationTypes } from './TransitionAnimationTypes';
+import { TransitionAnimationTypeStrings, TransitionAnimationTypes } from './TransitionAnimationTypes';
 
-export function getTransitionAnimationStyle(type: string, transition: TransitionStatus, timeout: number = 300): Partial<CSSProperties>
+export function getTransitionAnimationStyle(type: TransitionAnimationTypeStrings, transition: TransitionStatus, timeout: number = 300): Partial<CSSProperties>
 {
     switch(type)
     {
@@ -36,6 +36,22 @@ export function getTransitionAnimationStyle(type: string, transition: Transition
                 case EXITING:
                     return {
                         animationName: 'slideOutLeft',
+                        animationDuration: `${ timeout }ms`
+                    }
+            }
+        case TransitionAnimationTypes.SLIDE_DOWN:
+            switch(transition)
+            {
+                default:
+                    return {}
+                case ENTERING:
+                    return {
+                        animationName: 'slideInDown',
+                        animationDuration: `${ timeout }ms`
+                    }
+                case EXITING:
+                    return {
+                        animationName: 'slideOutUp',
                         animationDuration: `${ timeout }ms`
                     }
             }

@@ -1,7 +1,7 @@
 import { BadgePointLimitsEvent, ILinkEventTracker, IRoomSession, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomPreviewer, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
-import { AddEventLinkTracker, GetLocalization, GetRoomEngine, isObjectMoverRequested, LocalizeText, RemoveLinkEventTracker, setObjectMoverRequested, UnseenItemCategory } from '../../api';
-import { NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView } from '../../common';
+import { AddEventLinkTracker, GetLocalization, GetRoomEngine, LocalizeText, RemoveLinkEventTracker, UnseenItemCategory, isObjectMoverRequested, setObjectMoverRequested } from '../../api';
+import { NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, TransitionSwitch } from '../../common';
 import { useInventoryTrade, useInventoryUnseenTracker, useMessageEvent, useRoomEngineEvent, useRoomSessionManagerEvent } from '../../hooks';
 import { InventoryBadgeView } from './views/badge/InventoryBadgeView';
 import { InventoryBannerView } from './views/banner/InventoryBannerView';
@@ -24,6 +24,7 @@ export const InventoryView: FC<{}> = props =>
     const [ currentTab, setCurrentTab ] = useState<string>(TABS[0]);
     const [ roomSession, setRoomSession ] = useState<IRoomSession>(null);
     const [ roomPreviewer, setRoomPreviewer ] = useState<RoomPreviewer>(null);
+    const [ prevDirection, setPrevDirection ] = useState<'left' | 'right' | 'up' | 'down'>('left');
     const { isTrading = false, stopTrading = null } = useInventoryTrade();
     const { getCount = null, resetCategory = null } = useInventoryUnseenTracker();
 
@@ -119,6 +120,32 @@ export const InventoryView: FC<{}> = props =>
 
     if(!isVisible) return null;
 
+    const getCurrentComponent = () => 
+    {
+        switch (currentTab) 
+        {
+            case TAB_FURNITURE:
+                return <InventoryFurnitureView roomSession={ roomSession } roomPreviewer={ roomPreviewer } key={ TAB_FURNITURE }/>;
+            case TAB_BOTS:
+                return <InventoryBotView roomSession={ roomSession } roomPreviewer={ roomPreviewer } key={ TAB_FURNITURE }/>;
+            case TAB_PETS:
+                return <InventoryPetView roomSession={ roomSession } roomPreviewer={ roomPreviewer } key={ TAB_FURNITURE }/>;
+            case TAB_BADGES:
+                return <InventoryBadgeView key={ TAB_FURNITURE }/>;
+            case TAB_BANNERS:
+                return <InventoryBannerView key={ TAB_FURNITURE } />;
+            default:
+                throw Error(`Unknown tab value: ${ currentTab }`);
+        }
+    };
+
+    const updateTab = (nextTab: string) => 
+    {
+        const nextDirection = TABS.indexOf(nextTab) > TABS.indexOf(currentTab) ? 'right' : 'left';
+        setPrevDirection(nextDirection);
+        window.setTimeout(() => setCurrentTab(nextTab));
+    };
+
     return (
         <NitroCardView uniqueKey={ 'inventory' } className="nitro-inventory" theme={ isTrading ? 'primary-slim' : '' } >
             <NitroCardHeaderView headerText={ LocalizeText('inventory.title') } onCloseClick={ onClose } />
@@ -128,23 +155,16 @@ export const InventoryView: FC<{}> = props =>
                         { TABS.map((name, index) =>
                         {
                             return (
-                                <NitroCardTabsItemView key={ index } isActive={ (currentTab === name) } onClick={ event => setCurrentTab(name) } count={ getCount(UNSEEN_CATEGORIES[index]) }>
+                                <NitroCardTabsItemView key={ index } isActive={ (currentTab === name) } onClick={ event => updateTab(name) } count={ getCount(UNSEEN_CATEGORIES[index]) }>
                                     { LocalizeText(name) }
                                 </NitroCardTabsItemView>
                             );
                         }) }
                     </NitroCardTabsView>
-                    <NitroCardContentView>
-                        { (currentTab === TAB_FURNITURE ) &&
-                            <InventoryFurnitureView roomSession={ roomSession } roomPreviewer={ roomPreviewer } /> }
-                        { (currentTab === TAB_BOTS ) &&
-                            <InventoryBotView roomSession={ roomSession } roomPreviewer={ roomPreviewer } /> }
-                        { (currentTab === TAB_PETS ) && 
-                            <InventoryPetView roomSession={ roomSession } roomPreviewer={ roomPreviewer } /> }
-                        { (currentTab === TAB_BADGES ) && 
-                        <InventoryBadgeView /> }
-                        { (currentTab === TAB_BANNERS) && 
-                            <InventoryBannerView /> }
+                    <NitroCardContentView overflow="hidden">
+                        <TransitionSwitch innerKey={ currentTab } direction={ prevDirection }>
+                            { getCurrentComponent() }
+                        </TransitionSwitch>
                     </NitroCardContentView>
                 </> }
             { isTrading &&

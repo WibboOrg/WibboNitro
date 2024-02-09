@@ -5,6 +5,7 @@ import { FurniCategory, GroupItem, IFurnitureItem, LocalizeText, NotificationAle
 import { AutoGrid, Base, Button, Column, Flex, Grid, LayoutFurniImagePopoverView, LayoutGridItem, Text } from '../../../../common';
 import { useInventoryTrade, useNotification } from '../../../../hooks';
 import { InventoryFurnitureSearchView } from './InventoryFurnitureSearchView';
+import { InventoryTradeFurnitureItemView } from './InventoryTradeFurnitureItemView';
 
 interface InventoryTradeViewProps
 {
@@ -190,13 +191,13 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
 
                             return (
                                 <LayoutFurniImagePopoverView item={ item.getLastItem() } key={ index }>
-                                    <LayoutGridItem className={ !count ? 'opacity-0-5 ' : '' } itemImage={ item.iconUrl } itemCount={ count } itemActive={ (groupItem === item) } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => (count && setGroupItem(item)) } onDoubleClick={ event => attemptItemOffer(1) }>
+                                    <InventoryTradeFurnitureItemView groupItem={ item } selectedItem={ groupItem } onClick={ event => (count && setGroupItem(item)) } onDoubleClick={ event => attemptItemOffer(1) }>
                                         { ((count > 0) && (groupItem === item)) &&
                                             <Button position="absolute" variant="success" className="trade-button bottom-1 end-1" onClick={ event => attemptItemOffer(1) }>
                                                 <FaChevronRight className="fa-icon" />
                                             </Button>
                                         }
-                                    </LayoutGridItem>
+                                    </InventoryTradeFurnitureItemView>
                                 </LayoutFurniImagePopoverView>
                             );
                         }) }
@@ -232,12 +233,12 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
 
                                 return (
                                     <LayoutFurniImagePopoverView item={ item.getLastItem() } key={ i }>
-                                        <LayoutGridItem itemActive={ (ownGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOwnGroupItem(item) } onDoubleClick={ event => removeItem(item) }>
+                                        <InventoryTradeFurnitureItemView groupItem={ item } selectedItem={ ownGroupItem } onClick={ event => setOwnGroupItem(item) } onDoubleClick={ event => removeItem(item) }>
                                             { (ownGroupItem === item) &&
                                                 <Button position="absolute" variant="danger" className="trade-button bottom-1 start-1" onClick={ event => removeItem(item) }>
                                                     <FaChevronLeft className="fa-icon" />
                                                 </Button> }
-                                        </LayoutGridItem>
+                                        </InventoryTradeFurnitureItemView>
                                     </LayoutFurniImagePopoverView>
                                 );
                             }) }
@@ -259,7 +260,7 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
                                 if(!item) return <LayoutGridItem key={ i } />;
 
                                 return <LayoutFurniImagePopoverView item={ item.getLastItem() } key={ i }>
-                                    <LayoutGridItem itemActive={ (otherGroupItem === item) } itemImage={ item.iconUrl } itemCount={ item.getTotalCount() } itemUniqueNumber={ item.stuffData.uniqueNumber } onClick={ event => setOtherGroupItem(item) } />
+                                    <InventoryTradeFurnitureItemView groupItem={ item } selectedItem={ otherGroupItem } onClick={ event => setOtherGroupItem(item) } />
                                 </LayoutFurniImagePopoverView>;
                             }) }
                         </AutoGrid>

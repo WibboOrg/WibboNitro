@@ -81,13 +81,13 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
     }, [ chat, isReady, isVisible, makeRoom ]);
 
     return (
-        <div ref={ elementRef } className={ `bubble-container ${ isVisible ? 'visible' : 'invisible' } cursor-pointer` } onClick={ event => GetRoomEngine().selectRoomObject(chat.roomId, chat.senderId, RoomObjectCategory.UNIT) }>
+        <div ref={ elementRef } className={ `bubble-container ${ isVisible ? 'visible animate__animated animate__fadeInUp' : 'invisible' } cursor-pointer` } onClick={ event => GetRoomEngine().selectRoomObject(chat.roomId, chat.senderId, RoomObjectCategory.UNIT) }>
             { (chat.styleId === 0) &&
-                <div className="user-container-bg" style={ { backgroundColor: chat.color } } /> }
+                    <div className="user-container-bg" style={ { backgroundColor: chat.color } } /> }
             <div className={ `chat-bubble bubble-${ chat.styleId } type-${ chat.type }` } style={ { maxWidth: getBubbleWidth } }>
                 <div className="user-container">
                     { chat.imageUrl && (chat.imageUrl.length > 0) &&
-                        <div className="user-image" style={ { backgroundImage: `url(${ chat.imageUrl })` } } /> }
+                            <div className="user-image" style={ { backgroundImage: `url(${ chat.imageUrl })` } } /> }
                 </div>
                 { chat.type !== 11 ? <div className="chat-content">
                     <b className="username mr-1" dangerouslySetInnerHTML={ { __html: `${ chat.username }: ` } } />

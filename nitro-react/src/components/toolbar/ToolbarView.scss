@@ -1,14 +1,16 @@
 .nitro-toolbar {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
     height: $toolbar-height;
     z-index: $toolbar-zindex;
     pointer-events: all;
+    
     background: rgba($dark, 0.95);
     box-shadow: inset 0px 5px lighten(rgba($dark, 0.6), 2.5),
         inset 0 -4px darken(rgba($dark, 0.6), 4);
+
 
     .navigation-item {
         position: relative;
@@ -49,7 +51,7 @@
 
 .nitro-toolbar-me {
     position: absolute;
-    bottom: 60px;
+    bottom: 65px;
     left: 15px;
     z-index: $toolbar-memenu-zindex;
     background: rgba(20, 20, 20, .95);

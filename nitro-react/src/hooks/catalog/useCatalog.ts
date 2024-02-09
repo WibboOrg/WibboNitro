@@ -295,6 +295,8 @@ const useCatalogState = () =>
 
     const activateNode = useCallback((targetNode: ICatalogNode, offerId: number = -1) =>
     {
+        if (targetNode.pageId == currentPage?.pageId) return;
+
         cancelObjectMover();
 
         if(targetNode.parent.pageName === 'root')
@@ -353,7 +355,7 @@ const useCatalogState = () =>
         });
 
         if(targetNode.pageId > -1) loadCatalogPage(targetNode.pageId, offerId);
-    }, [ setActiveNodes, loadCatalogPage, cancelObjectMover ]);
+    }, [ setActiveNodes, loadCatalogPage, cancelObjectMover, currentPage ]);
 
     const openPageById = useCallback((id: number) =>
     {

@@ -80,7 +80,7 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
     if(!groupData) return null;
 
     return (
-        <Column justifyContent="between" overflow="auto">
+        <Column justifyContent="between" overflow="auto" fullHeight>
             <Column gap={ 1 }>
                 <Flex alignItems="center" gap={ 1 }>
                     <Text center className="col-3">{ LocalizeText('group.edit.name') }</Text>
@@ -110,7 +110,7 @@ export const GroupTabIdentityView: FC<GroupTabIdentityViewProps> = props =>
             { !isCreator &&
                 <Button variant="danger" onClick={ deleteGroup }>{ LocalizeText('group.delete') }</Button> }
             { isCreator &&
-                <Text underline center fullWidth pointer onClick={ event => CreateLinkEvent('navigator/create') }>{ LocalizeText('group.createroom') }</Text> }
+                    <Text underline center fullWidth pointer onClick={ event => CreateLinkEvent('navigator/create') }>{ LocalizeText('group.createroom') }</Text> }
         </Column>
     );
 };

@@ -1,18 +1,19 @@
 import { ILinkEventTracker } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { AddEventLinkTracker, GetConfiguration, LocalizeText, RemoveLinkEventTracker } from '../../api';
-import { Column, Flex, Grid, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView } from '../../common';
+import { Column, Flex, Grid, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, TransitionSwitch } from '../../common';
 import { useCatalog } from '../../hooks';
 import { CatalogIconView } from './views/catalog-icon/CatalogIconView';
 import { CatalogGiftView } from './views/gift/CatalogGiftView';
 import { CatalogNavigationView } from './views/navigation/CatalogNavigationView';
+import { CatalogSearchView } from './views/page/common/CatalogSearchView';
 import { CatalogLayoutView } from './views/page/layout/CatalogLayoutView';
 import { MarketplacePostOfferView } from './views/page/layout/marketplace/MarketplacePostOfferView';
 
 export const CatalogView: FC<{}> = props =>
 {
     const { isVisible = false, setIsVisible = null, rootNode = null, currentPage = null, navigationHidden = false, setNavigationHidden = null, activeNodes = [], searchResult = null, setSearchResult = null, openPageByName = null, openPageByOfferId = null, activateNode = null, getNodeById } = useCatalog();
-
+    
     useEffect(() =>
     {
         const linkTracker: ILinkEventTracker = {
@@ -79,7 +80,7 @@ export const CatalogView: FC<{}> = props =>
                             return (
                                 <NitroCardTabsItemView key={ child.pageId } isActive={ child.isActive } onClick={ event =>
                                 {
-                                    if(searchResult) setSearchResult(null);
+                                    if (searchResult) setSearchResult(null);
 
                                     activateNode(child);
                                 } } >
@@ -95,11 +96,16 @@ export const CatalogView: FC<{}> = props =>
                         <Grid>
                             { !navigationHidden &&
                                 <Column size={ 3 } overflow="hidden">
+                                    <CatalogSearchView />
                                     { activeNodes && (activeNodes.length > 0) &&
-                                        <CatalogNavigationView node={ activeNodes[0] } /> }
+                                        <TransitionSwitch type="fade" innerKey={ activeNodes[0]?.pageId || -1 }>
+                                            <CatalogNavigationView node={ activeNodes[0] } key={ activeNodes[0]?.pageId || -1 } />
+                                        </TransitionSwitch> }
                                 </Column> }
                             <Column size={ !navigationHidden ? 9 : 12 } overflow="hidden">
-                                <CatalogLayoutView page={ currentPage } hideNavigation={ () => setNavigationHidden(true) } />
+                                <TransitionSwitch innerKey={ currentPage?.pageId || -1 } type="fade" direction="up">
+                                    <CatalogLayoutView page={ currentPage } hideNavigation={ () => setNavigationHidden(true) } key={ currentPage?.pageId || -1 }/>
+                                </TransitionSwitch>
                             </Column>
                         </Grid>
                     </NitroCardContentView>
