@@ -1,6 +1,7 @@
 import { BadgeImageReadyEvent, NitroSprite, TextureUtils } from '@nitrots/nitro-renderer';
-import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, FC, useEffect, useMemo, useRef, useState } from 'react';
 import { GetConfiguration, GetSessionDataManager, LocalizeBadgeDescription, LocalizeBadgeName, LocalizeText } from '../../api';
+import { useOnScreen } from '../../hooks';
 import { Base, BaseProps } from '../Base';
 
 export interface LayoutBadgeImageViewProps extends BaseProps<HTMLDivElement>
@@ -18,6 +19,8 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
 {
     const { noCache = false, badgeCode = null, isGroup = false, showInfo = false, customTitle = null, isGrayscale = false, scale = 1, classNames = [], style = {}, children = null, ...rest } = props;
     const [ imageElement, setImageElement ] = useState<HTMLImageElement>(null);
+    const ref = useRef<HTMLDivElement>();
+    const isVisible = useOnScreen(ref);
 
     const getClassNames = useMemo(() =>
     {
@@ -60,7 +63,7 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
 
     useEffect(() =>
     {
-        if (!badgeCode || !badgeCode.length) return;
+        if (!badgeCode || !badgeCode.length || !isVisible) return;
         
         if (noCache && !isGroup)
         {
@@ -97,10 +100,10 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
         }
 
         return () => GetSessionDataManager().events.removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
-    }, [ badgeCode, isGroup, noCache ]);
+    }, [ badgeCode, isGroup, noCache, isVisible ]);
 
     return (
-        <Base classNames={ getClassNames } style={ getStyle } { ...rest }>
+        <Base innerRef={ ref } classNames={ getClassNames } style={ getStyle } { ...rest }>
             { (showInfo && GetConfiguration<boolean>('badge.descriptions.enabled', true)) &&
                 <Base className="badge-information text-black py-1 px-2 small">
                     <div className="fw-bold mb-1">{ isGroup ? customTitle : LocalizeBadgeName(badgeCode) }</div>
