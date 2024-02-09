@@ -311,6 +311,12 @@ export class SocketConnection extends EventDispatcher implements IConnection
         }
     }
 
+    public reloadSocket(socketUrl: string): void
+    {
+        this.destroySocket();
+        this.createSocket(socketUrl);
+    }
+
     public registerMessages(configuration: IMessageConfiguration): void
     {
         if(!configuration) return;

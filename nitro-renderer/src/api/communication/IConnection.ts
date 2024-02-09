@@ -10,6 +10,7 @@ export interface IConnection extends IEventDispatcher
     onReady(): void;
     authenticated(): void;
     send(...composers: IMessageComposer<unknown[]>[]): void;
+    reloadSocket(socketUrl: string): void;
     processReceivedData(): void;
     registerMessages(configuration: IMessageConfiguration): void;
     addMessageEvent(event: IMessageEvent): void;

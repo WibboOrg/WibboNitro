@@ -11,6 +11,7 @@ NitroVersion.UI_VERSION = GetUIVersion();
 export const App: FC<{}> = props =>
 {
     const [ isReady, setIsReady ] = useState(false);
+    const [ isReconnecting, setIsReconnecting ] = useState(false);
     const [ isError, setIsError ] = useState(false);
     const [ message, setMessage ] = useState('Getting Ready');
     const [ percent, setPercent ] = useState(0);
@@ -26,7 +27,7 @@ export const App: FC<{}> = props =>
 
     const handler = useCallback(async (event: NitroEvent) =>
     {
-        switch(event.type)
+        switch (event.type)
         {
             case ConfigurationEvent.LOADED:
                 GetNitroInstance().localization.init();
@@ -44,7 +45,7 @@ export const App: FC<{}> = props =>
                 setIsError(true);
                 setMessage('WebGL Context Lost - Reloading');
 
-                setTimeout(() => window.location.reload(), 1500);
+                window.setTimeout(() => window.location.reload(), 1500);
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_HANDSHAKING:
                 setPercent(prevValue => (prevValue + 20));
@@ -56,9 +57,16 @@ export const App: FC<{}> = props =>
             case NitroCommunicationDemoEvent.CONNECTION_AUTHENTICATED:
                 setPercent(prevValue => (prevValue + 20));
 
-                GetNitroInstance().init();
+                if (isReconnecting)
+                {
+                    setIsReconnecting(false);
+                }
+                else
+                {
+                    GetNitroInstance().init();
 
-                if(LegacyExternalInterface.available) LegacyExternalInterface.call('legacyTrack', 'authentication', 'authok', []);
+                    if (LegacyExternalInterface.available) LegacyExternalInterface.call('legacyTrack', 'authentication', 'authok', []);
+                }
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_ERROR:
                 setIsError(true);
@@ -69,12 +77,18 @@ export const App: FC<{}> = props =>
                 //setIsError(true);
                 setMessage('Connection Error');
 
-                HabboWebTools.send(-1, 'client.init.handshake.fail');
+                if (!isReconnecting)
+                {
+                    setIsReconnecting(true);
+                    setTimeout(() => GetCommunication().connectionReload(), 1000);
+                }
+                else HabboWebTools.send(-1, 'client.init.handshake.fail');
+
                 return;
             case RoomEngineEvent.ENGINE_INITIALIZED:
                 setPercent(prevValue => (prevValue + 20));
 
-                setTimeout(() => setIsReady(true), 300);
+                window.setTimeout(() => setIsReady(true), 300);
                 return;
             case NitroLocalizationEvent.LOADED: {
                 const assetUrls = GetConfiguration<string[]>('preload.assets.urls');
@@ -98,7 +112,7 @@ export const App: FC<{}> = props =>
                 return;
             }
         }
-    }, []);
+    }, [ isReconnecting ]);
 
     useMainEvent(Nitro.WEBGL_UNAVAILABLE, handler);
     useMainEvent(Nitro.WEBGL_CONTEXT_LOST, handler);

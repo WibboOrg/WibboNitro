@@ -87,6 +87,12 @@ export class NitroCommunicationManager extends NitroManager implements INitroCom
         if(this._connection) this._connection.authenticated();
     }
 
+    public connectionReload(): void
+    {
+        const isLocal = new URLSearchParams(window.location.search).get('local') === 'true';
+        this._connection.reloadSocket(NitroConfiguration.getValue<string>(isLocal ? 'socket.url.local' : 'socket.url'));
+    }
+
     public connectionInit(socketUrl: string): void
     {
         NitroLogger.log('Initializing Connection', socketUrl);
