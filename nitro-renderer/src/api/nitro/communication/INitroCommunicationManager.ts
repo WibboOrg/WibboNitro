@@ -6,7 +6,6 @@ export interface INitroCommunicationManager extends INitroManager
 {
     registerMessageEvent(event: IMessageEvent): IMessageEvent;
     removeMessageEvent(event: IMessageEvent): void;
-    connectionReload(): void;
     demo: INitroCommunicationDemo;
     connection: IConnection;
 }

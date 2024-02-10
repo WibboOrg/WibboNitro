@@ -14,6 +14,9 @@ export class SocketConnection extends EventDispatcher implements IConnection
     private _dataBuffer: ArrayBuffer;
     private _isReady: boolean;
 
+    private _socketUrl: string;
+    private _reconnectCount: number;
+
     private _pendingClientMessages: IMessageComposer<unknown[]>[];
     private _pendingServerMessages: IMessageDataWrapper[];
 
@@ -31,6 +34,9 @@ export class SocketConnection extends EventDispatcher implements IConnection
         this._dataBuffer = null;
         this._isReady = false;
 
+        this._socketUrl = '';
+        this._reconnectCount = 0;
+
         this._pendingClientMessages = [];
         this._pendingServerMessages = [];
 
@@ -44,6 +50,8 @@ export class SocketConnection extends EventDispatcher implements IConnection
 
     public init(socketUrl: string): void
     {
+        this._socketUrl = socketUrl;
+
         if(this._stateListener)
         {
             this._stateListener.connectionInit(socketUrl);
@@ -111,15 +119,25 @@ export class SocketConnection extends EventDispatcher implements IConnection
 
     private onOpen(event: Event): void
     {
+        this._reconnectCount = 0;
+
         this.dispatchConnectionEvent(SocketConnectionEvent.CONNECTION_OPENED, event);
     }
 
     private onClose(event: CloseEvent): void
     {
-        this.dispatchConnectionEvent(SocketConnectionEvent.CONNECTION_CLOSED, event);
+        if(this._isAuthenticated && this._reconnectCount < 3 && event.code !== 1000)
+        {
+            this._reconnectCount++;
+            setTimeout(() => this.reloadSocket(this._socketUrl), 1000);
+        }
+        else
+        {
+            this.dispatchConnectionEvent(SocketConnectionEvent.CONNECTION_CLOSED, event);
+        }
     }
 
-    private onError(event: Event): void
+    private onError(event: ErrorEvent): void
     {
         this.dispatchConnectionEvent(SocketConnectionEvent.CONNECTION_ERROR, event);
     }
@@ -311,7 +329,7 @@ export class SocketConnection extends EventDispatcher implements IConnection
         }
     }
 
-    public reloadSocket(socketUrl: string): void
+    private reloadSocket(socketUrl: string): void
     {
         this.destroySocket();
         this.createSocket(socketUrl);

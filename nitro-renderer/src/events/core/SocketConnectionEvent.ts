@@ -16,7 +16,7 @@ export class SocketConnectionEvent extends NitroEvent
         super(type);
 
         this._connection = connection;
-        this._originalEvent = event;
+        this._originalEvent = originalEvent;
     }
 
     public get connection(): IConnection

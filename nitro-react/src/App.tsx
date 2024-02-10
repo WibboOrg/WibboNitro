@@ -70,19 +70,14 @@ export const App: FC<{}> = props =>
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_ERROR:
                 setIsError(true);
-                setMessage('Connection Error');
+                setMessage('Une erreur de connexion est survenue');
                 return;
             case NitroCommunicationDemoEvent.CONNECTION_CLOSED:
-                //if(GetNitroInstance().roomEngine) GetNitroInstance().roomEngine.dispose();
-                //setIsError(true);
-                setMessage('Connection Error');
+                if(GetNitroInstance().roomEngine) GetNitroInstance().roomEngine.dispose();
+                setIsError(true);
+                setMessage('La connexion à été fermer');
 
-                if (!isReconnecting)
-                {
-                    setIsReconnecting(true);
-                    setTimeout(() => GetCommunication().connectionReload(), 1000);
-                }
-                else HabboWebTools.send(-1, 'client.init.handshake.fail');
+                HabboWebTools.send(-1, 'client.init.handshake.fail');
 
                 return;
             case RoomEngineEvent.ENGINE_INITIALIZED:
@@ -107,7 +102,7 @@ export const App: FC<{}> = props =>
                 else
                 {
                     setIsError(true);
-                    setMessage('Assets Failed');
+                    setMessage('Une erreur est survenu lors du chargement des assets');
                 }
                 return;
             }

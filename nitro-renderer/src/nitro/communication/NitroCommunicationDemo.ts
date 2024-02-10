@@ -9,7 +9,6 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
 {
     private _communication: INitroCommunicationManager;
 
-    private _handShaking: boolean;
     private _didConnect: boolean;
 
     private _pongInterval: number;
@@ -20,7 +19,6 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
 
         this._communication = communication;
 
-        this._handShaking = false;
         this._didConnect = false;
 
         this._pongInterval = null;
@@ -57,8 +55,6 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
             connection.removeEventListener(SocketConnectionEvent.CONNECTION_ERROR, this.onConnectionErrorEvent);
         }
 
-        this._handShaking = false;
-
         this.stopPonging();
 
         super.onDispose();
@@ -94,7 +90,7 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
         if(this._didConnect) this.dispatchCommunicationDemoEvent(NitroCommunicationDemoEvent.CONNECTION_CLOSED, connection);
     }
 
-    private onConnectionErrorEvent(event: CloseEvent): void
+    private onConnectionErrorEvent(event: ErrorEvent): void
     {
         const connection = this._communication.connection;
 
@@ -144,15 +140,11 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
     private startHandshake(connection: IConnection): void
     {
         this.dispatchCommunicationDemoEvent(NitroCommunicationDemoEvent.CONNECTION_HANDSHAKING, connection);
-
-        this._handShaking = true;
     }
 
     private completeHandshake(connection: IConnection): void
     {
         this.dispatchCommunicationDemoEvent(NitroCommunicationDemoEvent.CONNECTION_HANDSHAKED, connection);
-
-        this._handShaking = false;
     }
 
     private startPonging(): void

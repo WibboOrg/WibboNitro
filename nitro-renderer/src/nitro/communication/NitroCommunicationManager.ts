@@ -65,17 +65,17 @@ export class NitroCommunicationManager extends NitroManager implements INitroCom
         super.onDispose();
     }
 
-    private onConnectionOpenedEvent(event: Event): void
+    private onConnectionOpenedEvent(event: INitroEvent): void
     {
         NitroLogger.log('Connection Initialized');
     }
 
-    private onConnectionClosedEvent(event: CloseEvent): void
+    private onConnectionClosedEvent(event: SocketConnectionEvent): void
     {
-        NitroLogger.log('Connection Closed');
+        NitroLogger.log('Connection Closed ' + (event.originalEvent as CloseEvent).code);
     }
 
-    private onConnectionErrorEvent(event: Event): void
+    private onConnectionErrorEvent(event: INitroEvent): void
     {
         NitroLogger.log('Connection Error');
     }
@@ -85,12 +85,6 @@ export class NitroCommunicationManager extends NitroManager implements INitroCom
         NitroLogger.log('Connection Authenticated');
 
         if(this._connection) this._connection.authenticated();
-    }
-
-    public connectionReload(): void
-    {
-        const isLocal = new URLSearchParams(window.location.search).get('local') === 'true';
-        this._connection.reloadSocket(NitroConfiguration.getValue<string>(isLocal ? 'socket.url.local' : 'socket.url'));
     }
 
     public connectionInit(socketUrl: string): void
