@@ -1,13 +1,13 @@
 import { IFurnitureData } from '@nitrots/nitro-renderer';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';
 import { CatalogPage, CatalogType, FilterCatalogNode, FurnitureOffer, GetOfferNodes, GetSessionDataManager, ICatalogNode, ICatalogPage, IPurchasableOffer, LocalizeText, PageLocalization, SearchResult } from '../../../../../api';
 import { Button, Flex } from '../../../../../common';
-import { useCatalog } from '../../../../../hooks';
+import { useCatalog, useLocalStorage } from '../../../../../hooks';
 
 export const CatalogSearchView: FC<{}> = props =>
 {
-    const [ searchValue, setSearchValue ] = useState('');
+    const [ searchValue, setSearchValue ] = useLocalStorage('nitro-catalog-search', '');
     const { currentType = null, rootNode = null, offersToNodes = null, searchResult = null, setSearchResult = null, setCurrentPage = null } = useCatalog();
 
     useEffect(() =>
@@ -88,7 +88,7 @@ export const CatalogSearchView: FC<{}> = props =>
                     <FaSearch className="fa-icon" />
                 </Button> }
             { searchValue && !!searchValue.length &&
-                <Button variant="primary" className="catalog-search-button" onClick={ event => setSearchValue('') }>
+                <Button variant="danger" className="catalog-search-button" onClick={ event => setSearchValue('') }>
                     <FaTimes className="fa-icon" />
                 </Button> }
         </Flex>

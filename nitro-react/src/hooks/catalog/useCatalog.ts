@@ -15,7 +15,7 @@ const useCatalogState = () =>
 {
     const [ isVisible, setIsVisible ] = useState(false);
     const [ isBusy, setIsBusy ] = useState(false);
-    const [ pageId, setPageId ] = useState(-1);
+    const [ loadPageId, setLoadPageId ] = useState(-1);
     const [ previousPageId, setPreviousPageId ] = useState(-1);
     const [ currentType, setCurrentType ] = useState(CatalogType.NORMAL);
     const [ rootNode, setRootNode ] = useState<ICatalogNode>(null);
@@ -45,7 +45,7 @@ const useCatalogState = () =>
 
     const resetState = useCallback(() =>
     {
-        setPageId(-1);
+        setLoadPageId(-1);
         setPreviousPageId(-1);
         setRootNode(null);
         setOffersToNodes(null);
@@ -267,7 +267,7 @@ const useCatalogState = () =>
         if(pageId < 0) return;
 
         setIsBusy(true);
-        setPageId(pageId);
+        setLoadPageId(pageId);
 
         if(pageId > -1) SendMessageComposer(new GetCatalogPageComposer(pageId, offerId, currentType));
     }, [ currentType ]);
@@ -475,7 +475,7 @@ const useCatalogState = () =>
 
         setIsBusy(false);
 
-        if(pageId === parser.pageId)
+        if(loadPageId === parser.pageId)
         {
             showCatalogPage(parser.pageId, parser.layoutCode, new PageLocalization(parser.localization.images.concat(), parser.localization.texts.concat()), purchasableOffers, parser.offerId, parser.acceptSeasonCurrencyAsCredits);
         }
@@ -760,18 +760,18 @@ const useCatalogState = () =>
 
                 if(roomObject) roomObject.model.setValue(RoomObjectVariable.FURNITURE_ALPHA_MULTIPLIER, 0.5);
 
-                //if(catalogSkipPurchaseConfirmation)
-                //{
+                let pageId = currentOffer.page.pageId;
+
+                if (pageId === -1)
+                {
+                    const nodes = getNodesByOfferId(currentOffer.offerId);
+
+                    if (nodes) pageId = nodes[0].pageId;
+                }
+                
                 SendMessageComposer(new PurchaseFromCatalogComposer(pageId, purchasableOffer.offerId, product.extraParam, 1));
 
                 if(catalogPlaceMultipleObjects) requestOfferToMover(purchasableOffer);
-                //}
-                //else
-                //{
-                // confirm
-
-                //if(catalogPlaceMultipleObjects) requestOfferToMover(purchasableOffer);
-                //}
                 break;
             }
             case CatalogType.BUILDER: {
@@ -910,7 +910,7 @@ const useCatalogState = () =>
         }
     }, []);
 
-    return { isVisible, setIsVisible, isBusy, pageId, previousPageId, currentType, rootNode, offersToNodes, currentPage, setCurrentPage, currentOffer, setCurrentOffer, activeNodes, searchResult, setSearchResult, frontPageItems, roomPreviewer, navigationHidden, setNavigationHidden, purchaseOptions, setPurchaseOptions, catalogOptions, setCatalogOptions, getNodeById, getNodeByName, activateNode, openPageById, openPageByName, openPageByOfferId, requestOfferToMover, getNodesByOfferId };
+    return { isVisible, setIsVisible, isBusy, pageId: loadPageId, previousPageId, currentType, rootNode, offersToNodes, currentPage, setCurrentPage, currentOffer, setCurrentOffer, activeNodes, searchResult, setSearchResult, frontPageItems, roomPreviewer, navigationHidden, setNavigationHidden, purchaseOptions, setPurchaseOptions, catalogOptions, setCatalogOptions, getNodeById, getNodeByName, activateNode, openPageById, openPageByName, openPageByOfferId, requestOfferToMover, getNodesByOfferId };
 }
 
 export const useCatalog = () => useBetween(useCatalogState);
