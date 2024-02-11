@@ -62,8 +62,8 @@ export const PurseView: FC<{}> = props =>
     if(!purse) return null;
 
     return (
-        <Column alignItems="end" className="nitro-purse-container rounded" gap={ 1 }>
-            <Flex className="nitro-purse rounded-bottom p-1">
+        <Column alignItems="end" className="nitro-purse-container" gap={ 1 }>
+            <Flex className="nitro-purse rounded p-1">
                 <Grid fullWidth gap={ 1 }>
                     <Column justifyContent="center" size={ hcDisabled ? 10 : 6 } gap={ 0 }>
                         <CurrencyView type={ -1 } amount={ purse.credits } short={ currencyDisplayNumberShort } />
