@@ -20,7 +20,7 @@ export const App: FC<{}> = props =>
     if(!GetNitroInstance())
     {
         //@ts-ignore
-        if(!NitroConfig) throw new Error('NitroConfig is not defined!');
+        if(!NitroConfig) throw new Error('NitroConfig n\'est pas configuré');
 
         Nitro.bootstrap();
     }
@@ -35,11 +35,11 @@ export const App: FC<{}> = props =>
                 return;
             case ConfigurationEvent.FAILED:
                 setIsError(true);
-                setMessage('Configuration Failed');
+                setMessage('Echec de la configuration');
                 return;
             case Nitro.WEBGL_UNAVAILABLE:
                 setIsError(true);
-                setMessage('WebGL Required');
+                setMessage('WebGL requit');
                 return;
             case Nitro.WEBGL_CONTEXT_LOST:
                 setIsError(true);
@@ -75,7 +75,7 @@ export const App: FC<{}> = props =>
             case NitroCommunicationDemoEvent.CONNECTION_CLOSED:
                 if(GetNitroInstance().roomEngine) GetNitroInstance().roomEngine.dispose();
                 setIsError(true);
-                setMessage('La connexion à été fermer');
+                setMessage('La connexion a été clôturée, peut-être; êtes-vous déjà sur Wibbo ?');
 
                 HabboWebTools.send(-1, 'client.init.handshake.fail');
 
@@ -102,7 +102,7 @@ export const App: FC<{}> = props =>
                 else
                 {
                     setIsError(true);
-                    setMessage('Une erreur est survenu lors du chargement des assets');
+                    setMessage('Une erreur est survenue lors du chargement des assets');
                 }
                 return;
             }
