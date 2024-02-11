@@ -1,5 +1,5 @@
 import { FC, MouseEvent, useMemo } from 'react';
-import { FaFlag, FaTimes, FaWrench } from 'react-icons/fa';
+import { FaFlag, FaTimes, FaTrashAlt, FaWrench } from 'react-icons/fa';
 import { Base, Column, ColumnProps, Flex } from '..';
 
 interface NitroCardHeaderViewProps extends ColumnProps
@@ -10,11 +10,12 @@ interface NitroCardHeaderViewProps extends ColumnProps
     onReportPhoto?: (event: MouseEvent) => void;
     onCloseClick: (event: MouseEvent) => void;
     onEditClick?: (event: MouseEvent) => void;
+    onDeleteClick?: (event: MouseEvent) => void;
 }
 
 export const NitroCardHeaderView: FC<NitroCardHeaderViewProps> = props =>
 {
-    const { headerText = null, isGalleryPhoto = false, noCloseButton = false, onReportPhoto = null, onCloseClick = null, onEditClick = null, justifyContent = 'center', alignItems = 'center', classNames = [], children = null, ...rest } = props;
+    const { headerText = null, isGalleryPhoto = false, noCloseButton = false, onReportPhoto = null, onCloseClick = null, onEditClick = null, onDeleteClick = null, justifyContent = 'center', alignItems = 'center', classNames = [], children = null, ...rest } = props;
 
     const getClassNames = useMemo(() =>
     {
@@ -35,14 +36,17 @@ export const NitroCardHeaderView: FC<NitroCardHeaderViewProps> = props =>
         <Column center position="relative" classNames={ getClassNames } { ...rest }>
             <Flex fullWidth center>
                 <span className="nitro-card-header-text">{ headerText }</span>
-                <Base position="absolute" className="end-2 d-flex">
+                <Base position="absolute" className="end-2 d-flex gap-1">
                     { isGalleryPhoto &&
-                    <Base className="nitro-card-header-report-camera mx-2" onClick={ onReportPhoto }>
+                    <Base className="nitro-card-header-report-camera" onClick={ onReportPhoto }>
                         <FaFlag className="fa-icon" />
                     </Base>
                     }
-                    { onEditClick && <Base className="nitro-card-header-close mx-2" onMouseDownCapture={ onMouseDown } onClick={ onEditClick }>
+                    { onEditClick && <Base className="nitro-card-header-close" onMouseDownCapture={ onMouseDown } onClick={ onEditClick }>
                         <FaWrench className="fa-icon w-12 h-12" />
+                    </Base> }
+                    { onDeleteClick && <Base className="nitro-card-header-close" onMouseDownCapture={ onMouseDown } onClick={ onDeleteClick }>
+                        <FaTrashAlt className="fa-icon w-12 h-12" />
                     </Base> }
                     <Base className="nitro-card-header-close" onMouseDownCapture={ onMouseDown } onClick={ onCloseClick }>
                         <FaTimes className="fa-icon w-12 h-12" />

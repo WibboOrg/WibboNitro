@@ -34,6 +34,14 @@ const useChatHistoryState = () =>
         });
     }
 
+    const resetChatHistory = () =>
+    {
+        setChatHistory([]);
+        setRoomHistory([]);
+        setMessengerHistory([]);
+        console.log('chat history reset');
+    }
+
     const addRoomHistoryEntry = (entry: IRoomHistoryEntry) =>
     {
         setRoomHistory(prevValue =>
@@ -98,7 +106,7 @@ const useChatHistoryState = () =>
         addMessengerEntry({ id: -1, webId: parser.senderId, entityId: -1, name: '', message: parser.messageText, roomId: -1, timestamp: MessengerHistoryCurrentDate(), type: ChatEntryType.TYPE_IM });
     });
     
-    return { addChatEntry, chatHistory, roomHistory, messengerHistory };
+    return { addChatEntry, chatHistory, roomHistory, messengerHistory, resetChatHistory };
 }
 
 export const useChatHistory = () => useBetween(useChatHistoryState);
