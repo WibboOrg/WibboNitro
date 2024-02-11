@@ -93,7 +93,7 @@ const useCatalogState = () =>
     {
         const roomSession = GetRoomSession();
 
-        if(((DRAG_AND_DROP_ENABLED && roomSession && offer.page && (offer.page.layoutCode !== 'sold_ltd_items') && (currentType === CatalogType.NORMAL) && (roomSession.isRoomOwner || (roomSession.isGuildRoom && (roomSession.controllerLevel >= RoomControllerLevel.GUILD_MEMBER)))) || ((currentType === CatalogType.BUILDER) && (getBuilderFurniPlaceableStatus(offer) === BuilderFurniPlaceableStatus.OKAY))) && (offer.pricingModel !== Offer.PRICING_MODEL_BUNDLE) && (offer.product.productType !== ProductTypeEnum.EFFECT) && (offer.product.productType !== ProductTypeEnum.HABBO_CLUB)) return true;
+        if(((DRAG_AND_DROP_ENABLED && roomSession && offer.page && (offer.page.layoutCode !== 'sold_ltd_items') && (currentType === CatalogType.NORMAL) && (roomSession.isRoomOwner || roomSession.controllerLevel >= RoomControllerLevel.GUEST || (roomSession.isGuildRoom && (roomSession.controllerLevel >= RoomControllerLevel.GUILD_MEMBER)))) || ((currentType === CatalogType.BUILDER) && (getBuilderFurniPlaceableStatus(offer) === BuilderFurniPlaceableStatus.OKAY))) && (offer.pricingModel !== Offer.PRICING_MODEL_BUNDLE) && (offer.product.productType !== ProductTypeEnum.EFFECT) && (offer.product.productType !== ProductTypeEnum.HABBO_CLUB)) return true;
 
         return false;
     }, [ currentType, getBuilderFurniPlaceableStatus ]);
