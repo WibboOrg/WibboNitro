@@ -17,7 +17,7 @@ export const MentionBubbleView: FC<{}> = props =>
     
     useEffect(() =>
     {
-        const interval = setInterval(() => setTimeNow(Date.now() / 1000), 1000);
+        const interval = window.setInterval(() => setTimeNow(Date.now() / 1000), 1000);
 
         return () => clearInterval(interval);
     }, []);

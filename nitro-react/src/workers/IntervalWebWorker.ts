@@ -1,6 +1,6 @@
 export default () =>
 {
-    let interval: ReturnType<typeof setInterval> = null;
+    let interval: number = null;
 
     // eslint-disable-next-line no-restricted-globals
     self.onmessage = (message: MessageEvent) =>
@@ -12,7 +12,7 @@ export default () =>
         switch(data.action)
         {
             case 'START':
-                interval = setInterval(() => postMessage(null), data.content);
+                interval = window.setInterval(() => postMessage(null), data.content);
                 break;
             case 'STOP':
                 if(interval)

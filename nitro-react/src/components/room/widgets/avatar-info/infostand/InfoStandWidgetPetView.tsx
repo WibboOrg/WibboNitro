@@ -29,7 +29,7 @@ export const InfoStandWidgetPetView: FC<InfoStandWidgetPetViewProps> = props =>
     {
         if((avatarInfo.petType !== PetType.MONSTERPLANT) || avatarInfo.dead) return;
 
-        const interval = setInterval(() =>
+        const interval = window.setInterval(() =>
         {
             setRemainingGrowTime(prevValue => (prevValue - 1));
             setRemainingTimeToLive(prevValue => (prevValue - 1));

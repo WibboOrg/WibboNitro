@@ -151,7 +151,7 @@ export class NitroCommunicationDemo extends NitroManager implements INitroCommun
     {
         this.stopPonging();
 
-        this._pongInterval = setInterval(this.sendPong, NitroConfiguration.getValue<number>('system.pong.interval.ms', 20000));
+        this._pongInterval = window.setInterval(this.sendPong, NitroConfiguration.getValue<number>('system.pong.interval.ms', 20000));
     }
 
     private stopPonging(): void

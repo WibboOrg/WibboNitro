@@ -155,7 +155,7 @@ export const InventoryTradeView: FC<InventoryTradeViewProps> = props =>
 
         setCountdownTick(3);
 
-        const interval = setInterval(() =>
+        const interval = window.setInterval(() =>
         {
             setCountdownTick(prevValue =>
             {

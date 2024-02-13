@@ -110,7 +110,7 @@ const usePurseState = () =>
 
         SendMessageComposer(new UserSubscriptionComposer('habbo_club'));
 
-        const interval = setInterval(() => SendMessageComposer(new UserSubscriptionComposer('habbo_club')), 50000);
+        const interval = window.setInterval(() => SendMessageComposer(new UserSubscriptionComposer('habbo_club')), 50000);
 
         return () => clearInterval(interval);
     }, [ hcDisabled ]);

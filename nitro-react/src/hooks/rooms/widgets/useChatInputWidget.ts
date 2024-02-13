@@ -213,7 +213,7 @@ const useChatInputWidgetState = () =>
 
         let seconds = 0;
 
-        const interval = setInterval(() =>
+        const interval = window.setInterval(() =>
         {
             setFloodBlockedSeconds(prevValue =>
             {

@@ -252,7 +252,7 @@ const useFriendsState = () =>
     {
         SendMessageComposer(new MessengerInitComposer());
 
-        const interval = setInterval(() => SendMessageComposer(new FriendListUpdateComposer()), 120000);
+        const interval = window.setInterval(() => SendMessageComposer(new FriendListUpdateComposer()), 120000);
 
         return () =>
         {

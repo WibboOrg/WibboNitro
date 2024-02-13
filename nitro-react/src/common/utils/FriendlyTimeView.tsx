@@ -17,7 +17,7 @@ export const FriendlyTimeView: FC<FriendlyTimeViewProps> = props =>
 
     useEffect(() =>
     {
-        const interval = setInterval(() => setUpdateId(prevValue => (prevValue + 1)), 10000);
+        const interval = window.setInterval(() => setUpdateId(prevValue => (prevValue + 1)), 10000);
 
         return () => clearInterval(interval);
     }, []);

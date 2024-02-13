@@ -6,19 +6,19 @@ import { ConfigurationEvent, EventDispatcher, NitroCore } from '../core';
 import { NitroEvent, RoomEngineEvent } from '../events';
 import { GetTicker, PixiApplicationProxy } from '../pixi-proxy';
 import { RoomManager } from '../room';
+import { INitro } from './INitro';
+import './Plugins';
 import { AvatarRenderManager } from './avatar';
 import { RoomCameraWidgetManager } from './camera';
 import { NitroCommunicationManager } from './communication';
 import { LegacyExternalInterface } from './externalInterface';
 import { GameMessageHandler } from './game';
-import { INitro } from './INitro';
+import { KeyboardManager } from './keyboard/KeyboardManager';
 import { NitroLocalizationManager } from './localization';
-import './Plugins';
 import { LandscapeRasterizer, RoomEngine } from './room';
 import { RoomSessionManager, SessionDataManager } from './session';
 import { SoundManager } from './sound';
 import { HabboWebTools } from './utils/HabboWebTools';
-import { KeyboardManager } from './keyboard/KeyboardManager';
 
 LegacyExternalInterface.available;
 
@@ -280,7 +280,7 @@ export class Nitro implements INitro
     {
         this.sendHeartBeat();
 
-        setInterval(this.sendHeartBeat, 10000);
+        window.setInterval(this.sendHeartBeat, 10000);
     }
 
     private sendHeartBeat(): void

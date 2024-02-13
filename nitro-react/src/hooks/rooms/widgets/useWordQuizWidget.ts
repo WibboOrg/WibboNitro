@@ -125,7 +125,7 @@ const useWordQuizWidgetState = () =>
             });
         }
 
-        const interval = setInterval(() => checkSignFade(), 1000);
+        const interval = window.setInterval(() => checkSignFade(), 1000);
 
         return () => clearInterval(interval);
     }, []);
