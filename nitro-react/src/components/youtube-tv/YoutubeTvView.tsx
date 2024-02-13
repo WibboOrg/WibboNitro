@@ -1,6 +1,6 @@
-import { EditTvComposer, YoutubeTvEvent } from '@nitrots/nitro-renderer';
-import { FC, useCallback, useMemo, useState } from 'react';
-import { GetConfiguration, SendMessageComposer } from '../../api';
+import { EditTvComposer, ILinkEventTracker, YoutubeTvEvent } from '@nitrots/nitro-renderer';
+import { FC, useEffect, useMemo, useState } from 'react';
+import { AddEventLinkTracker, GetConfiguration, RemoveLinkEventTracker, SendMessageComposer } from '../../api';
 import { Button, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView } from '../../common';
 import { useMessageEvent } from '../../hooks';
 
@@ -9,7 +9,7 @@ export const YoutubeTvView: FC<{}> = props =>
     const [ itemId, setItemId ] = useState<number>(-1);
     const [ videoId, setVideoId ] = useState<string>('');
     const [ videoLink, setVideoLink ] = useState<string>('');
-    const [ isOpen, setIsOpen ] = useState<boolean>(false);
+    const [ isVisible, setIsVisible ] = useState<boolean>(false);
     const [ isEdit, setIsEdit ] = useState<boolean>(false);
     
     useMessageEvent<YoutubeTvEvent>(YoutubeTvEvent, event =>
@@ -18,21 +18,16 @@ export const YoutubeTvView: FC<{}> = props =>
 
         setItemId(parser.id);
         setVideoId(parser.videoCode);
-        setIsOpen(true);
+        setIsVisible(true);
     });
 
-    const close = useCallback(() => 
+    const close = () => 
     {
-        setIsOpen(false);
+        setIsVisible(false);
         setIsEdit(false);
-    }, []);
+    };
 
-    const edit = useCallback(() =>
-    {
-        setIsEdit(true);
-    }, []);
-
-    const editVideo = useCallback(() =>
+    const editVideo = () =>
     {
         if (videoLink.trim() == '') return;
 
@@ -43,16 +38,40 @@ export const YoutubeTvView: FC<{}> = props =>
         setVideoLink('');
 
         close();
-    }, [ videoLink, itemId, close ]);
+    }
+    
+    useEffect(() =>
+    {
+        const linkTracker: ILinkEventTracker = {
+            linkReceived: (url: string) =>
+            {
+                const parts = url.split('/');
+
+                if(parts.length < 3) return;
+        
+                switch(parts[1])
+                {
+                    case 'show':
+                        setIsVisible(true);
+                        setVideoId(parts[2]);
+                        return;
+                }
+            },
+            eventUrlPrefix: 'youtube-tv/'
+        };
+
+        AddEventLinkTracker(linkTracker);
+
+        return () => RemoveLinkEventTracker(linkTracker);
+    }, []);
 
     const origineUrl = useMemo(() => GetConfiguration<string>('url.prefix'), [ ]);
 
-    if(!isOpen) return null;
+    if(!isVisible) return null;
 
     return (
         <NitroCardView className="youtube-tv-widget">
-            { itemId > 0 && <NitroCardHeaderView headerText={ 'Tv Youtube' } onCloseClick={ close } onEditClick={ edit } /> }
-            { itemId === 0 && <NitroCardHeaderView headerText={ 'Tv Youtube' } onCloseClick={ close } /> }
+            <NitroCardHeaderView headerText={ 'Tv Youtube' } onCloseClick={ close } onEditClick={ itemId > 0 ? e => setIsEdit(true) : null } />
             <NitroCardContentView grow gap={ 0 }>
                 <div className="youtube-video-container d-flex w-100 h-100">
                     { (videoId && videoId.length > 0 && !isEdit) &&

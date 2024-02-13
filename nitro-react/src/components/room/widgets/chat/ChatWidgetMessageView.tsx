@@ -2,6 +2,7 @@ import { RoomChatSettings, RoomObjectCategory } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { ChatBubbleMessage, GetConfiguration, GetRoomEngine } from '../../../../api';
 import { PlayerAudio } from '../../../../common';
+import { useOnClickChat } from '../../../../hooks';
 
 interface ChatWidgetMessageViewProps
 {
@@ -16,6 +17,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
     const [ isVisible, setIsVisible ] = useState(false);
     const [ isReady, setIsReady ] = useState<boolean>(false);
     const elementRef = useRef<HTMLDivElement>();
+    const { onClickChat = null } = useOnClickChat();
 
     const getBubbleWidth = useMemo(() =>
     {
@@ -79,7 +81,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
 
         setIsVisible(true);
     }, [ chat, isReady, isVisible, makeRoom ]);
-
+    
     return (
         <div ref={ elementRef } className={ `bubble-container ${ isVisible ? 'visible animate__animated animate__fadeInUp' : 'invisible' } cursor-pointer` } onClick={ event => GetRoomEngine().selectRoomObject(chat.roomId, chat.senderId, RoomObjectCategory.UNIT) }>
             { (chat.styleId === 0) &&
@@ -91,7 +93,7 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
                 </div>
                 { chat.type !== 11 ? <div className="chat-content">
                     <b className="username mr-1" dangerouslySetInnerHTML={ { __html: `${ chat.username }: ` } } />
-                    <span className="message" dangerouslySetInnerHTML={ { __html: `${ chat.formattedText }` } } />
+                    <span className="message" dangerouslySetInnerHTML={ { __html: `${ chat.formattedText }` } } onClick={ e => onClickChat(e) } />
                 </div>
                     : <div className="chat-content">
                         <b className="username" dangerouslySetInnerHTML={ { __html: `${ chat.username } ` } } />

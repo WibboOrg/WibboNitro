@@ -18,6 +18,7 @@ export * from './purse';
 export * from './rooms';
 export * from './session';
 export * from './useLocalStorage';
+export * from './useOnClickChat';
 export * from './useOnScreen';
 export * from './useSharedVisibility';
 export * from './wired';

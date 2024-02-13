@@ -176,9 +176,50 @@ export const RoomChatFormatter = (content: string) =>
     content = encodeHTML(content);
     content = (joypixels.shortnameToUnicode(content) as string)
     content = content.replace(/\[tag\](.*?)\[\/tag\]/g, '<span class="chat-tag"><b>$1</b></span>');
-    content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?.*v=|shorts\/)?([\w-]+)/g, '<a href="https://youtu.be/$1" target="_blank">$&</a>');
-    content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:twitter\.com)\/(\w+\/status\/\d+)/g, '<a href="https://twitter.com/$1" target="_blank">$&</a>');
-    content = content.replace(/(?:http:\/\/|https:\/\/)?(?:www\.)?(?:tiktok\.com)\/(@\w+\/video\/\d+)/g, '<a href="https://www.tiktok.com/$1" target="_blank">$&</a>');
+
+    // Youtube link
+    content = content.replace(
+        /(?:http:\/\/|https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?.*v=|shorts\/)?([a-zA-Z0-9_-]{11})/g,
+        '<a href="https://youtu.be/$1" target="_blank">$&</a>'
+    );
+  
+    // Twitter link
+    content = content.replace(
+        /(?:https?:\/\/)?(?:www\.)?(?:twitter\.com)\/(\w+\/status\/\d+)/g,
+        '<a href="https://twitter.com/$1" target="_blank">$&</a>'
+    );
+  
+    // Tiktok link
+    content = content.replace(
+        /(?:https?:\/\/)?(?:www\.)?(?:vm\.tiktok\.com\/(\w+)|tiktok\.com\/(@\w+\/video\/(\d+)))/g,
+        function(match, vmTiktok, tiktokUserVideo, tiktokUser, tiktokVideoId) 
+        {
+            if (vmTiktok) 
+            {
+                return `<a href="https://vm.tiktok.com/${ vmTiktok }" target="_blank">${ match }</a>`;
+            }
+            else 
+            {
+                return `<a href="https://www.tiktok.com/${ tiktokUserVideo }" target="_blank">${ match }</a>`;
+            }
+        }
+    );
+  
+    // Instagram link
+    content = content.replace(
+        /(?:https?:\/\/)?(?:www\.)?(?:instagram\.com\/(?:p\/([a-zA-Z0-9_-]+)|reels\/([a-zA-Z0-9_-]+)))/g,
+        function(match, instagramPost, instagramReel) 
+        {
+            if (instagramPost) 
+            {
+                return `<a href="https://www.instagram.com/p/${ instagramPost }" target="_blank">${ match }</a>`;
+            }
+            else 
+            {
+                return `<a href="https://www.instagram.com/reels/${ instagramReel }" target="_blank">${ match }</a>`;
+            }
+        }
+    );
 
     if(content.startsWith('@') && content.indexOf('@', 1) > -1)
     {
