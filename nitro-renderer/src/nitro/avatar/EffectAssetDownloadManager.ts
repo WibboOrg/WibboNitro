@@ -51,40 +51,20 @@ export class EffectAssetDownloadManager extends EventDispatcher
 
     private loadEffectMap(): void
     {
-        const request = new XMLHttpRequest();
-
-        try
-        {
-            request.open('GET', NitroConfiguration.getValue<string>('avatar.effectmap.url'));
-
-            request.send();
-
-            request.onloadend = e =>
+        const url = NitroConfiguration.getValue<string>('avatar.effectmap.url');
+        fetch(url)
+            .then(response => response.json())
+            .then(data =>
             {
-                if(request.responseText)
-                {
-                    const data = JSON.parse(request.responseText);
+                this.processEffectMap(data.effects);
 
-                    this.processEffectMap(data.effects);
+                this.processMissingLibraries();
 
-                    this.processMissingLibraries();
+                this._isReady = true;
 
-                    this._isReady = true;
-
-                    this.dispatchEvent(new NitroEvent(EffectAssetDownloadManager.DOWNLOADER_READY));
-                }
-            };
-
-            request.onerror = e =>
-            {
-                throw new Error('invalid_avatar_effect_map');
-            };
-        }
-
-        catch (e)
-        {
-            NitroLogger.error(e);
-        }
+                this.dispatchEvent(new NitroEvent(EffectAssetDownloadManager.DOWNLOADER_READY));
+            })
+            .catch(err => NitroLogger.error(err));
     }
 
     private processEffectMap(data: any): void
