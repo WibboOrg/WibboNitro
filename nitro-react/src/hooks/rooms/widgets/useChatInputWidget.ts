@@ -128,7 +128,7 @@ const useChatInputWidgetState = () =>
                         {
                             GetSessionDataManager().sendSpecialCommandMessage(':pickall');
                         },
-                        null, null, null, LocalizeText('generic.alert.title'));
+                        null, null, null, LocalizeText('generic.alert.title'), null, 'pickall');
                     }
 
                     return null;

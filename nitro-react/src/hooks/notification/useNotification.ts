@@ -110,7 +110,9 @@ const useNotificationState = () =>
 
         if(!cancelText || !cancelText.length) cancelText = LocalizeText('generic.cancel');
 
-        if(!title || !title.length) title = LocalizeText('notifications.broadcast.title');
+        if (!title || !title.length) title = LocalizeText('notifications.broadcast.title');
+        
+        if(!imageUrl.startsWith('http')) imageUrl = GetConfiguration<string>('image.library.notifications.url', '').replace('%image%', imageUrl.replace(/\./g, '_'));
 
         const confirmItem = new NotificationConfirmItem(type, message, onConfirm, onCancel, confirmText, cancelText, title, imageUrl);
 

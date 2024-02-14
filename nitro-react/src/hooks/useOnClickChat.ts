@@ -28,7 +28,7 @@ const useOnClickChatState = () =>
                 {
                     window.open(url, '_blank');
                 },
-                null, null, null, LocalizeText('generic.alert.title'));
+                null, null, null, LocalizeText('generic.alert.title'), null, 'link');
             }
         }
     }

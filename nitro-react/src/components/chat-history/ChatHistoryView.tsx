@@ -28,7 +28,7 @@ export const ChatHistoryView: FC<{}> = props =>
         {
             resetChatHistory();
         },
-        null, null, null, LocalizeText('generic.alert.title'));
+        null, null, null, LocalizeText('generic.alert.title'), null, 'reset-chat');
     }
 
     useEffect(() =>

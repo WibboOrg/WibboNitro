@@ -30,7 +30,7 @@ export const NotificationDefaultConfirmView: FC<NotificationDefaultConfirmViewPr
         <LayoutNotificationAlertView title={ title } onClose={ onClose } { ...rest } type={ NotificationAlertType.ALERT }>
             <Flex grow center gap={ 2 }>
                 { imageUrl && <img src={ imageUrl } /> }
-                <Text>{ message }</Text>
+                <Text textBreak>{ message }</Text>
             </Flex>
             <Flex gap={ 1 }>
                 <Button fullWidth variant="danger" onClick={ cancel }>{ cancelText }</Button>
