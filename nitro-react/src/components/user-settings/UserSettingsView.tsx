@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { FaVolumeDown, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import { AddEventLinkTracker, DispatchMainEvent, DispatchUiEvent, LocalizeText, RemoveLinkEventTracker, SendMessageComposer } from '../../api';
 import { Column, Flex, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text, classNames } from '../../common';
-import { useCatalogPlaceMultipleItems, useCatalogSkipPurchaseConfirmation, useLocalStorage, useMessageEvent } from '../../hooks';
+import { useCatalogPlaceMultipleItems, useCatalogSkipPurchaseConfirmation, useDisableGameAlert, useMessageEvent } from '../../hooks';
 
 export const UserSettingsView: FC<{}> = props =>
 {
@@ -11,7 +11,7 @@ export const UserSettingsView: FC<{}> = props =>
     const [ userSettings, setUserSettings ] = useState<NitroSettingsEvent>(null);
     const [ catalogPlaceMultipleObjects, setCatalogPlaceMultipleObjects ] = useCatalogPlaceMultipleItems();
     const [ catalogSkipPurchaseConfirmation, setCatalogSkipPurchaseConfirmation ] = useCatalogSkipPurchaseConfirmation();
-    const [ disableGameAlert, setDisableGameAlert ] = useLocalStorage<boolean>('disableGameAnimation', false);
+    const [ disableGameAlert, setDisableGameAlert ] = useDisableGameAlert();
 
     const processAction = (type: string, value?: boolean | number | string) =>
     {

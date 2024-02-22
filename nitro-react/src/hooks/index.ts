@@ -17,6 +17,7 @@ export * from './notification';
 export * from './purse';
 export * from './rooms';
 export * from './session';
+export * from './settings';
 export * from './useLocalStorage';
 export * from './useOnClickChat';
 export * from './useOnScreen';

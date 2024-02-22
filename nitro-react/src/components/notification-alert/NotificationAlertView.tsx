@@ -3,7 +3,7 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { BbCode, GetConfiguration, OpenUrl, PlaySound, TryVisitRoom } from '../../api';
 import { Button } from '../../common';
-import { useLocalStorage, useMessageEvent } from '../../hooks';
+import { useDisableGameAlert, useMessageEvent } from '../../hooks';
 
 interface IAlert
 {
@@ -19,7 +19,7 @@ export const NotificationAlertView: FC<{}> = props =>
 {
     const [ alert, setAlert ] = useState<IAlert>(null);
     const [ isOpen, setIsOpen ] = useState<boolean>(false);
-    const [ disableGameAlert ] = useLocalStorage<boolean>('disableGameAnimation', false);
+    const [ disableGameAlert ] = useDisableGameAlert();
     
     useMessageEvent<NotifAlertEvent>(NotifAlertEvent, event =>
     {
@@ -33,6 +33,8 @@ export const NotificationAlertView: FC<{}> = props =>
             roomId: parser.roomId,
             link: parser.link
         };
+
+        console.log(alert.roomId, disableGameAlert)
 
         if (alert.roomId && disableGameAlert) return;
 
