@@ -1,5 +1,4 @@
 import { IRoleplayItem, RpBuyItemsComposer } from '@nitrots/nitro-renderer';
-import classNames from 'classnames';
 import { FC, useCallback } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { BbCode, GetConfiguration, SendMessageComposer } from '../../../api';
@@ -54,7 +53,7 @@ export const RPBoxBuyItemsView: FC<{}> = props =>
                                         overlay={
                                             <Tooltip><Base dangerouslySetInnerHTML={ { __html: BbCode(item.desc) } } /></Tooltip>
                                         }>
-                                        <div className={ 'container_item ' + classNames({ 'no_money': (item.price * item.count > stats.money) }) }>
+                                        <div className={ 'container_item ' + (item.price * item.count > stats.money ? 'no_money' : '') }>
                                             <img className="item" src={ GetConfiguration<string>('item.rp.images.url').replace('%image%', item.name) } />
                                         </div>
                                     </OverlayTrigger>

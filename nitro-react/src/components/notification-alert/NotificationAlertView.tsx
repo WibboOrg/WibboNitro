@@ -33,9 +33,7 @@ export const NotificationAlertView: FC<{}> = props =>
             roomId: parser.roomId,
             link: parser.link
         };
-
-        console.log(alert.roomId, disableGameAlert)
-
+        
         if (alert.roomId && disableGameAlert) return;
 
         if(alert.roomId) PlaySound('animation_warn');

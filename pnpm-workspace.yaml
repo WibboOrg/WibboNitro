@@ -1,0 +1,6 @@
+packages:
+  - 'nitro-react'
+  - 'nitro-renderer'
+  # if required, exclude some directories
+  - '!**/test/**'
+  - '!**/.output/**'

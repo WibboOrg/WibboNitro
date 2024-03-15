@@ -39,7 +39,6 @@ const useChatHistoryState = () =>
         setChatHistory([]);
         setRoomHistory([]);
         setMessengerHistory([]);
-        console.log('chat history reset');
     }
 
     const addRoomHistoryEntry = (entry: IRoomHistoryEntry) =>
