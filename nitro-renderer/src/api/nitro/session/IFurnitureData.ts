@@ -7,7 +7,6 @@ export interface IFurnitureData
     category: string;
     hasIndexedColor: boolean;
     colorIndex: number;
-    revision: number;
     tileSizeX: number;
     tileSizeY: number;
     tileSizeZ: number;
@@ -27,7 +26,4 @@ export interface IFurnitureData
     canLayOn: boolean;
     isExternalImage: boolean;
     excludeDynamic: boolean;
-    furniLine: string;
-    environment: string;
-    rare: boolean;
 }

@@ -34,7 +34,6 @@ export class RoomContentLoader implements IFurnitureDataListener, IRoomContentLo
     private _wallItems: { [index: string]: number };
     private _wallItemTypes: Map<number, string>;
     private _wallItemTypeIds: Map<string, number>;
-    private _furniRevisions: Map<string, number>;
     private _pets: { [index: string]: number };
     private _petColors: Map<number, Map<number, IPetColorResult>>;
     private _objectAliases: Map<string, string>;
@@ -61,7 +60,6 @@ export class RoomContentLoader implements IFurnitureDataListener, IRoomContentLo
         this._wallItems = {};
         this._wallItemTypes = new Map();
         this._wallItemTypeIds = new Map();
-        this._furniRevisions = new Map();
         this._pets = {};
         this._petColors = new Map();
         this._objectAliases = new Map();
@@ -136,7 +134,6 @@ export class RoomContentLoader implements IFurnitureDataListener, IRoomContentLo
 
             if(furniture.hasIndexedColor) className = ((className + '*') + furniture.colorIndex);
 
-            const revision = furniture.revision;
             const adUrl = furniture.adUrl;
 
             if(adUrl && adUrl.length > 0) this._objectTypeAdUrls.set(className, adUrl);
@@ -169,14 +166,6 @@ export class RoomContentLoader implements IFurnitureDataListener, IRoomContentLo
                 this._wallItemTypeIds.set(className, id);
 
                 if(!this._wallItems[name]) this._wallItems[name] = 1;
-            }
-
-            const existingRevision = this._furniRevisions.get(name);
-
-            if(revision > existingRevision)
-            {
-                this._furniRevisions.delete(name);
-                this._furniRevisions.set(name, revision);
             }
         }
     }

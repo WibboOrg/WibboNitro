@@ -9,7 +9,6 @@ export class FurnitureData implements IFurnitureData
     private _category: string;
     private _hasIndexedColor: boolean;
     private _colourIndex: number;
-    private _revision: number;
     private _tileSizeX: number;
     private _tileSizeY: number;
     private _tileSizeZ: number;
@@ -28,18 +27,14 @@ export class FurnitureData implements IFurnitureData
     private _canSitOn: boolean;
     private _canLayOn: boolean;
     private _excludedFromDynamic: boolean;
-    private _furniLine: string;
-    private _environment: string;
-    private _rare: boolean;
 
-    constructor(type: string, id: number, fullName: string, className: string, category: string, localizedName: string, description: string, revision: number, tileSizeX: number, tileSizeY: number, tileSizeZ: number, colors: number[], hadIndexedColor: boolean, colorIndex: number, adUrl: string, purchaseOfferId: number, purchaseCouldBeUsedForBuyout: boolean, rentOfferId: number, rentCouldBeUsedForBuyout: boolean, availableForBuildersClub: boolean, customParams: string, specialType: number, canStandOn: boolean, canSitOn: boolean, canLayOn: boolean, excludedfromDynamic: boolean, furniLine: string, environment: string, rare: boolean)
+    constructor(type: string, id: number, fullName: string, className: string, category: string, localizedName: string, description: string, tileSizeX: number, tileSizeY: number, tileSizeZ: number, colors: number[], hadIndexedColor: boolean, colorIndex: number, adUrl: string, purchaseOfferId: number, purchaseCouldBeUsedForBuyout: boolean, rentOfferId: number, rentCouldBeUsedForBuyout: boolean, availableForBuildersClub: boolean, customParams: string, specialType: number, canStandOn: boolean, canSitOn: boolean, canLayOn: boolean, excludedfromDynamic: boolean)
     {
         this._type = type;
         this._id = id;
         this._fullName = fullName;
         this._className = className;
         this._category = category;
-        this._revision = revision;
         this._tileSizeX = tileSizeX;
         this._tileSizeY = tileSizeY;
         this._tileSizeZ = tileSizeZ;
@@ -60,9 +55,6 @@ export class FurnitureData implements IFurnitureData
         this._canSitOn = canSitOn;
         this._canLayOn = canLayOn;
         this._excludedFromDynamic = excludedfromDynamic;
-        this._furniLine = furniLine;
-        this._environment = environment;
-        this._rare = rare;
     }
 
     public get type(): string
@@ -103,11 +95,6 @@ export class FurnitureData implements IFurnitureData
     public get colorIndex(): number
     {
         return this._colourIndex;
-    }
-
-    public get revision(): number
-    {
-        return this._revision;
     }
 
     public get tileSizeX(): number
@@ -203,20 +190,5 @@ export class FurnitureData implements IFurnitureData
     public get excludeDynamic(): boolean
     {
         return this._excludedFromDynamic;
-    }
-
-    public get furniLine(): string
-    {
-        return this._furniLine;
-    }
-
-    public get environment(): string
-    {
-        return this._environment;
-    }
-
-    public get rare(): boolean
-    {
-        return this._rare;
     }
 }
