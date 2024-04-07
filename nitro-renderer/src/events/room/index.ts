@@ -12,6 +12,7 @@ export * from './RoomEngineSamplePlaybackEvent';
 export * from './RoomEngineTriggerWidgetEvent';
 export * from './RoomEngineUseProductEvent';
 export * from './RoomObjectBadgeAssetEvent';
+export * from './RoomObjectBannerAssetEvent';
 export * from './RoomObjectDataRequestEvent';
 export * from './RoomObjectDimmerStateUpdateEvent';
 export * from './RoomObjectEvent';

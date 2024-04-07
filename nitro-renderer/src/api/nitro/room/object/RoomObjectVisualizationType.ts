@@ -29,6 +29,8 @@ export class RoomObjectVisualizationType
     public static FURNITURE_VOTE_MAJORITY = 'furniture_vote_majority';
     public static FURNITURE_SOUNDBLOCK = 'furniture_soundblock';
     public static FURNITURE_BADGE_DISPLAY = 'furniture_badge_display';
+    public static FURNITURE_BADGE_TROC = 'furniture_badge_troc';
+    public static FURNITURE_BANNER_TROC = 'furniture_banner_troc';
     public static FURNITURE_YOUTUBE = 'furniture_youtube';
     public static FURNITURE_BUILDER_PLACEHOLDER = 'furniture_builder_placeholder';
     public static ROOM = 'room';

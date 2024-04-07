@@ -358,11 +358,17 @@
     border-radius: 6px;
     overflow: hidden;
     pointer-events: none;
-    
-    * {
+
+    .avatar-image {
         position: absolute;
         max-width: 67px;
     }
+}
+
+.banner-image {
+    position: absolute;
+    width: 67px;
+    height: 130px;
 }
 
 .pet-image {

@@ -3,21 +3,21 @@ import { Container, DisplayObject } from '@pixi/display';
 import { Matrix, Point, Rectangle } from '@pixi/math';
 import { IConnection, IDisposable, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IMessageComposer, INitroCommunicationManager, INitroEvent, IObjectData, IPetColorResult, IPetCustomPart, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomObjectLogicFactory, IRoomObjectVisualizationFactory, IRoomRenderer, IRoomRendererFactory, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, NitroConfiguration, NitroLogger, ObjectDataFactory, RoomControllerLevel, RoomObjectCategory, RoomObjectUserType, RoomObjectVariable, ToolbarIconEnum, Vector3d } from '../../api';
 import { NitroManager } from '../../core';
-import { BadgeImageReadyEvent, NitroToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '../../events';
+import { BadgeImageReadyEvent, BannerImageReadyEvent, NitroToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '../../events';
 import { GetTicker, GetTickerTime, NitroSprite, TextureUtils } from '../../pixi-proxy';
 import { NumberBank, RoomEnterEffect, RoomGeometry, RoomInstance, RoomObjectUpdateMessage, RoomRendererFactory } from '../../room';
 import { PetFigureData } from '../avatar';
 import { RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '../communication';
 import { FurniId } from '../utils';
 import { ImageResult } from './ImageResult';
-import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExperienceUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarGuideStatusUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPetGestureUpdateMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, ObjectDataUpdateMessage, ObjectGroupBadgeUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectModelDataUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, ObjectStateUpdateMessage } from './messages';
+import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExperienceUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarGuideStatusUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPetGestureUpdateMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, ObjectDataUpdateMessage, ObjectGroupBadgeUpdateMessage, ObjectGroupBannerUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectModelDataUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, ObjectStateUpdateMessage } from './messages';
 import { RoomLogic, RoomMapData, RoomObjectVisualizationFactory } from './object';
 import { RoomContentLoader } from './RoomContentLoader';
 import { RoomMessageHandler } from './RoomMessageHandler';
 import { RoomObjectEventHandler } from './RoomObjectEventHandler';
 import { RoomObjectLogicFactory } from './RoomObjectLogicFactory';
 import { RoomVariableEnum } from './RoomVariableEnum';
-import { RoomCamera, RoomData, RoomFurnitureData, RoomInstanceData, RoomObjectBadgeImageAssetListener, SpriteDataCollector } from './utils';
+import { RoomCamera, RoomData, RoomFurnitureData, RoomInstanceData, RoomObjectBadgeImageAssetListener, RoomObjectBannerImageAssetListener, SpriteDataCollector } from './utils';
 
 export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreator, IRoomEngineServices, IRoomManagerListener, IRoomContentListener, IUpdateReceiver, IDisposable
 {
@@ -46,7 +46,6 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
     private _roomMessageHandler: RoomMessageHandler;
     private _roomContentLoader: IRoomContentLoader;
     private _ready: boolean;
-    private _roomContentLoaderReady: boolean;
     private _imageObjectIdBank: NumberBank;
     private _imageCallbacks: Map<string, IGetImageListener[]>;
     private _thumbnailObjectIdBank: NumberBank;
@@ -68,6 +67,7 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
     private _skipFurnitureCreationForNextFrame: boolean;
     private _mouseCursorUpdate: boolean;
     private _badgeListenerObjects: Map<string, RoomObjectBadgeImageAssetListener[]>;
+    private _bannerListenerObjects: Map<string, RoomObjectBannerImageAssetListener[]>;
     private _logicFactory: IRoomObjectLogicFactory;
 
     constructor(communication: INitroCommunicationManager)
@@ -82,7 +82,6 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
         this._roomMessageHandler = new RoomMessageHandler(this);
         this._roomContentLoader = new RoomContentLoader();
         this._ready = false;
-        this._roomContentLoaderReady = false;
 
         this._activeRoomId = -1;
         this._activeRoomActiveCanvas = -1;
@@ -115,6 +114,7 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
         this.onRoomSessionEvent = this.onRoomSessionEvent.bind(this);
         this.onRoomContentLoaderReadyEvent = this.onRoomContentLoaderReadyEvent.bind(this);
         this.onBadgeImageReadyEvent = this.onBadgeImageReadyEvent.bind(this);
+        this.onBannerImageReadyEvent = this.onBannerImageReadyEvent.bind(this);
     }
 
     public onInit(): void
@@ -206,8 +206,6 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
 
     private onRoomContentLoaderReadyEvent(event: INitroEvent): void
     {
-        this._roomContentLoaderReady = true;
-
         this._roomManager.init();
     }
 
@@ -2330,6 +2328,54 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
         roomObject.logic.processUpdateMessage(new ObjectGroupBadgeUpdateMessage(badgeId, badgeName));
     }
 
+    public loadRoomObjectBannerImage(roomId: number, objectId: number, objectCategory: number, bannerId: string): void
+    {
+        if(!this._sessionDataManager) return;
+
+        let roomObject: IRoomObjectController = null;
+
+        if(roomId === 0)
+        {
+            const room = this._roomManager.getRoomInstance(RoomEngine.TEMPORARY_ROOM);
+
+            if(room) roomObject = (room.getRoomObject(objectId, objectCategory) as IRoomObjectController);
+        }
+        else
+        {
+            roomObject = this.getRoomObjectFloor(roomId, objectId);
+        }
+
+        if(!roomObject || !roomObject.logic) return;
+
+        let bannerName = this._sessionDataManager.loadBannerImage(bannerId);
+
+        if(!bannerName)
+        {
+            bannerName = 'loading_icon';
+
+            if(!this._bannerListenerObjects) this._bannerListenerObjects = new Map();
+
+            if(!this._bannerListenerObjects.size)
+            {
+                this._sessionDataManager.events.addEventListener(BannerImageReadyEvent.IMAGE_READY, this.onBannerImageReadyEvent);
+            }
+
+            let listeners = this._bannerListenerObjects.get(bannerId);
+
+            if(!listeners) listeners = [];
+
+            listeners.push(new RoomObjectBannerImageAssetListener(roomObject));
+
+            this._bannerListenerObjects.set(bannerId, listeners);
+        }
+        else
+        {
+            this.putBannerInObjectAssets(roomObject, bannerId);
+        }
+
+        roomObject.logic.processUpdateMessage(new ObjectGroupBannerUpdateMessage(bannerId, bannerName));
+    }
+
     private onBadgeImageReadyEvent(k: BadgeImageReadyEvent): void
     {
         if(!this._sessionDataManager) return;
@@ -2357,6 +2403,33 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
         }
     }
 
+    private onBannerImageReadyEvent(k: BannerImageReadyEvent): void
+    {
+        if(!this._sessionDataManager) return;
+
+        const listeners = this._bannerListenerObjects && this._bannerListenerObjects.get(k.bannerId);
+
+        if(!listeners) return;
+
+        for(const listener of listeners)
+        {
+            if(!listener) continue;
+
+            this.putBannerInObjectAssets(listener.object, k.bannerId);
+
+            const bannerName = this._sessionDataManager.loadBannerImage(k.bannerId);
+
+            if(listener.object && listener.object.logic) listener.object.logic.processUpdateMessage(new ObjectGroupBannerUpdateMessage(k.bannerId, bannerName));
+        }
+
+        this._bannerListenerObjects.delete(k.bannerId);
+
+        if(!this._bannerListenerObjects.size)
+        {
+            this._sessionDataManager.events.removeEventListener(BannerImageReadyEvent.IMAGE_READY, this.onBannerImageReadyEvent);
+        }
+    }
+
     private putBadgeInObjectAssets(object: IRoomObjectController, badgeId: string, groupBadge: boolean = false): void
     {
         if(!this._roomContentLoader || !this._sessionDataManager) return;
@@ -2365,6 +2438,16 @@ export class RoomEngine extends NitroManager implements IRoomEngine, IRoomCreato
         const badgeImage = (groupBadge) ? this._sessionDataManager.getGroupBadgeImage(badgeId) : this._sessionDataManager.getBadgeImage(badgeId);
 
         if(badgeImage) this._roomContentLoader.addAssetToCollection(object.type, badgeName, badgeImage, false);
+    }
+
+    private putBannerInObjectAssets(object: IRoomObjectController, badgeId: string): void
+    {
+        if(!this._roomContentLoader || !this._sessionDataManager) return;
+
+        const bannerName = this._sessionDataManager.loadBannerImage(badgeId);
+        const bannerImage = this._sessionDataManager.getBannerImage(badgeId);
+
+        if(bannerImage) this._roomContentLoader.addAssetToCollection(object.type, bannerName, bannerImage, false);
     }
 
     public dispatchMouseEvent(canvasId: number, x: number, y: number, type: string, altKey: boolean, ctrlKey: boolean, shiftKey: boolean, buttonDown: boolean): void

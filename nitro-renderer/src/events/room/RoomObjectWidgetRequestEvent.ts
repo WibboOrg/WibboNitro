@@ -35,6 +35,8 @@ export class RoomObjectWidgetRequestEvent extends RoomObjectEvent
     public static FRIEND_FURNITURE_CONFIRM: string = 'ROWRE_FRIEND_FURNITURE_CONFIRM';
     public static FRIEND_FURNITURE_ENGRAVING: string = 'ROWRE_FRIEND_FURNITURE_ENGRAVING';
     public static BADGE_DISPLAY_ENGRAVING: string = 'ROWRE_BADGE_DISPLAY_ENGRAVING';
+    public static BADGE_TROC: string = 'ROWRE_BADGE_TROC';
+    public static BANNER_TROC: string = 'ROWRE_BANNER_TROC';
     public static HIGH_SCORE_DISPLAY: string = 'ROWRE_HIGH_SCORE_DISPLAY';
     public static HIDE_HIGH_SCORE_DISPLAY: string = 'ROWRE_HIDE_HIGH_SCORE_DISPLAY';
     public static TWITCH_STREAM_DISPLAY: string = 'ROWRE_TWICH_STREAM_DISPLAY';

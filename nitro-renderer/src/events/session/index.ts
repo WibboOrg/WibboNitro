@@ -1,4 +1,5 @@
 export * from './BadgeImageReadyEvent';
+export * from './BannerImageReadyEvent';
 export * from './MysteryBoxKeysUpdateEvent';
 export * from './PerksUpdatedEvent';
 export * from './RoomSessionChatEvent';

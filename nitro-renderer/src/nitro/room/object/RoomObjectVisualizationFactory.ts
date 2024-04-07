@@ -1,7 +1,7 @@
 import { IAssetData, IObjectVisualizationData, IRoomObjectGraphicVisualization, IRoomObjectVisualizationFactory, NitroLogger, RoomObjectVisualizationType } from '../../../api';
 import { RoomObjectSpriteVisualization } from '../../../room';
 import { Nitro } from '../../Nitro';
-import { AvatarVisualization, AvatarVisualizationData, FurnitureAnimatedVisualization, FurnitureAnimatedVisualizationData, FurnitureBadgeDisplayVisualization, FurnitureBBVisualization, FurnitureBottleVisualization, FurnitureBuilderPlaceholderVisualization, FurnitureCounterClockVisualization, FurnitureCuboidVisualization, FurnitureExternalImageVisualization, FurnitureFireworksVisualization, FurnitureGiftWrappedFireworksVisualization, FurnitureGiftWrappedVisualization, FurnitureGuildCustomizedVisualization, FurnitureGuildIsometricBadgeVisualization, FurnitureHabboWheelVisualization, FurnitureIsometricBBVisualization, FurnitureMannequinVisualization, FurnitureMannequinVisualizationData, FurniturePartyBeamerVisualization, FurniturePlanetSystemVisualization, FurniturePosterVisualization, FurnitureQueueTileVisualization, FurnitureResettingAnimatedVisualization, FurnitureRoomBackgroundVisualization, FurnitureScoreBoardVisualization, FurnitureSoundBlockVisualization, FurnitureStickieVisualization, FurnitureValRandomizerVisualization, FurnitureVisualization, FurnitureVisualizationData, FurnitureVoteCounterVisualization, FurnitureVoteMajorityVisualization, FurnitureWaterAreaVisualization, FurnitureYoutubeVisualization, PetVisualization, PetVisualizationData, RoomVisualization, RoomVisualizationData, TileCursorVisualization } from './visualization';
+import { AvatarVisualization, AvatarVisualizationData, FurnitureAnimatedVisualization, FurnitureAnimatedVisualizationData, FurnitureBadgeDisplayVisualization, FurnitureBannerDisplayVisualization, FurnitureBBVisualization, FurnitureBottleVisualization, FurnitureBuilderPlaceholderVisualization, FurnitureCounterClockVisualization, FurnitureCuboidVisualization, FurnitureExternalImageVisualization, FurnitureFireworksVisualization, FurnitureGiftWrappedFireworksVisualization, FurnitureGiftWrappedVisualization, FurnitureGuildCustomizedVisualization, FurnitureGuildIsometricBadgeVisualization, FurnitureHabboWheelVisualization, FurnitureIsometricBBVisualization, FurnitureMannequinVisualization, FurnitureMannequinVisualizationData, FurniturePartyBeamerVisualization, FurniturePlanetSystemVisualization, FurniturePosterVisualization, FurnitureQueueTileVisualization, FurnitureResettingAnimatedVisualization, FurnitureRoomBackgroundVisualization, FurnitureScoreBoardVisualization, FurnitureSoundBlockVisualization, FurnitureStickieVisualization, FurnitureValRandomizerVisualization, FurnitureVisualization, FurnitureVisualizationData, FurnitureVoteCounterVisualization, FurnitureVoteMajorityVisualization, FurnitureWaterAreaVisualization, FurnitureYoutubeVisualization, PetVisualization, PetVisualizationData, RoomVisualization, RoomVisualizationData, TileCursorVisualization } from './visualization';
 
 export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationFactory
 {
@@ -56,6 +56,12 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
                 break;
             case RoomObjectVisualizationType.FURNITURE_BADGE_DISPLAY:
                 visualization = FurnitureBadgeDisplayVisualization;
+                break;
+            case RoomObjectVisualizationType.FURNITURE_BADGE_TROC:
+                visualization = FurnitureBadgeDisplayVisualization;
+                break;
+            case RoomObjectVisualizationType.FURNITURE_BANNER_TROC:
+                visualization = FurnitureBannerDisplayVisualization;
                 break;
             case RoomObjectVisualizationType.FURNITURE_BG:
                 visualization = FurnitureRoomBackgroundVisualization;
@@ -189,6 +195,8 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
             case RoomObjectVisualizationType.FURNITURE_VOTE_MAJORITY:
             case RoomObjectVisualizationType.FURNITURE_SOUNDBLOCK:
             case RoomObjectVisualizationType.FURNITURE_BADGE_DISPLAY:
+            case RoomObjectVisualizationType.FURNITURE_BADGE_TROC:
+            case RoomObjectVisualizationType.FURNITURE_BANNER_TROC:
             case RoomObjectVisualizationType.FURNITURE_EXTERNAL_IMAGE:
             case RoomObjectVisualizationType.FURNITURE_YOUTUBE:
             case RoomObjectVisualizationType.TILE_CURSOR:

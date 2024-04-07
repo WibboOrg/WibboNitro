@@ -1,5 +1,7 @@
 export * from './FurnitureAchievementResolutionLogic';
 export * from './FurnitureBadgeDisplayLogic';
+export * from './FurnitureBadgeTrocLogic';
+export * from './FurnitureBannerTrocLogic';
 export * from './FurnitureChangeStateWhenStepOnLogic';
 export * from './FurnitureClothingChangeLogic';
 export * from './FurnitureCounterClockLogic';

@@ -1,6 +1,7 @@
 export * from './FurnitureAnimatedVisualization';
 export * from './FurnitureAnimatedVisualizationData';
 export * from './FurnitureBadgeDisplayVisualization';
+export * from './FurnitureBannerDisplayVisualization';
 export * from './FurnitureBBVisualization';
 export * from './FurnitureBottleVisualization';
 export * from './FurnitureBrandedImageVisualization';

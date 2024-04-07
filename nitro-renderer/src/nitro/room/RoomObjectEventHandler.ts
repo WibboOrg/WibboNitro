@@ -1,6 +1,6 @@
 import { IFurnitureStackingHeightMap, ILegacyWallGeometry, IObjectData, IRoomCanvasMouseListener, IRoomEngineServices, IRoomGeometry, IRoomObject, IRoomObjectController, IRoomObjectEventManager, ISelectedRoomObjectData, IVector3D, MouseEventType, NitroConfiguration, NitroLogger, RoomObjectCategory, RoomObjectOperationType, RoomObjectPlacementSource, RoomObjectType, RoomObjectUserType, RoomObjectVariable, Vector3d } from '../../api';
 import { Disposable } from '../../core';
-import { RoomEngineDimmerStateEvent, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomEngineObjectPlacedOnUserEvent, RoomEngineObjectPlaySoundEvent, RoomEngineRoomAdEvent, RoomEngineSamplePlaybackEvent, RoomEngineTriggerWidgetEvent, RoomEngineUseProductEvent, RoomObjectBadgeAssetEvent, RoomObjectDataRequestEvent, RoomObjectDimmerStateUpdateEvent, RoomObjectEvent, RoomObjectFloorHoleEvent, RoomObjectFurnitureActionEvent, RoomObjectHSLColorEnabledEvent, RoomObjectHSLColorEnableEvent, RoomObjectMouseEvent, RoomObjectMoveEvent, RoomObjectPlaySoundIdEvent, RoomObjectRoomAdEvent, RoomObjectSamplePlaybackEvent, RoomObjectSoundMachineEvent, RoomObjectStateChangedEvent, RoomObjectTileMouseEvent, RoomObjectWallMouseEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '../../events';
+import { RoomEngineDimmerStateEvent, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomEngineObjectPlacedOnUserEvent, RoomEngineObjectPlaySoundEvent, RoomEngineRoomAdEvent, RoomEngineSamplePlaybackEvent, RoomEngineTriggerWidgetEvent, RoomEngineUseProductEvent, RoomObjectBadgeAssetEvent, RoomObjectBannerAssetEvent, RoomObjectDataRequestEvent, RoomObjectDimmerStateUpdateEvent, RoomObjectEvent, RoomObjectFloorHoleEvent, RoomObjectFurnitureActionEvent, RoomObjectHSLColorEnabledEvent, RoomObjectHSLColorEnableEvent, RoomObjectMouseEvent, RoomObjectMoveEvent, RoomObjectPlaySoundIdEvent, RoomObjectRoomAdEvent, RoomObjectSamplePlaybackEvent, RoomObjectSoundMachineEvent, RoomObjectStateChangedEvent, RoomObjectTileMouseEvent, RoomObjectWallMouseEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '../../events';
 import { RoomEnterEffect, RoomId, RoomObjectUpdateMessage } from '../../room';
 import { BotPlaceComposer, FurnitureColorWheelComposer, FurnitureDiceActivateComposer, FurnitureDiceDeactivateComposer, FurnitureFloorUpdateComposer, FurnitureGroupInfoComposer, FurnitureMultiStateComposer, FurnitureOneWayDoorComposer, FurniturePickupComposer, FurniturePlaceComposer, FurniturePostItPlaceComposer, FurnitureRandomStateComposer, FurnitureWallMultiStateComposer, FurnitureWallUpdateComposer, GetItemDataComposer, GetResolutionAchievementsMessageComposer, PetMoveComposer, PetPlaceComposer, RemoveWallItemComposer, RoomUnitLookComposer, RoomUnitWalkComposer, SetItemDataMessageComposer, SetObjectDataMessageComposer } from '../communication';
 import { Nitro } from '../Nitro';
@@ -220,6 +220,8 @@ export class RoomObjectEventHandler extends Disposable implements IRoomCanvasMou
             case RoomObjectWidgetRequestEvent.FRIEND_FURNITURE_CONFIRM:
             case RoomObjectWidgetRequestEvent.FRIEND_FURNITURE_ENGRAVING:
             case RoomObjectWidgetRequestEvent.BADGE_DISPLAY_ENGRAVING:
+            case RoomObjectWidgetRequestEvent.BADGE_TROC:
+            case RoomObjectWidgetRequestEvent.BANNER_TROC:
             case RoomObjectWidgetRequestEvent.HIGH_SCORE_DISPLAY:
             case RoomObjectWidgetRequestEvent.HIDE_HIGH_SCORE_DISPLAY:
             case RoomObjectWidgetRequestEvent.TWITCH_STREAM_DISPLAY:
@@ -261,6 +263,9 @@ export class RoomObjectEventHandler extends Disposable implements IRoomCanvasMou
                 return;
             case RoomObjectBadgeAssetEvent.LOAD_BADGE:
                 this.onRoomObjectBadgeAssetEvent((event as RoomObjectBadgeAssetEvent), roomId);
+                return;
+            case RoomObjectBannerAssetEvent.LOAD_BANNER:
+                this.onRoomObjectBannerAssetEvent((event as RoomObjectBannerAssetEvent), roomId);
                 return;
             case RoomObjectFurnitureActionEvent.MOUSE_ARROW:
             case RoomObjectFurnitureActionEvent.MOUSE_BUTTON:
@@ -816,6 +821,12 @@ export class RoomObjectEventHandler extends Disposable implements IRoomCanvasMou
             case RoomObjectWidgetRequestEvent.BADGE_DISPLAY_ENGRAVING:
                 eventDispatcher.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.REQUEST_BADGE_DISPLAY_ENGRAVING, roomId, objectId, objectCategory));
                 return;
+            case RoomObjectWidgetRequestEvent.BADGE_TROC:
+                eventDispatcher.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.REQUEST_BADGE_TROC, roomId, objectId, objectCategory));
+                return;
+            case RoomObjectWidgetRequestEvent.BANNER_TROC:
+                eventDispatcher.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.REQUEST_BANNER_TROC, roomId, objectId, objectCategory));
+                return;
             case RoomObjectWidgetRequestEvent.HIGH_SCORE_DISPLAY:
                 eventDispatcher.dispatchEvent(new RoomEngineTriggerWidgetEvent(RoomEngineTriggerWidgetEvent.REQUEST_HIGH_SCORE_DISPLAY, roomId, objectId, objectCategory));
                 return;
@@ -966,6 +977,23 @@ export class RoomObjectEventHandler extends Disposable implements IRoomCanvasMou
         }
 
         if(eventType) this._roomEngine.events.dispatchEvent(new RoomEngineObjectEvent(eventType, roomId, event.objectId, this._roomEngine.getRoomObjectCategoryForType(event.objectType)));
+    }
+
+    private onRoomObjectBannerAssetEvent(event: RoomObjectBannerAssetEvent, roomId: number): void
+    {
+        if(!event || !this._roomEngine) return;
+
+        switch(event.type)
+        {
+            case RoomObjectBannerAssetEvent.LOAD_BANNER: {
+                const objectId = event.objectId;
+                const objectType = event.objectType;
+                const objectCategory = this._roomEngine.getRoomObjectCategoryForType(objectType);
+
+                this._roomEngine.loadRoomObjectBannerImage(roomId, objectId, objectCategory, event.bannerId);
+                return;
+            }
+        }
     }
 
     private onRoomObjectBadgeAssetEvent(event: RoomObjectBadgeAssetEvent, roomId: number): void

@@ -8,6 +8,7 @@ import { HabboWebTools } from '../utils/HabboWebTools';
 import { GroupInformationManager } from './GroupInformationManager';
 import { IgnoredUsersManager } from './IgnoredUsersManager';
 import { BadgeImageManager } from './badge/BadgeImageManager';
+import { BannerImageManager } from './banner/BannerImageManager';
 import { FurnitureDataLoader } from './furniture/FurnitureDataLoader';
 import { ProductDataLoader } from './product/ProductDataLoader';
 
@@ -55,6 +56,7 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
     private _tags: string[];
 
     private _badgeImageManager: BadgeImageManager;
+    private _bannerImageManager: BannerImageManager;
 
     constructor(communication: INitroCommunicationManager)
     {
@@ -92,6 +94,7 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
         this._tags = [];
 
         this._badgeImageManager = null;
+        this._bannerImageManager = null;
 
         this.onFurnitureDataReadyEvent = this.onFurnitureDataReadyEvent.bind(this);
         this.onProductDataReadyEvent = this.onProductDataReadyEvent.bind(this);
@@ -103,6 +106,7 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
         this.loadFurnitureData();
         this.loadProductData();
         this.loadBadgeImageManager();
+        this.loadBannerImageManager();
 
         (this._ignoredUsersManager && this._ignoredUsersManager.init());
         (this._groupInformationManager && this._groupInformationManager.init());
@@ -187,6 +191,14 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
 
         this._badgeImageManager = new BadgeImageManager(GetAssetManager(), this);
         this._badgeImageManager.init();
+    }
+
+    private loadBannerImageManager(): void
+    {
+        if(this._bannerImageManager) return;
+
+        this._bannerImageManager = new BannerImageManager(GetAssetManager(), this);
+        this._bannerImageManager.init();
     }
 
     public hasProductData(listener: IProductDataListener): boolean
@@ -522,6 +534,11 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
         return this._badgeImageManager.getBadgeUrl(name, BadgeImageManager.GROUP_BADGE);
     }
 
+    public getBannerImage(name: string): Texture<Resource>
+    {
+        return this._bannerImageManager.getBannerImage(name);
+    }
+
     public getBadgeImage(name: string): Texture<Resource>
     {
         return this._badgeImageManager.getBadgeImage(name);
@@ -537,6 +554,11 @@ export class SessionDataManager extends NitroManager implements ISessionDataMana
         if(roomUnitId < 0) return;
 
         this.send(new GetUserTagsComposer(roomUnitId));
+    }
+
+    public loadBannerImage(name: string): string
+    {
+        return this._bannerImageManager.loadBannerImage(name);
     }
 
     public loadBadgeImage(name: string): string

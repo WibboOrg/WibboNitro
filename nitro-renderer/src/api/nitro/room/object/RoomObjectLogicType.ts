@@ -52,6 +52,8 @@ export class RoomObjectLogicType
     public static FURNITURE_WILDWEST_WANTED = 'furniture_wildwest_wanted';
     public static FURNITURE_HWEEN_LOVELOCK = 'furniture_hween_lovelock';
     public static FURNITURE_BADGE_DISPLAY = 'furniture_badge_display';
+    public static FURNITURE_BADGE_TROC = 'furniture_badge_troc';
+    public static FURNITURE_BANNER_TROC = 'furniture_banner_troc';
     public static FURNITURE_HIGH_SCORE = 'furniture_high_score';
     public static FURNITURE_TWITCH_STREAM = 'furniture_twitch_stream';
     public static FURNITURE_INTERNAL_LINK = 'furniture_internal_link';

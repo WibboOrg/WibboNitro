@@ -1,5 +1,7 @@
 export * from './useFurnitureBackgroundColorWidget';
 export * from './useFurnitureBadgeDisplayWidget';
+export * from './useFurnitureBadgeTrocWidget';
+export * from './useFurnitureBannerTrocWidget';
 export * from './useFurnitureContextMenuWidget';
 export * from './useFurnitureCraftingWidget';
 export * from './useFurnitureDimmerWidget';

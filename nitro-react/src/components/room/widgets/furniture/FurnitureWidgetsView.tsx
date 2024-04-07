@@ -2,6 +2,8 @@ import { FC } from 'react';
 import { Base } from '../../../../common';
 import { FurnitureBackgroundColorView } from './FurnitureBackgroundColorView';
 import { FurnitureBadgeDisplayView } from './FurnitureBadgeDisplayView';
+import { FurnitureBadgeTrocView } from './FurnitureBadgeTrocView';
+import { FurnitureBannerTrocView } from './FurnitureBannerTrocView';
 import { FurnitureCraftingView } from './FurnitureCraftingView';
 import { FurnitureDimmerView } from './FurnitureDimmerView';
 import { FurnitureExchangeCreditView } from './FurnitureExchangeCreditView';
@@ -25,6 +27,8 @@ export const FurnitureWidgetsView: FC<{}> = props =>
 {
     return (
         <Base fit position="absolute" className="nitro-room-widgets top-0 start-0">
+            <FurnitureBannerTrocView />
+            <FurnitureBadgeTrocView />
             <FurnitureBackgroundColorView />
             <FurnitureBadgeDisplayView />
             <FurnitureCraftingView />

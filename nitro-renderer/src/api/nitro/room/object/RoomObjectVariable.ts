@@ -76,6 +76,9 @@ export class RoomObjectVariable
     public static FURNITURE_BRANDING_OFFSET_Y: string = 'furniture_branding_offset_y';
     public static FURNITURE_BRANDING_OFFSET_Z: string = 'furniture_branding_offset_z';
     public static FURNITURE_BRANDING_IS_ANIMATED: string = 'furniture_branding_is_animated';
+    public static FURNITURE_BANNER_IMAGE_STATUS: string = 'furniture_banner_image_status';
+    public static FURNITURE_BANNER_ASSET_NAME: string = 'furniture_banner_asset_name';
+    public static FURNITURE_BANNER_VISIBLE_IN_STATE: string = 'furniture_banner_visible_in_state';
     public static FURNITURE_BADGE_IMAGE_STATUS: string = 'furniture_badge_image_status';
     public static FURNITURE_BADGE_ASSET_NAME: string = 'furniture_badge_asset_name';
     public static FURNITURE_BADGE_VISIBLE_IN_STATE: string = 'furniture_badge_visible_in_state';

@@ -19,7 +19,9 @@ export interface ISessionDataManager extends INitroManager
     getBadgeUrl(name: string): string;
     getGroupBadgeUrl(name: string): string;
     getBadgeImage(name: string): Texture<Resource>;
+    getBannerImage(name: string): Texture<Resource>;
     getUserTags(roomUnitId: number): string[];
+    loadBannerImage(name: string): string;
     loadBadgeImage(name: string): string;
     getGroupBadgeImage(name: string): Texture<Resource>;
     loadGroupBadgeImage(name: string): string;

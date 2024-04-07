@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import { GetConfiguration, UnseenItemCategory } from '../../../../api';
-import { LayoutGridItem } from '../../../../common';
+import { UnseenItemCategory } from '../../../../api';
+import { LayoutAvatarBannerView, LayoutGridItem } from '../../../../common';
 import { useInventoryBanners, useInventoryUnseenTracker } from '../../../../hooks';
 
 export const InventoryBannerItemView: FC<PropsWithChildren<{ banner: { id: number; haveLayer: boolean }}>> = props =>
@@ -13,7 +13,7 @@ export const InventoryBannerItemView: FC<PropsWithChildren<{ banner: { id: numbe
 
     return (
         <LayoutGridItem itemActive={ (selectedBanner === banner) } itemUnseen={ unseen } onMouseDown={ event => setSelectedBanner(banner) } { ...rest }>
-            { banner != null && <img src={ GetConfiguration<string>('banner.url').replace('%id%', banner.id.toString()) } /> }
+            { banner != null && <LayoutAvatarBannerView banner={ banner } /> }
             { banner == null && <FaTimes className="fa-icon cursor-pointer" /> }
             { children }
         </LayoutGridItem>

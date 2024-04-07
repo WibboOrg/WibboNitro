@@ -23,6 +23,7 @@ export * from './ObjectAvatarUpdateMessage';
 export * from './ObjectAvatarUseObjectUpdateMessage';
 export * from './ObjectDataUpdateMessage';
 export * from './ObjectGroupBadgeUpdateMessage';
+export * from './ObjectGroupBannerUpdateMessage';
 export * from './ObjectHeightUpdateMessage';
 export * from './ObjectItemDataUpdateMessage';
 export * from './ObjectModelDataUpdateMessage';

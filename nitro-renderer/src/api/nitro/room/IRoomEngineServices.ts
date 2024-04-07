@@ -31,6 +31,7 @@ export interface IRoomEngineServices
     removeRoomObjectWall(roomId: number, objectId: number, userId?: number): void;
     removeRoomObjectUser(roomId: number, objectId: number): void;
     loadRoomObjectBadgeImage(roomId: number, objectId: number, objectCategory: number, badgeId: string, groupBadge?: boolean): void;
+    loadRoomObjectBannerImage(roomId: number, objectId: number, objectCategory: number, badgeId: string): void;
     updateRoomObjectMask(roomId: number, objectId: number, _arg_?: boolean): void;
     setObjectMoverIconSprite(objectId: number, category: number, _arg_3: boolean, instanceData?: string, stuffData?: IObjectData, state?: number, frameNumber?: number, posture?: string): void;
     setObjectMoverIconSpriteVisible(k: boolean): void;
