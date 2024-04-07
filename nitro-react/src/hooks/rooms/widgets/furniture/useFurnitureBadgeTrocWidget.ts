@@ -1,4 +1,4 @@
-import { RoomEngineTriggerWidgetEvent, StringDataType } from '@nitrots/nitro-renderer';
+import { LegacyDataType, RoomEngineTriggerWidgetEvent } from '@nitrots/nitro-renderer';
 import { useState } from 'react';
 import { GetRoomEngine, IsOwnerOfFurniture } from '../../../../api';
 import { useRoomEngineEvent } from '../../../events';
@@ -30,12 +30,12 @@ const useFurnitureBadgeTrocWidgetState = () =>
 
         if(!roomObject || !IsOwnerOfFurniture(roomObject)) return;
 
-        const stringStuff = new StringDataType();
+        const legacyStuff = new LegacyDataType();
 
-        stringStuff.initializeFromRoomObjectModel(roomObject.model);
+        legacyStuff.initializeFromRoomObjectModel(roomObject.model);
 
         setObjectId(event.objectId);
-        setBadgeId(stringStuff.getValue(1));
+        setBadgeId(legacyStuff.getLegacyString());
     });
 
     useFurniRemovedEvent(objectId !== -1, event =>
