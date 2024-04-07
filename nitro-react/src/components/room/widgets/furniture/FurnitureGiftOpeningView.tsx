@@ -1,8 +1,8 @@
+import { RoomObjectCategory, RoomObjectOperationType } from '@nitrots/nitro-renderer';
 import { FC } from 'react';
 import { attemptItemPlacement, CreateLinkEvent, LocalizeText, ProcessRoomObjectOperation, ProductTypeEnum } from '../../../../api';
 import { Button, Column, Flex, LayoutGiftTagView, LayoutImage, NitroCardContentView, NitroCardHeaderView, NitroCardView, Text } from '../../../../common';
 import { useFurniturePresentWidget, useInventoryFurni } from '../../../../hooks';
-import { RoomObjectCategory, RoomObjectOperationType } from '@nitrots/nitro-renderer';
 
 export const FurnitureGiftOpeningView: FC<{}> = props =>
 {
@@ -20,7 +20,12 @@ export const FurnitureGiftOpeningView: FC<{}> = props =>
         onClose();
     }
 
-    const pickup = (itemId: number) => ProcessRoomObjectOperation(itemId, itemType === ProductTypeEnum.WALL ? RoomObjectCategory.WALL : RoomObjectCategory.FLOOR, RoomObjectOperationType.OBJECT_PICKUP);
+    const pickup = (itemId: number) =>
+    {
+        ProcessRoomObjectOperation(itemId, itemType === ProductTypeEnum.WALL ? RoomObjectCategory.WALL : RoomObjectCategory.FLOOR, RoomObjectOperationType.OBJECT_PICKUP);
+
+        onClose();
+    }
 
     return (
         <NitroCardView className="nitro-gift-opening" theme="primary-slim">
