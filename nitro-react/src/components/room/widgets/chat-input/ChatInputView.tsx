@@ -254,7 +254,7 @@ export const ChatInputView: FC<{}> = props =>
                     <ChatInputStyleSelectorView chatStyleId={ chatStyleId } chatStyleIds={ chatStyleIds } selectChatStyleId={ updateChatStyleId } />
                     <ChatInputColorSelectorView chatColour={ chatColour } selectColour={ updateChatColour } />
                     <ChatEmojiSelectorView selectChatEmoji={ selectChatEmoji } />
-                    { GetClubMemberLevel() >= HabboClubLevelEnum.VIP && <ChatRecorderSelectorView floodBlocked={ floodBlocked } /> }
+                    <ChatRecorderSelectorView floodBlocked={ floodBlocked } />
                 </Flex>
             </div>, document.getElementById('toolbar-chat-input-container'))
     );
