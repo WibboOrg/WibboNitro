@@ -44,7 +44,7 @@ export const CatalogLayoutDefaultView: FC<CatalogLayoutProps> = props =>
                             </Flex>
                             <Column grow gap={ 1 }>
                                 <CatalogLimitedItemWidgetView fullWidth />
-                                <Text grow>{ currentOffer.localizationName }</Text>
+                                <Text grow bold>{ currentOffer.localizationName }</Text>
                                 <Flex justifyContent="between">
                                     <Column gap={ 1 }>
                                         <CatalogSpinnerWidgetView />

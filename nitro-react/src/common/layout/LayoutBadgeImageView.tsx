@@ -41,7 +41,7 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
 
         if(imageElement)
         {
-            newStyle.backgroundImage = `url(${ (isGroup) ? imageElement.src : GetConfiguration<string>('badge.asset.url').replace('%badgename%', badgeCode.toString()) })`;
+            newStyle.backgroundImage = `url(${ imageElement.src })`;
             newStyle.width = imageElement.width;
             newStyle.height = imageElement.height;
 
@@ -59,7 +59,7 @@ export const LayoutBadgeImageView: FC<LayoutBadgeImageViewProps> = props =>
         if(Object.keys(style).length) newStyle = { ...newStyle, ...style };
 
         return newStyle;
-    }, [ imageElement, scale, style, isGroup, badgeCode ]);
+    }, [ imageElement, scale, style ]);
 
     useEffect(() =>
     {
