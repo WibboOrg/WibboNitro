@@ -192,6 +192,27 @@ export const spritesheet = {
             spriteSourceSize: { x: 0, y: 0, w: 34, h: 17 },
             sourceSize: { w: 34, h: 17 },
         },
+        'r': {
+            frame: { x: 73, y: 153, w: 34, h: 17 },
+            rotated: false,
+            trimmed: false,
+            spriteSourceSize: { x: 0, y: 0, w: 34, h: 17 },
+            sourceSize: { w: 34, h: 17 },
+        },
+        's': {
+            frame: { x: 73, y: 153, w: 34, h: 17 },
+            rotated: false,
+            trimmed: false,
+            spriteSourceSize: { x: 0, y: 0, w: 34, h: 17 },
+            sourceSize: { w: 34, h: 17 },
+        },
+        't': {
+            frame: { x: 73, y: 153, w: 34, h: 17 },
+            rotated: false,
+            trimmed: false,
+            spriteSourceSize: { x: 0, y: 0, w: 34, h: 17 },
+            sourceSize: { w: 34, h: 17 },
+        },
         'r_blocked': {
             frame: { x: 1, y: 172, w: 34, h: 17 },
             rotated: false,
