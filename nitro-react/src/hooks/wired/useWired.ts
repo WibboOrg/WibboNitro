@@ -108,6 +108,32 @@ const useWiredState = () =>
         setTrigger(parser.definition);
     });
 
+    useMessageEvent<RoomReadyMessageEvent>(RoomReadyMessageEvent, () =>
+    {
+        if(!trigger) return;
+        
+        setTrigger(null);
+    });
+        
+    useMessageEvent<PromoArticlesMessageEvent>(PromoArticlesMessageEvent, () =>
+    {
+        if(!trigger) return;
+        
+        setTrigger(null);
+    });
+        
+    useMessageEvent<FurnitureFloorRemoveEvent>(FurnitureFloorRemoveEvent, event =>
+    {
+        if(!trigger) return;
+        
+        const parser = event.getParser();
+        
+        if(parser.itemId === trigger.id)
+        {
+            setTrigger(null);
+        }
+    });
+
     useEffect(() =>
     {
         if(!trigger) return;
