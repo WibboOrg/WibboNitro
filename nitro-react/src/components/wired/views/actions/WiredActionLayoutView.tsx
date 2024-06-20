@@ -24,6 +24,7 @@ import { WiredActionMoveFurniView } from './WiredActionMoveFurniView';
 import { WiredActionMuteUserView } from './WiredActionMuteUserView';
 import { WiredActionResetView } from './WiredActionResetView';
 import { WiredActionSetFurniStateToView } from './WiredActionSetFurniStateToView';
+import { WiredActionSuperWiredView } from './WiredActionSuperWiredView';
 import { WiredActionTeleportView } from './WiredActionTeleportView';
 import { WiredActionToggleFurniStateView } from './WiredActionToggleFurniStateView';
 import { WiredActionTridimensionView } from './WiredActionTridimensionView';
@@ -52,6 +53,8 @@ export const WiredActionLayoutView = (code: number) =>
             return <WiredActionChaseView />;
         case WiredActionLayoutCode.CHAT:
             return <WiredActionChatView />;
+        case WiredActionLayoutCode.SUPER_WIRED:
+            return <WiredActionSuperWiredView />;
         case WiredActionLayoutCode.FLEE:
             return <WiredActionFleeView />;
         case WiredActionLayoutCode.GIVE_REWARD:

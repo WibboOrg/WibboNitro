@@ -29,4 +29,5 @@ export class WiredActionLayoutCode
     public static TRI_DIMENSION: number = 28;
     public static COLLISION_CASE: number = 29;
     public static GIVE_POINTS_HIGHSCORE: number = 30;
+    public static SUPER_WIRED: number = 31;
 }
