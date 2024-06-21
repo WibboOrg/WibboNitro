@@ -37,7 +37,7 @@ export const ChatRecorderSelectorView: FC<ChatRecorderSelectorViewProps> = (prop
 
         const binaryAudio = new Uint8Array(await newRecordingBlob.arrayBuffer());
 
-        if (binaryAudio.length > 100_000)
+        if (binaryAudio.length > 250_000)
         {
             setNewRecordingBlob(null);
             setSelectorVisible(false);

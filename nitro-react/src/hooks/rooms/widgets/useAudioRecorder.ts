@@ -64,7 +64,7 @@ const useAudioRecorderState: (
         const timeoutId = window.setTimeout(() => 
         {
             stopRecording();
-        }, 5000);
+        }, 10000);
         setTimerTimeout(timeoutId);
     }
 
@@ -94,7 +94,7 @@ const useAudioRecorderState: (
                     mediaRecorderOptions
                 );
                 setMediaRecorder(recorder);
-                recorder.start(5000);
+                recorder.start(10000);
                 _startTimer();
 
                 recorder.addEventListener('dataavailable', (event) => 
