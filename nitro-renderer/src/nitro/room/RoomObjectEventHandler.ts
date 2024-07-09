@@ -30,7 +30,7 @@ export class RoomObjectEventHandler extends Disposable implements IRoomCanvasMou
         this._selectedAvatarId = -1;
         this._selectedObjectId = -1;
         this._selectedObjectCategory = -2;
-        this._whereYouClickIsWhereYouGo = true;
+        this._whereYouClickIsWhereYouGo = false;
         this._objectPlacementSource = null;
 
         this.onRoomEngineObjectEvent = this.onRoomEngineObjectEvent.bind(this);
