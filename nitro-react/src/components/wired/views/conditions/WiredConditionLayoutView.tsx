@@ -13,6 +13,7 @@ import { WiredConditionFurniHasNotFurniOnView } from './WiredConditionFurniHasNo
 import { WiredConditionFurniIsOfTypeView } from './WiredConditionFurniIsOfTypeView';
 import { WiredConditionFurniMatchesSnapshotView } from './WiredConditionFurniMatchesSnapshotView';
 import { WiredConditionFurniNotMatchesSnapshotView } from './WiredConditionFurniNotMatchesSnapshotView';
+import { WiredConditionSuperWiredView } from './WiredConditionSuperWiredView';
 import { WiredConditionTimeElapsedLessView } from './WiredConditionTimeElapsedLessView';
 import { WiredConditionTimeElapsedMoreView } from './WiredConditionTimeElapsedMoreView';
 import { WiredConditionUserCountInRoomView } from './WiredConditionUserCountInRoomView';
@@ -63,6 +64,8 @@ export const WiredConditionLayoutView = (code: number) =>
             return <WiredConditionUserCountInRoomView />;
         case WiredConditionlayout.ACTOR_COMPARE_HIGHSCORE:
             return <WiredConditionActorCompareHightScore />;
+        case WiredConditionlayout.SUPERWIRED_CONDITION:
+            return <WiredConditionSuperWiredView />;
     }
 
     return null;
