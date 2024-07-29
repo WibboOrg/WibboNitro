@@ -3,16 +3,16 @@
     bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
-    width: 490px;
+    max-width: 700px;
+    width: 80%;
 
     &__box {
+        padding: 10px;
         color: #FFF;
         margin-bottom: 5px;
         width: 100%;
-        line-height: 31px;
-        padding-left: 6px;
 
-        background-color: rgba(58, 58, 58, 0.8);
+        background-color: rgba(28, 28, 32, 0.95);
         border-bottom: 2px solid #2e2e2c;
         border-right: 2px solid #2e2e2c;
         border-radius: 5px;
@@ -21,24 +21,31 @@
         text-align: center;
 
         &:hover {
-            background-color: rgba(58, 58, 58, .6);
+            background-color: rgba(52, 52, 58, 0.95);
         }
 
         &:active {
-            background-color: rgba(58, 58, 58, 0.4);
+            background-color: rgba(19, 19, 22, 0.95);
         }
     }
 
     &__avatar {
         width: 27px;
-        height: 31px;
+        height: 18px;
         position: relative;
-        top: -39px;
+        top: -46px;
         left: -34px;
     }
 
     &__username {
         font-weight: bold;
         padding-right: 5px;
+        text-wrap: nowrap;
+    }
+
+    &__msg {
+        width: 100%;
+        align-self: center;
+        text-wrap: nowrap;
     }
 }
