@@ -52,8 +52,8 @@ export const ChatlogView: FC<ChatlogViewProps> = props =>
                     <Text>{ props.roomName }</Text>
                 </Flex>
                 <Flex gap={ 1 }>
-                    <Button onClick={ event => TryVisitRoom(props.roomId) }>Visit Room</Button>
-                    <Button onClick={ event => openRoomInfo(props.roomId) }>Room Tools</Button>
+                    <Button onClick={ event => TryVisitRoom(props.roomId) }>Visiter</Button>
+                    <Button onClick={ event => openRoomInfo(props.roomId) }>Outils d'appart</Button>
                 </Flex>
             </Flex>
         );
@@ -64,8 +64,8 @@ export const ChatlogView: FC<ChatlogViewProps> = props =>
             <Column fit gap={ 0 } overflow="hidden">
                 <Column gap={ 2 }>
                     <Grid gap={ 1 } className="text-black fw-bold border-bottom pb-1">
-                        <Base className="g-col-2">Time</Base>
-                        <Base className="g-col-3">User</Base>
+                        <Base className="g-col-2">Heure</Base>
+                        <Base className="g-col-3">Pseudo</Base>
                         <Base className="g-col-7">Message</Base>
                     </Grid>
                 </Column>
