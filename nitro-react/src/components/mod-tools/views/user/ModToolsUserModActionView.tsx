@@ -57,7 +57,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
 
         const category = topics[selectedTopic];
 
-        if(selectedTopic === -1) errorMessage = 'You must select a CFH topic';
+        if(selectedTopic === -1) errorMessage = 'Vous devez séléctionner un sujet';
 
         if(errorMessage) return sendAlert(errorMessage);
 
@@ -75,10 +75,10 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
         const category = topics[selectedTopic];
         const sanction = MOD_ACTION_DEFINITIONS[selectedAction];
 
-        if((selectedTopic === -1) || (selectedAction === -1)) errorMessage = 'You must select a CFH topic and Sanction';
-        else if(!settings || !settings.cfhPermission) errorMessage = 'You do not have permission to do this';
-        else if(!category) errorMessage = 'You must select a CFH topic';
-        else if(!sanction) errorMessage = 'You must select a sanction';
+        if((selectedTopic === -1) || (selectedAction === -1)) errorMessage = 'Vous devez séléctionner un sujet et une sanction.';
+        else if(!settings || !settings.cfhPermission) errorMessage = 'Vous n\'avez pas les permissions requises pour accédez à ce sujet.';
+        else if(!category) errorMessage = 'Vous devez séléctionner un sujet';
+        else if(!sanction) errorMessage = 'Vous devez séléctionner une sanction';
 
         if(errorMessage)
         {
@@ -94,7 +94,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
             case ModActionDefinition.ALERT: {
                 if(!settings.alertPermission)
                 {
-                    sendAlert('You have insufficient permissions');
+                    sendAlert('Vos permissions sont insufisantes');
 
                     return;
                 }
@@ -108,7 +108,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
             case ModActionDefinition.BAN: {
                 if(!settings.banPermission)
                 {
-                    sendAlert('You have insufficient permissions');
+                    sendAlert('Vos permissions sont insufisantes');
 
                     return;
                 }
@@ -119,7 +119,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
             case ModActionDefinition.KICK: {
                 if(!settings.kickPermission)
                 {
-                    sendAlert('You have insufficient permissions');
+                    sendAlert('Vos permissions sont insufisantes');
                     return;
                 }
 
@@ -135,7 +135,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
             case ModActionDefinition.MESSAGE: {
                 if(message.trim().length === 0)
                 {
-                    sendAlert('Please write a message to user');
+                    sendAlert('Mettez un message concernant la sanction');
 
                     return;
                 }
@@ -155,11 +155,11 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
             <NitroCardHeaderView headerText={ 'Mod Action: ' + (user ? user.username : '') } onCloseClick={ () => onCloseClick() } />
             <NitroCardContentView className="text-black">
                 <select className="form-select form-select-sm" value={ selectedTopic } onChange={ event => setSelectedTopic(parseInt(event.target.value)) }>
-                    <option value={ -1 } disabled>CFH Topic</option>
+                    <option value={ -1 } disabled>Sujet</option>
                     { topics.map((topic, index) => <option key={ index } value={ index }>{ LocalizeText('help.cfh.topic.' + topic.id) }</option>) }
                 </select>
                 <select className="form-select form-select-sm" value={ selectedAction } onChange={ event => setSelectedAction(parseInt(event.target.value)) }>
-                    <option value={ -1 } disabled>Sanction Type</option>
+                    <option value={ -1 } disabled>Sanction</option>
                     { MOD_ACTION_DEFINITIONS.map((action, index) => <option key={ index } value={ index }>{ action.name }</option>) }
                 </select>
                 <Column gap={ 1 }>

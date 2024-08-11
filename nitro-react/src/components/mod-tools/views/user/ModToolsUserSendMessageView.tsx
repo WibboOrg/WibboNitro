@@ -23,7 +23,7 @@ export const ModToolsUserSendMessageView: FC<ModToolsUserSendMessageViewProps> =
     {
         if(message.trim().length === 0)
         {
-            simpleAlert('Please write a message to user.', null, null, null, 'Error', null);
+            simpleAlert('Merci d\'écrire un message', null, null, null, 'Error', null);
             
             return;
         }
