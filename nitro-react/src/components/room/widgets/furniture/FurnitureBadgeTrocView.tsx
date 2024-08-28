@@ -5,7 +5,7 @@ import { useFurnitureBadgeTrocWidget } from '../../../../hooks';
 
 export const FurnitureBadgeTrocView: FC<{}> = props =>
 {
-    const { objectId = -1, onClose, onConfirm, badgeId } = useFurnitureBadgeTrocWidget();
+    const { objectId = -1, onClose, onConfirm, badgeId, winwin } = useFurnitureBadgeTrocWidget();
 
     if (objectId === -1 || badgeId === '') return null;
 
@@ -20,7 +20,7 @@ export const FurnitureBadgeTrocView: FC<{}> = props =>
                     <Column grow justifyContent="between" overflow="hidden">
                         <Column gap={ 1 } overflow="auto">
                             <Text fontWeight="bold">{ LocalizeBadgeName(badgeId) }</Text>
-                            <Text>{ 'Veux-tu convertir en badge ?' }</Text>
+                            <Text>{ 'Veux-tu convertir en badge ? Récompense ' + winwin + ' WinWin !' }</Text>
                         </Column>
                         <Button variant="success" onClick={ onConfirm }>
                             { LocalizeText('catalog.redeem.dialog.button.exchange') }

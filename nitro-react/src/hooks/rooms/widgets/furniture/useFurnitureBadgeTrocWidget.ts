@@ -1,4 +1,4 @@
-import { LegacyDataType, RoomEngineTriggerWidgetEvent } from '@nitrots/nitro-renderer';
+import { RoomEngineTriggerWidgetEvent, StringDataType } from '@nitrots/nitro-renderer';
 import { useState } from 'react';
 import { GetRoomEngine, IsOwnerOfFurniture } from '../../../../api';
 import { useRoomEngineEvent } from '../../../events';
@@ -9,12 +9,14 @@ const useFurnitureBadgeTrocWidgetState = () =>
 {
     const [ objectId, setObjectId ] = useState(-1);
     const [ badgeId, setBadgeId ] = useState('');
+    const [ winwin, setWinwin ] = useState('0');
     const { roomSession = null } = useRoom();
 
     const onClose = () =>
     {
         setObjectId(-1);
         setBadgeId('');
+        setWinwin('0');
     }
 
     const onConfirm = () =>
@@ -30,12 +32,13 @@ const useFurnitureBadgeTrocWidgetState = () =>
 
         if(!roomObject || !IsOwnerOfFurniture(roomObject)) return;
 
-        const legacyStuff = new LegacyDataType();
+        const legacyStuff = new StringDataType();
 
         legacyStuff.initializeFromRoomObjectModel(roomObject.model);
 
         setObjectId(event.objectId);
-        setBadgeId(legacyStuff.getLegacyString());
+        setBadgeId(legacyStuff.getValue(0));
+        setWinwin(legacyStuff.getValue(1));
     });
 
     useFurniRemovedEvent(objectId !== -1, event =>
@@ -45,7 +48,7 @@ const useFurnitureBadgeTrocWidgetState = () =>
         onClose();
     });
 
-    return { objectId, onClose, onConfirm, badgeId };
+    return { objectId, onClose, onConfirm, badgeId, winwin };
 }
 
 export const useFurnitureBadgeTrocWidget = useFurnitureBadgeTrocWidgetState;

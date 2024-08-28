@@ -1,4 +1,4 @@
-import { IRoomGeometry, LegacyDataType, MouseEventType, RoomObjectVariable } from '../../../../../api';
+import { IRoomGeometry, MouseEventType, RoomObjectVariable, StringDataType } from '../../../../../api';
 import { RoomObjectBadgeAssetEvent, RoomObjectFurnitureActionEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '../../../../../events';
 import { GetTickerTime } from '../../../../../pixi-proxy';
 import { RoomObjectUpdateMessage } from '../../../../../room';
@@ -24,7 +24,7 @@ export class FurnitureBadgeTrocLogic extends FurnitureLogic
         {
             const data = message.data;
 
-            if(data instanceof LegacyDataType) this.updateBadge(data.getLegacyString());
+            if(data instanceof StringDataType) this.updateBadge(data.getValue(0));
 
             return;
         }
