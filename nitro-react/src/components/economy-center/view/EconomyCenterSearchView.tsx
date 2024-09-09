@@ -6,18 +6,19 @@ import { IItemList } from '../EconomyCenterView';
 
 export interface EconomyCenterSearchViewProps
 {
+    categoryId: number;
     itemList: IItemList[];
     setItemList: Dispatch<SetStateAction<IItemList[]>>;
 }
 
 export const EconomyCenterSearchView: FC<EconomyCenterSearchViewProps> = props =>
 {
-    const { itemList = [], setItemList = null } = props;
+    const { categoryId, itemList = [], setItemList = null } = props;
     const [ searchValue, setSearchValue ] = useState('');
 
     useEffect(() =>
     {
-        let filteredGroupItems = [ ...itemList ];
+        let filteredGroupItems = [ ...itemList ].filter(x => x.item.categoryId === categoryId);
 
         if(searchValue && searchValue.length)
         {
@@ -36,7 +37,7 @@ export const EconomyCenterSearchView: FC<EconomyCenterSearchViewProps> = props =
         }
 
         setItemList(filteredGroupItems);
-    }, [ itemList, setItemList, searchValue ]);
+    }, [ itemList, setItemList, searchValue, categoryId ]);
 
     return (
         <Flex gap={ 1 }>

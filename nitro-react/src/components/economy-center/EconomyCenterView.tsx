@@ -1,5 +1,5 @@
 import { EconomyCenterEvent, IEconomyItem, ILinkEventTracker, NumberDataType, RoomPreviewer, StringDataType, Vector3d } from '@nitrots/nitro-renderer';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { AddEventLinkTracker, GetRoomEngine, LocalizeBadgeName, LocalizeFormattedNumber, LocalizeText, RemoveLinkEventTracker } from '../../api';
 import { AutoGrid, Base, Column, Flex, Grid, LayoutCurrencyIcon, LayoutGridItem, LayoutImage, LayoutRarityLevelView, LayoutRoomPreviewerView, NitroCardContentView, NitroCardHeaderView, NitroCardTabsItemView, NitroCardTabsView, NitroCardView, Text, TransitionSwitch } from '../../common';
 import { useMessageEvent } from '../../hooks';
@@ -18,14 +18,12 @@ const CURRENCY_TYPE = 105
 export const EconomyCenterView: FC<{}> = props =>
 {
     const [ isVisible, setIsVisible ] = useState<boolean>(true);
-    const [ cagegories, setCategories ] = useState<string[]>([]);
+    const [ categories, setCategories ] = useState<string[]>([]);
     const [ itemList, setItemList ] = useState<IItemList[]>([]);
     const [ filteredItemList, setFilteredItemList ] = useState<IItemList[]>([]);
     const [ selectedItem, setSelectedItem ] = useState<IItemList>(null);
     const [ selectedCategory, setSelectedCategory ] = useState<number>(0);
     const [ roomPreviewer, setRoomPreviewer ] = useState<RoomPreviewer>(null);
-    
-    const itemListByCategory = useCallback(() => itemList.filter(x => x.item.categoryId === selectedCategory), [ itemList, selectedCategory ])
 
     useEffect(() =>
     {
@@ -127,22 +125,22 @@ export const EconomyCenterView: FC<{}> = props =>
 
     useEffect(() =>
     {
-        const itemByCategoryId = itemListByCategory()
-        setSelectedItem(itemByCategoryId[0]);
-    }, [ selectedCategory, itemList, itemListByCategory ])
+        const itemByCategoryId = filteredItemList
+        setSelectedItem(itemByCategoryId.length ? itemByCategoryId[0] : null);
+    }, [ selectedCategory, itemList, filteredItemList ])
     
-    if(!isVisible || !selectedItem) return null;
+    if(!isVisible || !itemList.length) return null;
 
     return (
         <NitroCardView uniqueKey="economy-center" className="nitro-economy-center">
             <NitroCardHeaderView headerText={ 'Économie Center' } onCloseClick={ close } />
             <NitroCardTabsView>
-                { cagegories.map((category, index) => <NitroCardTabsItemView key={ index } isActive={ selectedCategory === index } onClick={ event => setSelectedCategory(index) }>{ category }</NitroCardTabsItemView>) }
+                { categories.map((category, index) => <NitroCardTabsItemView key={ index } isActive={ selectedCategory === index } onClick={ event => setSelectedCategory(index) }>{ category }</NitroCardTabsItemView>) }
             </NitroCardTabsView>
             <NitroCardContentView grow gap={ 0 }>
                 <Grid>
                     <Column size={ 6 } overflow="hidden">
-                        <EconomyCenterSearchView itemList={ itemListByCategory() } setItemList={ setFilteredItemList } />
+                        <EconomyCenterSearchView categoryId={ selectedCategory } itemList={ itemList } setItemList={ setFilteredItemList } />
                         <Column fullHeight className="nitro-economy-center-navigation-grid-container rounded p-1" overflow="hidden">
                             <AutoGrid id="nitro-economy-center-main-navigation" gap={ 1 } columnCount={ 1 }>
                                 { filteredItemList && (filteredItemList.length > 0) && filteredItemList.map((item, index) =>
@@ -158,7 +156,7 @@ export const EconomyCenterView: FC<{}> = props =>
                         </Column>
                     </Column>
                     <Column size={ 6 } overflow="hidden">
-                        <TransitionSwitch innerKey={ selectedCategory + '-' + selectedItem.id } type="fade" direction="up">
+                        { selectedItem && <TransitionSwitch innerKey={ selectedCategory + '-' + selectedItem.id } type="fade" direction="up">
                             <Column gap={ 2 }>
                                 <Text grow truncate bold center>{ selectedItem.localizedName }</Text>
                                 <Base position="relative" fullWidth>
@@ -180,7 +178,7 @@ export const EconomyCenterView: FC<{}> = props =>
                                     </div> }
                                 </Base>
                             </Column>
-                        </TransitionSwitch>
+                        </TransitionSwitch> }
                     </Column>
                 </Grid>
             </NitroCardContentView>
