@@ -19,8 +19,8 @@ export class RoomPreviewer
     public static PREVIEW_COUNTER: number = 0;
     public static PREVIEW_CANVAS_ID: number = 1;
     public static PREVIEW_OBJECT_ID: number = 1;
-    public static PREVIEW_OBJECT_LOCATION_X: number = 2;
-    public static PREVIEW_OBJECT_LOCATION_Y: number = 2;
+    public static PREVIEW_OBJECT_LOCATION_X: number = 4;
+    public static PREVIEW_OBJECT_LOCATION_Y: number = 4;
 
     private static ALLOWED_IMAGE_CUT: number = 0.25;
     private static AUTOMATIC_STATE_CHANGE_INTERVAL: number = 2500;

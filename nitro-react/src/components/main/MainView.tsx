@@ -10,6 +10,7 @@ import { CampaignView } from '../campaign/CampaignView';
 import { CatalogView } from '../catalog/CatalogView';
 import { ChatHistoryView } from '../chat-history/ChatHistoryView';
 import { CustomToolsView } from '../custom-tools/CustomToolsView';
+import { EconomyCenterView } from '../economy-center/EconomyCenterView';
 import { FloorplanEditorView } from '../floorplan-editor/FloorplanEditorView';
 import { FriendsView } from '../friends/FriendsView';
 import { GameCenterView } from '../game-center/GameCenterView';
@@ -119,6 +120,7 @@ export const MainView: FC<{}> = props =>
             <CustomToolsView />
             <NotificationAlertView />
             <RoleplayView isInRoom={ !landingViewVisible } />
+            <EconomyCenterView />
         </Base>
     );
 }

@@ -1,3 +1,4 @@
+export * from './economy';
 export * from './notif';
 export * from './roleplay';
 export * from './sound';

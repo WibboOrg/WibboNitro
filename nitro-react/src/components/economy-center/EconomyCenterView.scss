@@ -1,0 +1,41 @@
+.nitro-economy-center {
+    width: $economy-center-width;
+    height: $economy-center-height;
+}
+
+.nitro-economy-center-info-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 6px;
+    border-radius: 0.25rem;
+}
+
+.nitro-economy-center-navigation-grid-container {
+    border-color: #b6bec5 !important;
+    background-color: #cdd3d9;
+    border: 2px solid;
+
+    .nitro-economy-center-navigation-section {
+        display: grid;
+
+        .nitro-economy-center-navigation-section {
+            padding-left: 5px;
+            padding-top: 3px;
+            border-left: 2px solid #b6bec5;
+        }
+    }
+
+    .layout-grid-item {
+        font-size: $font-size-sm;
+        height: 40px !important;
+        border-color: unset !important;
+        background-color: #cdd3d9;
+        border: 0 !important;
+        padding: 1px 3px;
+
+        .svg-inline--fa {
+            color: $black;
+            font-size: 10px;
+            padding: 1px;
+        }
+    }
+}
