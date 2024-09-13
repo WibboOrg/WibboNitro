@@ -163,7 +163,7 @@ export const ModToolsUserModActionView: FC<ModToolsUserModActionViewProps> = pro
                     { MOD_ACTION_DEFINITIONS.map((action, index) => <option key={ index } value={ index }>{ action.name }</option>) }
                 </select>
                 <Column gap={ 1 }>
-                    <Text small>Optional message type, overrides default</Text>
+                    <Text small>Indiquer ici un message personnalisé</Text>
                     <textarea className="form-control" value={ message } onChange={ event => setMessage(event.target.value) }/>
                 </Column>
                 <Flex justifyContent="between" gap={ 1 }>

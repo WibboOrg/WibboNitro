@@ -106,7 +106,7 @@ export const ModToolsRoomView: FC<ModToolsRoomViewProps> = props =>
                         <Text small>Changer le nom de l'appartement</Text>
                     </Flex>
                 </Column>
-                <textarea className="form-control" placeholder="Type a mandatory message to the users in this text box..." value={ message } onChange={ event => setMessage(event.target.value) }></textarea>
+                <textarea className="form-control" placeholder="Inscrire un message à l'attention des utilisateurs ..." value={ message } onChange={ event => setMessage(event.target.value) }></textarea>
                 <Flex justifyContent="between">
                     <Button variant="danger" onClick={ event => handleClick('send_message') }>Sanction</Button>
                     <Button onClick={ event => handleClick('alert_only') }>Alerte uniq.</Button>
