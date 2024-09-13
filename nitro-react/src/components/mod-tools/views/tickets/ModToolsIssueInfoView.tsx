@@ -55,13 +55,13 @@ export const ModToolsIssueInfoView: FC<IssueInfoViewProps> = props =>
                                         <td className="text-break">{ ticket.message }</td>
                                     </tr>
                                     <tr>
-                                        <th>Victime/Tiers</th>
+                                        <th>Victime</th>
                                         <td>
                                             <Text bold underline pointer onClick={ event => openUserInfo(ticket.reporterUserId) }>{ ticket.reporterUserName }</Text>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Prévenu</th>
+                                        <th>Prévenu(e)</th>
                                         <td>
                                             <Text bold underline pointer onClick={ event => openUserInfo(ticket.reportedUserId) }>{ ticket.reportedUserName }</Text>
                                         </td>

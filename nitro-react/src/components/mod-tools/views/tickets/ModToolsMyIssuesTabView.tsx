@@ -33,10 +33,10 @@ export const ModToolsMyIssuesTabView: FC<ModToolsMyIssuesTabViewProps> = props =
                             <Base className="g-col-3">{ issue.reportedUserName }</Base>
                             <Base className="g-col-3">{ new Date(Date.now() - issue.issueAgeInMilliseconds).toLocaleTimeString() }</Base>
                             <Base className="g-col-2">
-                                <Button variant="primary" onClick={ event => handleIssue(issue.issueId) }>Handle</Button>
+                                <Button variant="primary" onClick={ event => handleIssue(issue.issueId) }>Gérer</Button>
                             </Base>
                             <Base className="g-col-2">
-                                <Button variant="danger" onClick={ event => SendMessageComposer(new ReleaseIssuesMessageComposer([ issue.issueId ])) }>Release</Button>
+                                <Button variant="danger" onClick={ event => SendMessageComposer(new ReleaseIssuesMessageComposer([ issue.issueId ])) }>Libérer</Button>
                             </Base>
                         </Grid>
                     );
