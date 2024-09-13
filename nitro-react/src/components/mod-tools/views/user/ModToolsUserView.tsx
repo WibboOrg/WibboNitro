@@ -130,16 +130,16 @@ export const ModToolsUserView: FC<ModToolsUserViewProps> = props =>
                         </Column>
                         <Column size={ 4 } gap={ 1 }>
                             <Button onClick={ event => CreateLinkEvent(`mod-tools/open-user-chatlog/${ userId }`) }>
-                                Room Chat
+                                Chatlogs
                             </Button>
                             <Button onClick={ event => setSendMessageVisible(!sendMessageVisible) }>
-                                Send Message
+                                Avertir
                             </Button>
                             <Button onClick={ event => setRoomVisitsVisible(!roomVisitsVisible) }>
-                                Room Visits
+                                Logs apparts
                             </Button>
                             <Button onClick={ event => setModActionVisible(!modActionVisible) }>
-                                Mod Action
+                                Modérer
                             </Button>
                         </Column>
                     </Grid>
