@@ -19,8 +19,8 @@ export class RoomPreviewer
     public static PREVIEW_COUNTER: number = 0;
     public static PREVIEW_CANVAS_ID: number = 1;
     public static PREVIEW_OBJECT_ID: number = 1;
-    public static PREVIEW_OBJECT_LOCATION_X: number = 4;
-    public static PREVIEW_OBJECT_LOCATION_Y: number = 4;
+    public static PREVIEW_OBJECT_LOCATION_X: number = 18;
+    public static PREVIEW_OBJECT_LOCATION_Y: number = 18;
 
     private static ALLOWED_IMAGE_CUT: number = 0.25;
     private static AUTOMATIC_STATE_CHANGE_INTERVAL: number = 2500;
@@ -94,7 +94,7 @@ export class RoomPreviewer
     {
         if(this.isRoomEngineReady)
         {
-            const size = 7;
+            const size = 7 * 5;
 
             const planeParser = new RoomPlaneParser();
 

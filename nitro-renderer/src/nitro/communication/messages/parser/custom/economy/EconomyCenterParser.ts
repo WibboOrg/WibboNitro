@@ -4,12 +4,12 @@ import { FurnitureDataParser } from '../../room';
 export class EconomyCenterParser implements IMessageParser
 {
     items: IEconomyItem[];
-    categoriesName: string[];
+    categories: IEconomyCategory[];
 
     public flush(): boolean
     {
         this.items = [];
-        this.categoriesName = [];
+        this.categories = [];
 
         return true;
     }
@@ -22,9 +22,22 @@ export class EconomyCenterParser implements IMessageParser
 
         for(let i = 0; i < totalCategorys; i++)
         {
+            const id = wrapper.readInt();
             const categoryName = wrapper.readString();
 
-            this.categoriesName.push(categoryName);
+            const totalSubCategories = wrapper.readInt();
+
+            const subCategories = [];
+            for(let j = 0; j < totalSubCategories; j++)
+            {
+                const subId = wrapper.readInt();
+                const iconId = wrapper.readInt();
+                const subName = wrapper.readString();
+
+                subCategories.push({ subId, iconId, subName });
+            }
+
+            this.categories.push({ id, categoryName, subCategories });
         }
 
         const totalItems = wrapper.readInt();
@@ -38,19 +51,35 @@ export class EconomyCenterParser implements IMessageParser
             const categoryId = wrapper.readInt();
             const averagePrice = wrapper.readInt();
             const itemId = wrapper.readInt();
+            const type = wrapper.readInt();
             const stuffData = FurnitureDataParser.parseObjectData(wrapper);
 
-            this.items.push({ id, categoryId, averagePrice, itemId, stuffData });
+            this.items.push({ id, categoryId, averagePrice, type, itemId, stuffData });
         }
 
         return true;
     }
 }
 
+export interface IEconomySubCategory
+{
+    subId: number,
+    subName: string,
+    iconId: number
+}
+
+export interface IEconomyCategory
+{
+    id: number,
+    categoryName: string,
+    subCategories: IEconomySubCategory[],
+}
+
 export interface IEconomyItem
 {
     id: number,
     categoryId: number,
+    type: number,
     averagePrice: number,
     itemId: number,
     stuffData: IObjectData,

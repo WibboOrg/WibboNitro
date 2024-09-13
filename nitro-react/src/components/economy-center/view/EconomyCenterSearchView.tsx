@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import { LocalizeText } from '../../../api';
 import { Button, Flex } from '../../../common';
 import { IItemList } from '../EconomyCenterView';
@@ -18,13 +18,14 @@ export const EconomyCenterSearchView: FC<EconomyCenterSearchViewProps> = props =
 
     useEffect(() =>
     {
-        let filteredGroupItems = [ ...itemList ].filter(x => x.item.categoryId === categoryId);
+        const itemListByCategory = categoryId === 0 ? itemList : itemList.filter(x => x.item.categoryId === categoryId)
+        let filteredGroupItems = categoryId === 0 ? [] : [ ...itemListByCategory ];
 
         if(searchValue && searchValue.length)
         {
             const comparison = searchValue.toLocaleLowerCase();
 
-            filteredGroupItems = itemList.filter(item =>
+            filteredGroupItems = itemListByCategory.filter(item =>
             {
                 if(comparison && comparison.length)
                 {
@@ -42,9 +43,14 @@ export const EconomyCenterSearchView: FC<EconomyCenterSearchViewProps> = props =
     return (
         <Flex gap={ 1 }>
             <input type="text" className="form-control form-control-sm" placeholder={ LocalizeText('generic.search') } value={ searchValue } onChange={ event => setSearchValue(event.target.value) } />
-            <Button variant="primary">
-                <FaSearch className="fa-icon w-12 h-12" />
-            </Button>
+            { (!searchValue || !searchValue.length) &&
+                <Button variant="primary" className="catalog-search-button">
+                    <FaSearch className="fa-icon" />
+                </Button> }
+            { searchValue && !!searchValue.length &&
+                <Button variant="danger" className="catalog-search-button" onClick={ event => setSearchValue('') }>
+                    <FaTimes className="fa-icon" />
+                </Button> }
         </Flex>
     );
 }

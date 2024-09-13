@@ -9,6 +9,12 @@
     border-radius: 0.25rem;
 }
 
+.nitro-economy-center-image {
+    width: 212px;
+    height: 258px;
+    background: url('@/assets/images/economy/economy-center.png') no-repeat 0 0;
+}
+
 .nitro-economy-center-navigation-grid-container {
     border-color: #b6bec5 !important;
     background-color: #cdd3d9;
@@ -26,7 +32,7 @@
 
     .layout-grid-item {
         font-size: $font-size-sm;
-        height: 40px !important;
+        height: 25px !important;
         border-color: unset !important;
         background-color: #cdd3d9;
         border: 0 !important;
