@@ -185,8 +185,8 @@ export const RoomChatFormatter = (content: string) =>
   
     // Twitter link
     content = content.replace(
-        /(?:https?:\/\/)?(?:www\.)?(?:twitter\.com)\/(\w+\/status\/\d+)/g,
-        '<a href="https://twitter.com/$1" target="_blank">$&</a>'
+        /(?:https?:\/\/)?(?:www\.)?(?:x\.com)\/(\w+\/status\/\d+)/g,
+        '<a href="https://x.com/$1" target="_blank">$&</a>'
     );
   
     // Tiktok link
