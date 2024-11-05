@@ -191,7 +191,7 @@ export const RoomChatFormatter = (content: string) =>
   
     // Tiktok link
     content = content.replace(
-        /(?:https?:\/\/)?(?:www\.)?(?:vm\.tiktok\.com\/(\w+)|tiktok\.com\/(@\w+\/video\/(\d+)))/g,
+        /(?:https?:\/\/)?(?:www\.)?(?:vm\.tiktok\.com\/(\w+)|tiktok\.com\/(@[\w.]+\/video\/(\d+)))/g,
         function(match, vmTiktok, tiktokUserVideo, tiktokUser, tiktokVideoId) 
         {
             if (vmTiktok) 
