@@ -126,10 +126,10 @@ export class SocketConnection extends EventDispatcher implements IConnection
 
     private onClose(event: CloseEvent): void
     {
-        if(this._isAuthenticated && this._reconnectCount < 3 && event.code !== 1000)
+        if(this._isAuthenticated && this._reconnectCount < 10 && event.code !== 1000)
         {
             this._reconnectCount++;
-            setTimeout(() => this.reloadSocket(this._socketUrl), 1000);
+            setTimeout(() => this.reloadSocket(this._socketUrl), 500);
         }
         else
         {
