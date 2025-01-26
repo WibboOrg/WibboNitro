@@ -8,7 +8,7 @@
 
     @keyframes blink {
         0% {
-            transform: translateX(-5px) rotate(-0.5deg);
+            transform: translateX(-4px) rotate(-0.4deg);
         }
 
         25% {
@@ -16,7 +16,7 @@
         }
 
         50% {
-            transform: translateX(5px) rotate(0.5deg);
+            transform: translateX(4px) rotate(0.4deg);
         }
 
         100% {
@@ -32,20 +32,48 @@
         position: relative;
         width: 50px;
         height: 50px;
+    }
+
+    &__avatar-container {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 50%;
 
         background-color: #18202b;
-        color: #ff0000;
 
-        border-radius: 50%;
         z-index: 2;
 
-        border: 2px inset rgb(12, 14, 17);
+        border: 2px inset rgb(0, 0, 0);
     }
 
     &__avatar {
         position: absolute;
         top: -22px;
         left: -22px;
+    }
+
+    &__info {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        z-index: -1;
+        text-shadow: 0 2px 1px rgba(0, 0, 0, .3);
+        font-weight: bold;
+        line-height: 18px;
+        text-align: center;
+        color: #ff0000;
+
+        z-index: 3;
+
+        background-color: #18202b;
+        border-radius: 50%;
+        padding: 2px;
+        width: 20px;
+        height: 20px;
+
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
     }
 
     &:hover &__container {
@@ -74,23 +102,5 @@
         line-height: 40px;
         color: #fff;
         text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
-    }
-
-    &__count {
-        position: absolute;
-        bottom: -8px;
-        right: -8px;
-        text-shadow: 0 2px 1px rgba(0, 0, 0, .3);
-        font-weight: bold;
-        line-height: 18px;
-        text-align: center;
-
-        background-color: #18202b;
-        border-radius: 50%;
-        padding: 2px;
-        width: 20px;
-        height: 20px;
-
-        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
     }
 }

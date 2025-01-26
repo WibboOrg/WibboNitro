@@ -59,7 +59,7 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
             <Base pointer innerRef={ elementRef } className="icon icon-navigator-info" onMouseOver={ handleMouseEnter } onMouseLeave={ handleMouseLeave } />
             <Overlay show={ isVisible || isMouseOverOverlay } target={ elementRef.current } placement="right">
                 <Popover onMouseEnter={ () => setIsMouseOverOverlay(true) } onMouseLeave={ () => setIsMouseOverOverlay(false) } onClick={ handleOverlayClick }>
-                    <NitroCardContentView overflow="hidden" className="bg-transparent room-info image-rendering-pixelated">
+                    <NitroCardContentView overflow="hidden" className="room-info">
                         <Flex gap={ 2 } overflow="hidden">
                             <LayoutRoomThumbnailView roomId={ roomData.roomId } customUrl={ roomData.officialRoomPicRef } className="mb-1 d-flex flex-column align-items-center justify-content-end">
                                 { roomData.habboGroupId > 0 && (
@@ -67,8 +67,8 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
                                 { roomData.doorMode !== RoomDataParser.OPEN_STATE && (
                                     <i className={ 'position-absolute end-0 mb-1 me-1 icon icon-navigator-room-' + (roomData.doorMode === RoomDataParser.DOORBELL_STATE ? 'locked' : roomData.doorMode === RoomDataParser.PASSWORD_STATE ? 'password' : roomData.doorMode === RoomDataParser.INVISIBLE_STATE ? 'invisible' : '') }/> ) }
                             </LayoutRoomThumbnailView>
-                            <Column gap={ 1 }>
-                                <Text bold truncate className="flex-grow-1" style={ { maxHeight: 13 } }>
+                            <Column gap={ 1 } overflow='hidden'>
+                                <Text bold truncate>
                                     { roomData.roomName }
                                 </Text>
                                 <Flex gap={ 2 }>
@@ -80,7 +80,7 @@ export const NavigatorSearchResultItemInfoView: FC<NavigatorSearchResultItemInfo
                                         <Text italics>{ roomData.ownerName }</Text>
                                     </Flex>
                                 </Flex>
-                                <Text className="flex-grow-1">
+                                <Text>
                                     { roomData.description }
                                 </Text>
                                 <NavigatorFavouriteView roomId={ roomData.roomId } />

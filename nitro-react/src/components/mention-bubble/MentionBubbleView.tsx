@@ -11,6 +11,7 @@ export const MentionBubbleView: FC<{}> = props =>
     const [ mentionList, setMentionList ] = useLocalStorage<IMention[]>('mentionList', []);
     const [ lastSoundTime, setLastSoundTime ] = useState<number>(0);
     const [ timeNow, setTimeNow ] = useState<number>(0);
+    const [ showClose, setShowClose ] = useState<boolean>(false);
     
     const mention = useMemo(() => (mentionList && mentionList.length > 0) ? mentionList[mentionList.length - 1] : null, [ mentionList ]);
     const mentionCount = useMemo(() => mentionList && mentionList.length, [ mentionList ]);
@@ -42,16 +43,17 @@ export const MentionBubbleView: FC<{}> = props =>
         PlaySound('mention_beep');
     });
 
-    const close = useCallback(() =>
+    const close = () =>
     {
         setMentionList((prevValue) => prevValue.slice(0, -1));
-    }, [ setMentionList ]);
+        setShowClose(false);
+    }
     
-    const followUser = useCallback(() => 
+    const followUser = () => 
     {
         SendMessageComposer(new FollowFriendMessageComposer(mention.userId));
         close();
-    }, [ mention, close ]);
+    }
     
     if(!mention) return null;
     
@@ -64,9 +66,15 @@ export const MentionBubbleView: FC<{}> = props =>
                         <Tooltip>{ mention.username }, { getTime() }</Tooltip>
                     }>
                     <div className="mention__avatar-frame drag-handler">
-                        <LayoutAvatarImageView className="mention__avatar" figure={ mention.look } direction={ 2 } headOnly={ true } draggable="false" />
-                        <div className="mention__count">{ mentionCount }</div>
-                        <FaTimes className="fa-icon w-12 h-12 cursor-pointer" onClick={ close } />
+                        <div className="mention__avatar-container">
+                            <LayoutAvatarImageView className="mention__avatar" figure={ mention.look } direction={ 2 } headOnly={ true } draggable="false" />
+                        </div>
+                        <div className="mention__info" onMouseEnter={() => setShowClose(true)} onMouseLeave={() => setShowClose(false)}>
+                            {showClose && (
+                                <FaTimes className="fa-icon w-12 h-12 cursor-pointer" onClick={close} />
+                            )}
+                            {!showClose && mentionCount}
+                        </div>
                     </div>
                 </OverlayTrigger>
                 <OverlayTrigger

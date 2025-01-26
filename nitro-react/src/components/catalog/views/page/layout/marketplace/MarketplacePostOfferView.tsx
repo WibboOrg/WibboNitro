@@ -87,13 +87,12 @@ export const MarketplacePostOfferView : FC<{}> = props =>
                     </Column>
                     <Column size={ 8 } justifyContent="between" overflow="hidden">
                         <Column grow gap={ 1 }>
-                            <Text fontWeight="bold">{ getFurniTitle }</Text>
-                            <Text truncate shrink>{ getFurniDescription }</Text>
-                        </Column>
-                        <Column overflow="auto">
+                            <Text fontWeight="bold" center>{ getFurniTitle }</Text>
                             <Text italics>
                                 { LocalizeText('inventory.marketplace.make_offer.expiration_info', [ 'time' ], [ marketplaceConfiguration.offerTime.toString() ]) }
                             </Text>
+                        </Column>
+                        <Column overflow="auto">
                             <div className="input-group has-validation">
                                 <input className="form-control form-control-sm" type="number" min={ 0 } value={ tempAskingPrice } onChange={ event => updateAskingPrice(event.target.value) } placeholder={ LocalizeText('inventory.marketplace.make_offer.price_request') } />
                                 { ((askingPrice < marketplaceConfiguration.minimumPrice) || isNaN(askingPrice)) &&

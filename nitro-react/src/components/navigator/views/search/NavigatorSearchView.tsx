@@ -1,5 +1,5 @@
 import { FC, KeyboardEvent, useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import { INavigatorSearchFilter, LocalizeText, SearchFilterOptions } from '../../../../api';
 import { Button, Flex } from '../../../../common';
 import { useNavigator } from '../../../../hooks';
@@ -75,9 +75,14 @@ export const NavigatorSearchView: FC<NavigatorSearchViewProps> = props =>
             </Flex>
             <Flex fullWidth gap={ 1 }>
                 <input type="text" className="form-control form-control-sm" placeholder={ LocalizeText('navigator.filter.input.placeholder') } value={ searchValue } onChange={ event => setSearchValue(event.target.value) } onKeyDown={ event => handleKeyDown(event) } />
-                <Button variant="primary" onClick={ processSearch }>
+                { (!searchValue || !searchValue.length) &&
+                <Button variant="primary" className="catalog-search-button" onClick={ event => setSearchValue('') }>
                     <FaSearch className="fa-icon" />
-                </Button>
+                </Button> }
+                { searchValue && !!searchValue.length &&
+                <Button variant="danger" className="catalog-search-button" onClick={ event => setSearchValue('') }>
+                    <FaTimes className="fa-icon" />
+                </Button> }
             </Flex>
         </Flex>
     );

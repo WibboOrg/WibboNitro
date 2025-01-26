@@ -93,10 +93,10 @@ export const ChatHistoryView: FC<{}> = props =>
                                     </div>
                                 </div> }
                             { (row.type === ChatEntryType.TYPE_ROOM_INFO) &&
-                                <>
-                                    <i className="icon icon-small-room" />
-                                    <Text textBreak wrap grow>{ row.name }</Text>
-                                </> }
+                                <Flex gap={ 1 } overflow='hidden'>
+                                    <i className="icon icon-small-room flex-shrink-0" />
+                                    <Text textBreak wrap grow truncate>{ row.name }</Text>
+                                </Flex> }
                         </Flex>
                     )
                 } } />

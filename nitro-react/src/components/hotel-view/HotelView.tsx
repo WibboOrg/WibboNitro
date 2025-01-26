@@ -29,7 +29,8 @@ export const HotelView: FC<{}> = props =>
 
     if(!isVisible) return null;
 
-    const backgroundColor = GetConfiguration('hotelview')['images']['background.colour'];
+    const textDark = GetConfiguration<boolean>('hotelview')['text.dark'];
+    const backgroundColor = GetConfiguration<string>('hotelview')['images']['background.colour'];
     const background = NitroConfiguration.interpolate(GetConfiguration('hotelview')['images']['background']);
     const sun = NitroConfiguration.interpolate(GetConfiguration('hotelview')['images']['sun']);
     const drape = NitroConfiguration.interpolate(GetConfiguration('hotelview')['images']['drape']);
@@ -38,7 +39,7 @@ export const HotelView: FC<{}> = props =>
     const right = NitroConfiguration.interpolate(GetConfiguration('hotelview')['images']['right']);
 
     return (
-        <div className="nitro-hotel-view" style={ (backgroundColor && backgroundColor) ? { background: backgroundColor } : {} }>
+        <div className="nitro-hotel-view" style={ (backgroundColor && backgroundColor) ? { background: backgroundColor, color: textDark ? '#000' : '#fff' } : { color: textDark ? '#000' : '#fff' } }>
             <div className="container h-100 py-3 overflow-hidden landing-widgets">
                 <div className="row h-100">
                     <div className="col-9 h-100 d-flex flex-column">
