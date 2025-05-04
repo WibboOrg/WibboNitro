@@ -27,7 +27,7 @@ export class ChatBubbleMessage
         public color: string = null
     ) 
     {
-        this.id = ++ChatBubbleMessage.BUBBLE_COUNTER;
+        this.id = ChatBubbleMessage.BUBBLE_COUNTER++;
     }
 
     public get top(): number

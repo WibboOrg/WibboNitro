@@ -54,13 +54,14 @@ export const ChatWidgetMessageView: FC<ChatWidgetMessageViewProps> = props =>
         let left = chat.left;
         let top = chat.top;
 
-        if(!left && !top)
+        if (!left)
         {
-            left = (chat.location.x - (width / 2));
-            top = (element.parentElement.offsetHeight - height);
-            
-            chat.left = left;
-            chat.top = top;
+            chat.left = (chat.location.x - (width / 2));
+        }
+
+        if (!top)
+        {
+            chat.top = (element.parentElement.offsetHeight - height);
         }
 
         setIsReady(true);
